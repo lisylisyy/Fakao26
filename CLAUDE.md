@@ -71,10 +71,10 @@
 
 - D1 ✅ 目录骨架 + `_meta/` 文件
 - D2 ✅ kb-curator + `/learn` + `/note`
-- D3 待用户验证 `/learn` 流畅性
-- D4 ✅ feynman-coach + `/feynman`
-- D5 ⏳ 用 `/learn` 沉淀三国法 / 理论法核心知识点
-- D6 ⏳ Next.js 初始化（仅 /kb 浏览）
+- D3 ✅ `/learn` 全流程验证（罪刑法定原则首沉淀）
+- D4 ✅ feynman-coach + `/feynman`（SRS 联动留到 W3）
+- D5 ⏳ 持续沉淀三国法 / 理论法核心知识点（用户主导）
+- D6 ✅ Next.js 15 + Tailwind v4 + `/kb` 浏览 + markdown 渲染
 - D7 ⏳ 周末验收
 
 ## git 工作流
