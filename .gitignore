@@ -1,0 +1,19 @@
+node_modules/
+.next/
+out/
+dist/
+build/
+*.log
+.DS_Store
+.env
+.env.local
+.env*.local
+
+# build artifacts (regeneratable from source data)
+progress/srs-snapshot.json
+data/_index/
+
+# PDF originals — synced via cloud storage instead of git
+raw/*
+!raw/.gitignore
+!raw/README.md
