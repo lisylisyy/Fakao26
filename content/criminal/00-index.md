@@ -15,7 +15,10 @@ updated_at: 2026-05-21
 
 ### 总论
 
-- [ ] `crim.principle` 刑法基本原则（罪刑法定 / 适用平等 / 罪责刑相适应）
+- [ ] `crim.principle` 刑法基本原则
+  - [x] `crim.principle.legality` 罪刑法定 → [01-罪刑法定原则.md](01-罪刑法定原则.md)
+  - [ ] `crim.principle.equality` 适用平等
+  - [ ] `crim.principle.proportionality` 罪责刑相适应
 - [ ] `crim.application` 刑法适用范围（空间 / 时间 / 对人）
 - [ ] `crim.crime-concept` 犯罪概念与构成
 - [ ] `crim.objective-element` 客观要件（行为、结果、因果关系）
