@@ -9,6 +9,9 @@ build/
 .env
 .env.local
 .env*.local
+.venv/
+__pycache__/
+*.pyc
 
 # build artifacts (regeneratable from source data)
 progress/srs-snapshot.json

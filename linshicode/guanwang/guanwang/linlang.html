@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LinknLatch · AI-Native MCN · BP v2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F0EBE0;
+    --cream2: #E8E3D5;
+    --black: #111111;
+    --white: #FFFFFF;
+    --green: #1DBA6A;
+    --green-light: #D4F5E2;
+    --green-dark: #0FA355;
+    --purple: #E8DFFF;
+    --peach: #FFE8D4;
+    --yellow: #FEFFC2;
+    --muted: #666666;
+    --orange-dark: #C0510A;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-hand: 'Caveat', cursive;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--black);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Language Toggle */
+  body[data-lang="zh"] .en { display: none !important; }
+  body[data-lang="en"] .zh { display: none !important; }
+  body[data-lang="en"] {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--cream);
+    border-bottom: 2px solid var(--black);
+    padding: 14px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-display);
+    font-size: 1.6rem; letter-spacing: 0.04em;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--green);
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white); font-weight: bold; font-size: 1.1rem;
+  }
+  .nav-links {
+    display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
+  }
+  .nav-links a {
+    color: var(--black); text-decoration: none;
+    font-size: 0.88rem; font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--green-dark); }
+
+  .lang-toggle {
+    display: flex; gap: 0;
+    border: 2px solid var(--black);
+    border-radius: 100px;
+    overflow: hidden;
+    box-shadow: 2px 2px 0 var(--black);
+  }
+  .lang-toggle button {
+    background: var(--white);
+    border: none;
+    padding: 6px 14px;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .lang-toggle button.active {
+    background: var(--black);
+    color: var(--green);
+  }
+
+  /* Container */
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 64px 5%;
+  }
+
+  /* Section */
+  section { border-bottom: 2px solid var(--black); }
+  section.bg-green-light { background: var(--green-light); }
+  section.bg-cream2 { background: var(--cream2); }
+  section.bg-black { background: var(--black); color: var(--white); }
+
+  .eyebrow {
+    display: inline-block;
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+    box-shadow: 2px 2px 0 var(--black);
+  }
+  .eyebrow.green { background: var(--green); color: var(--black); }
+  .eyebrow.yellow { background: var(--yellow); }
+  .eyebrow.purple { background: var(--purple); }
+  .eyebrow.peach { background: var(--peach); }
+
+  .section-h {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    margin-bottom: 14px;
+  }
+  .section-h .hl { color: var(--green-dark); }
+  .section-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 800px;
+    margin-bottom: 36px;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--cream);
+    padding: 80px 5% 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  @media (max-width: 880px) { .hero-grid { grid-template-columns: 1fr; } }
+
+  .hero-eyebrow-row {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6.5vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: 0.005em;
+    margin-bottom: 22px;
+    font-weight: 400;
+  }
+  .hero-title .ai { color: var(--green); }
+  .hero-tagline {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 580px;
+    margin-bottom: 22px;
+  }
+  .hero-licenses {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; align-items: center;
+  }
+  .lic-pill {
+    background: var(--white);
+    border: 2px solid var(--black);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    box-shadow: 2px 2px 0 var(--black);
+  }
+  .lic-pill.tsp { background: var(--yellow); }
+  .lic-pill.cap { background: var(--peach); }
+  .lic-pill.tap { background: var(--green-light); }
+  .lic-pill.tto { background: var(--purple); }
+  .lic-pill.ads { background: #FFB8B8; }
+
+  .hero-byline {
+    font-size: 0.85rem; color: var(--muted);
+    margin-top: 14px;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .hero-stat {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 18px;
+    padding: 22px 26px;
+    box-shadow: 6px 6px 0 var(--black);
+  }
+  .hero-stat.green { background: var(--green-light); }
+  .hero-stat.purple { background: var(--purple); }
+  .hero-stat.peach { background: var(--peach); }
+  .hero-stat .num {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    line-height: 1; color: var(--black);
+  }
+  .hero-stat.green .num { color: var(--green-dark); }
+  .hero-stat .label {
+    font-size: 0.92rem; color: var(--muted); margin-top: 6px;
+  }
+
+  /* Card grids */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 5px 5px 0 var(--black);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--black);
+  }
+  .card.purple { background: var(--purple); }
+  .card.peach { background: var(--peach); }
+  .card.yellow { background: var(--yellow); }
+  .card.green { background: var(--green-light); }
+  .card.black { background: var(--black); color: var(--white); }
+
+  .card-num {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .card.black .card-num { color: var(--green); }
+  .card h3 {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    letter-spacing: 0.01em;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+  .card h4 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.01em;
+  }
+  .card p { font-size: 0.95rem; line-height: 1.65; }
+  .card ul {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  .card ul li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .card ul li::before {
+    content: "●";
+    position: absolute; left: 0;
+    color: var(--green-dark);
+    font-size: 0.7em;
+  }
+
+  /* Team big card */
+  .team-card {
+    background: var(--purple);
+    border: 3px solid var(--black);
+    border-radius: 20px;
+    padding: 34px;
+    margin-bottom: 24px;
+    box-shadow: 5px 5px 0 var(--black);
+    position: relative;
+  }
+  .team-card.yellow { background: var(--yellow); }
+  .team-card.white { background: var(--white); }
+  .team-card.green { background: var(--green-light); }
+  .team-tag {
+    position: absolute; top: -14px; left: 24px;
+    background: var(--black); color: var(--green);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 0.85rem; letter-spacing: 0.05em;
+  }
+  .team-card .two-col {
+    display: grid; grid-template-columns: 1.4fr 1fr;
+    gap: 28px; margin-top: 10px;
+  }
+  @media (max-width: 720px) {
+    .team-card .two-col { grid-template-columns: 1fr; }
+  }
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+  }
+  .team-role {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+  }
+  .team-bio p {
+    font-size: 0.94rem;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .team-side {
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 4px 4px 0 var(--black);
+  }
+  .team-side .side-h {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .team-side ul li {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    margin-bottom: 6px;
+  }
+
+  /* Agent Stack Diagram */
+  .agent-stack {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 6px 6px 0 var(--black);
+  }
+  .stack-layer {
+    border: 2px solid var(--black);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .stack-layer.optimization { background: var(--green); }
+  .stack-layer.strategy { background: var(--yellow); }
+  .stack-layer.purpose { background: var(--peach); }
+  .stack-layer.channel { background: var(--purple); }
+  .stack-layer.data { background: var(--green-light); }
+  .stack-layer-h {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .stack-layer-h .badge {
+    background: var(--black);
+    color: var(--green);
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+  .stack-layer p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .stack-layer ul {
+    list-style: none; padding: 0;
+    margin-top: 8px;
+    font-size: 0.86rem;
+  }
+  .stack-layer ul li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .stack-layer ul li::before {
+    content: "▸"; position: absolute; left: 0;
+    color: var(--black);
+  }
+
+  /* Pipeline (Linsey 5-step) */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+  @media (max-width: 880px) {
+    .pipeline { grid-template-columns: repeat(2, 1fr); }
+  }
+  .pipe-step {
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 14px;
+    padding: 14px 14px 16px;
+    box-shadow: 3px 3px 0 var(--black);
+    position: relative;
+  }
+  .pipe-num {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .pipe-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    margin: 4px 0 6px;
+  }
+  .pipe-desc { font-size: 0.78rem; line-height: 1.5; color: var(--muted); }
+
+  /* UGC three-step */
+  .ugc-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+    margin-top: 28px;
+  }
+  @media (max-width: 880px) { .ugc-steps { grid-template-columns: 1fr; } }
+  .ugc-step {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 5px 5px 0 var(--black);
+    min-height: 180px;
+  }
+  .ugc-step.green {
+    background: var(--green);
+    color: var(--white);
+  }
+  .ugc-step-num {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 14px;
+  }
+  .ugc-step h4 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+  .ugc-step p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  /* Pricing */
+  .pricing {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 880px) { .pricing { grid-template-columns: 1fr; } }
+  .price-card {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 5px 5px 0 var(--black);
+    position: relative;
+  }
+  .price-card.recommend {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--green);
+    box-shadow: 5px 5px 0 var(--green);
+  }
+  .price-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--green);
+    border: 2px solid var(--black);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+  }
+  .price-tier {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .price-card.recommend .price-tier { color: var(--green); }
+  .price-num {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-card.recommend .price-num { color: var(--green); }
+  .price-meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1.5px solid currentColor; opacity: 0.9; }
+  .price-card ul {
+    list-style: none; padding: 0; font-size: 0.88rem; line-height: 1.7;
+  }
+  .price-card ul li {
+    padding-left: 16px; position: relative; margin-bottom: 6px;
+  }
+  .price-card ul li::before {
+    content: "●"; position: absolute; left: 0;
+    color: var(--green-dark); font-size: 0.7em;
+  }
+  .price-card.recommend ul li::before { color: var(--green); }
+
+  /* Category grid (8 cats) */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 880px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 500px) { .cat-grid { grid-template-columns: 1fr; } }
+  .cat-card {
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 3px 3px 0 var(--black);
+    min-height: 150px;
+  }
+  .cat-card.green-bg { background: var(--green-light); }
+  .cat-card.peach-bg { background: var(--peach); }
+  .cat-tag { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+  .cat-brand {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+  .cat-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+  .cat-card.peach-bg .cat-num { color: var(--orange-dark); }
+  .cat-desc { font-size: 0.78rem; color: var(--muted); }
+
+  /* StockX 4-step */
+  .stockx-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .stockx-step {
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 14px;
+    padding: 16px 22px;
+    box-shadow: 3px 3px 0 var(--black);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .stockx-step .num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    background: var(--green);
+    border: 2px solid var(--black);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 1.1rem;
+  }
+  .stockx-step .num.purple-num { background: var(--purple); }
+  .stockx-step .num.peach-num { background: var(--peach); }
+  .stockx-step .num.yellow-num { background: var(--yellow); }
+  .stockx-step .body h5 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+  }
+  .stockx-step .body p {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  /* Revenue Layers */
+  .rev-layer {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin-bottom: 16px;
+    box-shadow: 5px 5px 0 var(--black);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 24px;
+    align-items: center;
+  }
+  @media (max-width: 720px) {
+    .rev-layer { grid-template-columns: 1fr; }
+  }
+  .rev-layer.peach { background: var(--peach); }
+  .rev-layer.purple { background: var(--purple); }
+  .rev-layer.green { background: var(--green-light); }
+  .rev-layer-h {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+  .rev-layer-h .layer-tag {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .rev-layer-h .data-pill {
+    display: inline-block;
+    background: var(--black);
+    color: var(--green);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    margin-top: 8px;
+  }
+  .rev-layer-body ul {
+    list-style: none; padding: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .rev-layer-body ul li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .rev-layer-body ul li::before {
+    content: "▸";
+    position: absolute; left: 0;
+    color: var(--green-dark);
+    font-weight: bold;
+  }
+
+  /* Partners */
+  .partner-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 14px;
+    align-items: center;
+  }
+  @media (max-width: 1080px) { .partner-grid { grid-template-columns: repeat(6, 1fr); } }
+  @media (max-width: 720px) { .partner-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 480px) { .partner-grid { grid-template-columns: repeat(3, 1fr); } }
+  .partner-cell {
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.18);
+    padding: 14px 8px;
+    border-radius: 8px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.92);
+    min-height: 52px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Closing CTA */
+  .closing {
+    background: var(--cream);
+    padding: 90px 5% 90px;
+    text-align: center;
+  }
+  .closing-h {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+  .closing-h .hl { color: var(--green-dark); }
+  .closing-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-bottom: 30px;
+  }
+
+  /* Service line cards */
+  .service-card {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 5px 5px 0 var(--black);
+    min-height: 380px;
+    display: flex; flex-direction: column;
+  }
+  .service-card.purple { background: var(--purple); }
+  .service-card.peach { background: var(--peach); }
+  .service-card.yellow { background: var(--yellow); }
+  .service-num {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--black);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .service-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+  }
+  .service-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    margin-bottom: 14px;
+  }
+  .service-card ul {
+    list-style: none; padding: 0;
+    margin-bottom: 16px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    flex-grow: 1;
+  }
+  .service-card ul li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .service-card ul li::before {
+    content: "●";
+    position: absolute; left: 0;
+    color: var(--green-dark);
+    font-size: 0.65em;
+    top: 0.5em;
+  }
+  .service-target {
+    font-size: 0.82rem;
+    color: var(--muted);
+    border-top: 1.5px solid var(--black);
+    padding-top: 10px;
+    margin-top: auto;
+  }
+
+  /* AI capability cards */
+  .ai-cap-card {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 5px 5px 0 var(--black);
+  }
+  .ai-cap-card.purple { background: var(--purple); }
+  .ai-cap-card.peach { background: var(--peach); }
+  .ai-cap-card.yellow { background: var(--yellow); }
+  .ai-cap-card .badge {
+    display: inline-block;
+    background: var(--black); color: var(--green);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+  .ai-cap-card .icon-h {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .ai-cap-card ul { font-size: 0.92rem; line-height: 1.6; list-style: none; padding: 0; }
+  .ai-cap-card ul li { padding-left: 16px; position: relative; margin-bottom: 5px; }
+  .ai-cap-card ul li::before { content: "●"; position: absolute; left: 0; color: var(--green-dark); font-size: 0.7em; top: 0.5em; }
+  .ai-cap-card .footer-tag {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1.5px solid var(--black);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--green-dark);
+  }
+
+  /* Hero floating cards */
+  .hero-visual {
+    position: relative;
+    min-height: 360px;
+    display: flex; flex-direction: column;
+    gap: 14px;
+  }
+
+  /* Animated marquee */
+  .marquee {
+    background: var(--green);
+    border-top: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+    padding: 10px 0;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+  }
+  .marquee-inner {
+    display: flex;
+    gap: 32px;
+    animation: scroll 30s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Scroll reveal */
+  .rev { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .rev.vis { opacity: 1; transform: translateY(0); }
+
+  /* WhoWeAre creds list */
+  .creds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+  .cred {
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 3px 3px 0 var(--black);
+  }
+  .cred .cred-tag {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .cred .cred-num {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+  }
+  .cred .cred-label {
+    font-size: 0.78rem;
+    color: var(--black);
+  }
+
+  /* Quote / Note Box */
+  .note-box {
+    background: var(--black);
+    color: var(--white);
+    border-radius: 16px;
+    padding: 22px 28px;
+    margin-top: 24px;
+    box-shadow: 5px 5px 0 var(--green);
+  }
+  .note-box .note-eyebrow {
+    color: var(--green);
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .note-box p {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  /* TikTok Double License Box */
+  .lic-box {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 14px;
+    padding: 22px 26px;
+    box-shadow: 4px 4px 0 var(--black);
+  }
+  .lic-box.black { background: var(--black); color: var(--white); }
+  .lic-box.green { background: var(--green); }
+  .lic-box .lic-h {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .lic-box.black .lic-h { color: var(--green); }
+  .lic-box p { font-size: 0.9rem; }
+
+  footer {
+    background: var(--black); color: var(--white);
+    padding: 24px 5%;
+    text-align: center;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body data-lang="zh">
+
+<!-- ============= NAV ============= -->
+<nav>
+  <div class="logo">
+    <div class="logo-mark">L</div>
+    <span class="zh">淋浪 LinknLatch</span>
+    <span class="en">LinknLatch</span>
+  </div>
+  <div class="nav-links">
+    <a href="#hero"><span class="zh">定位</span><span class="en">Thesis</span></a>
+    <a href="#aiugc"><span class="zh">业务核心</span><span class="en">Core</span></a>
+    <a href="#agent"><span class="zh">Agent 架构</span><span class="en">Agent Stack</span></a>
+    <a href="#aigc"><span class="zh">AIGC</span><span class="en">AIGC</span></a>
+    <a href="#proof"><span class="zh">数据 & 牌照</span><span class="en">Validation</span></a>
+    <a href="#revenue"><span class="zh">收入模型</span><span class="en">Revenue</span></a>
+    <a href="#team"><span class="zh">团队</span><span class="en">Team</span></a>
+    <a href="#deal"><span class="zh">合作方案</span><span class="en">Deal</span></a>
+    <div class="lang-toggle">
+      <button class="active" data-lang="zh">中文</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============= 1. HERO · 定位 ============= -->
+<section class="hero" id="hero">
+  <div style="max-width: 1100px; margin: 0 auto; text-align: left;">
+    <div class="hero-eyebrow-row" style="margin-bottom: 26px;">
+      <span class="eyebrow"><span class="zh">公司介绍 · 投资合作</span><span class="en">Company Overview · Partnership Brief</span></span>
+      <span class="eyebrow green"><span class="zh">2026</span><span class="en">2026</span></span>
+    </div>
+    <h1 class="hero-title" style="font-size: clamp(3.2rem, 7.5vw, 5.8rem);">
+      <span class="zh">在中国企业出海领域<br>最 <span class="ai">AI-NATIVE</span> 的一家 MCN</span>
+      <span class="en">The Most <span class="ai">AI-NATIVE</span> MCN<br>for Chinese Brands Going Global</span>
+    </h1>
+      <p class="hero-tagline" style="font-size: 1.2rem; max-width: 760px; margin-top: 22px; margin-bottom: 26px;">
+      <span class="zh"><strong>AIGC + Agent 双引擎</strong>合一为 <strong>AIUGC 服务</strong>——把传统达人 MCN 的<strong>人海战术</strong>，重构为一套可规模化、可演化、可持牌的系统能力。</span>
+      <span class="en">Fusing <strong>AIGC + Agent</strong> into one <strong>AIUGC service</strong>—turning the labor-intensive creator-MCN model into a scalable, self-evolving, fully-licensed system.</span>
+    </p>
+    <div class="hero-licenses" style="margin-bottom: 22px;">
+      <span style="font-size: 0.85rem; color: var(--muted); font-weight: 600;">
+        <span class="zh">TikTok Official · 6 张牌照 · 中美双合规</span>
+        <span class="en">TikTok Official · 6 Licenses · US-China Dual Compliance</span>
+      </span>
+      <span class="lic-pill">ISV</span>
+      <span class="lic-pill tsp">TSP</span>
+      <span class="lic-pill cap">CAP</span>
+      <span class="lic-pill tto">TTO</span>
+      <span class="lic-pill tap">TAP</span>
+      <span class="lic-pill ads">ADS</span>
+    </div>
+    <p class="hero-byline">
+      <span class="zh">李西 LisyLi · CEO &nbsp;|&nbsp; 杭州 / 洛杉矶 &nbsp;|&nbsp; 淋浪 LinknLatch 信息技术</span>
+      <span class="en">Lisy Li · CEO &nbsp;|&nbsp; Hangzhou / Los Angeles &nbsp;|&nbsp; LinknLatch Inc.</span>
+    </p>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-inner">
+    <span class="zh">★ AIGC + AGENT 双引擎 · AIUGC 服务</span>
+    <span class="en">★ AIGC + AGENT DUAL ENGINE · AIUGC SERVICE</span>
+    <span class="zh">★ $25M+ 月 GMV 峰值</span>
+    <span class="en">★ $25M+ MONTHLY GMV PEAK</span>
+    <span class="zh">★ 100,000+ 美区达人池 · 5,000+ AI 形象授权</span>
+    <span class="en">★ 100,000+ US CREATOR POOL · 5,000+ AI LIKENESS LICENSES</span>
+    <span class="zh">★ TikTok 6 张牌照全家桶</span>
+    <span class="en">★ TIKTOK 6-LICENSE FULL SUITE</span>
+    <span class="zh">★ AIGC + AGENT 双引擎 · AIUGC 服务</span>
+    <span class="en">★ AIGC + AGENT DUAL ENGINE · AIUGC SERVICE</span>
+    <span class="zh">★ $25M+ 月 GMV 峰值</span>
+    <span class="en">★ $25M+ MONTHLY GMV PEAK</span>
+    <span class="zh">★ 100,000+ 美区达人池 · 5,000+ AI 形象授权</span>
+    <span class="en">★ 100,000+ US CREATOR POOL · 5,000+ AI LIKENESS LICENSES</span>
+    <span class="zh">★ TikTok 6 张牌照全家桶</span>
+    <span class="en">★ TIKTOK 6-LICENSE FULL SUITE</span>
+  </div>
+</div>
+
+<!-- ============= 2. 成就 / 验证 (DATA · LICENSES · CLIENTS · 提前) ============= -->
+<section id="proof" class="bg-cream2">
+  <div class="container">
+    <div class="rev">
+      <span class="eyebrow purple"><span class="zh">验证 · DATA · 牌照 · 客户</span><span class="en">VALIDATION · DATA · LICENSES · CLIENTS</span></span>
+      <h2 class="section-h">
+        <span class="zh">具备 TikTok 电商广告营销<br><span class="hl">综合操盘资质</span></span>
+        <span class="en">Full-Stack <span class="hl">TikTok Commerce</span><br>Ad & Marketing Operating License</span>
+      </h2>
+      <p class="section-sub">
+        <span class="zh">不是 PPT 公司——规模化跑过验证。<strong>$25M+ 月 GMV 峰值 · TikTok 保健类目最大全案代理商 · TikTok Shop 合作商家最多的团长机构</strong>。</span>
+        <span class="en">Not a deck company—battle-tested at scale. <strong>$25M+ monthly GMV peak · largest health-category full-service agency · #1 merchant-coverage talent guild on TikTok Shop</strong>.</span>
+      </p>
+    </div>
+
+    <!-- 关键运营数据 -->
+    <div class="rev" style="margin-bottom: 40px;">
+      <h3 style="font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.02em; margin-bottom: 18px;">
+        <span class="zh">关键运营数据 · KEY METRICS</span>
+        <span class="en">KEY OPERATING METRICS</span>
+      </h3>
+      <div class="creds" style="margin-bottom: 16px;">
+        <div class="cred">
+          <div class="cred-tag"><span class="zh">月 GMV 峰值</span><span class="en">Monthly GMV Peak</span></div>
+          <div class="cred-num">$25M+</div>
+          <div class="cred-label"><span class="zh">单月成交峰值实测</span><span class="en">Verified peak month</span></div>
+        </div>
+        <div class="cred">
+          <div class="cred-tag"><span class="zh">AI 相关订单月流水</span><span class="en">AI-Driven Order Volume</span></div>
+          <div class="cred-num">$1M</div>
+          <div class="cred-label"><span class="zh">AI UGC 订单月均流水</span><span class="en">Monthly AI UGC volume</span></div>
+        </div>
+        <div class="cred">
+          <div class="cred-tag"><span class="zh">月度营销 + 广告收入</span><span class="en">Monthly Revenue</span></div>
+          <div class="cred-num">$2-3M</div>
+          <div class="cred-label"><span class="zh">营销 $1-2M + 广告 $1M+</span><span class="en">Marketing $1-2M + Ads $1M+</span></div>
+        </div>
+        <div class="cred">
+          <div class="cred-tag">US TOP 3 TSP</div>
+          <div class="cred-num">TSP</div>
+          <div class="cred-label"><span class="zh">TikTok Shop Partner · 美国前三</span><span class="en">TikTok Shop Partner · US Top 3</span></div>
+        </div>
+      </div>
+
+      <!-- 达人资源三连数据卡 -->
+      <div style="background: var(--black); color: var(--white); border-radius: 18px; padding: 28px; box-shadow: 6px 6px 0 var(--green); margin-bottom: 16px;">
+        <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--green); letter-spacing: 0.06em; margin-bottom: 14px;">
+          <span class="zh">达人资源 · 北美最大 TikTok 顶级 MCN / 直播公会</span>
+          <span class="en">TALENT NETWORK · #1 TikTok Live Guild in North America</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
+          <div style="text-align: left; border-left: 3px solid var(--green); padding-left: 14px;">
+            <div style="font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: var(--green);">10w+</div>
+            <div style="font-size: 0.85rem; margin-top: 6px;">
+              <span class="zh">合作美区达人池</span>
+              <span class="en">US creator network</span>
+            </div>
+          </div>
+          <div style="text-align: left; border-left: 3px solid var(--green); padding-left: 14px;">
+            <div style="font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: var(--green);">1w+</div>
+            <div style="font-size: 0.85rem; margin-top: 6px;">
+              <span class="zh">签约达人 · TTO 北美第一</span>
+              <span class="en">Signed creators · TTO #1 NA</span>
+            </div>
+          </div>
+          <div style="text-align: left; border-left: 3px solid var(--green); padding-left: 14px;">
+            <div style="font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: var(--green);">5,000</div>
+            <div style="font-size: 0.85rem; margin-top: 6px;">
+              <span class="zh">真人数字人形象授权</span>
+              <span class="en">Talent likeness licenses</span>
+            </div>
+          </div>
+        </div>
+        <p style="font-size: 0.88rem; color: rgba(255,255,255,0.7); margin-top: 16px;">
+          <span class="zh"><strong>TikTok 上流水最高 + 签约达人最多</strong>的机构 —— 最优质渠道网络 × 强大 AI 制作能力，两者的最佳结合。</span>
+          <span class="en"><strong>Highest revenue + most signed creators</strong> on TikTok—the best combination of premium channel network and powerful AI production.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 6 张牌照 -->
+    <div class="rev" style="margin-bottom: 40px;">
+      <h3 style="font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.02em; margin-bottom: 18px;">
+        <span class="zh">六张牌照全家桶 · TikTok 体系内全套合规</span>
+        <span class="en">6-LICENSE FULL SUITE · Complete TikTok Compliance</span>
+      </h3>
+      <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 18px; max-width: 800px;">
+        <span class="zh">能集齐 6 张牌照"全家桶"的玩家在北美极少——一家新公司从 0 申请齐全，理论上需要 18-24 个月。这是 LinknLatch <strong>结构性合规壁垒</strong>。</span>
+        <span class="en">Few players in North America hold all 6 TikTok licenses—building this stack from scratch takes 18-24 months. This is LinknLatch's <strong>structural compliance moat</strong>.</span>
+      </p>
+      <div class="grid-3" style="margin-bottom: 18px;">
+        <div class="card yellow">
+          <div class="card-num">LICENSE 01</div>
+          <h3 style="font-size: 1.5rem;">TSP</h3>
+          <p style="font-size: 0.85rem;">
+            <span class="zh">TikTok Shop Partner · 官方电商合作伙伴</span>
+            <span class="en">TikTok Shop Partner · Official ecommerce partner</span>
+          </p>
+        </div>
+        <div class="card purple">
+          <div class="card-num">LICENSE 02</div>
+          <h3 style="font-size: 1.5rem;">ISV</h3>
+          <p style="font-size: 0.85rem;">
+            <span class="zh">Independent Software Vendor · 第三方软件服务商</span>
+            <span class="en">Independent Software Vendor</span>
+          </p>
+        </div>
+        <div class="card peach">
+          <div class="card-num">LICENSE 03</div>
+          <h3 style="font-size: 1.5rem;">TAP</h3>
+          <p style="font-size: 0.85rem;">
+            <span class="zh">TikTok Affiliate Partner · 官方联盟营销</span>
+            <span class="en">TikTok Affiliate Partner</span>
+          </p>
+        </div>
+        <div class="card green">
+          <div class="card-num">LICENSE 04</div>
+          <h3 style="font-size: 1.5rem;">CAP</h3>
+          <p style="font-size: 0.85rem;">
+            <span class="zh">Creator Affiliate Program · 达人联盟项目</span>
+            <span class="en">Creator Affiliate Program</span>
+          </p>
+        </div>
+        <div class="card yellow">
+          <div class="card-num">LICENSE 05</div>
+          <h3 style="font-size: 1.5rem;">TTO</h3>
+          <p style="font-size: 0.85rem;">
+            <span class="zh">TikTok Talent Operator · 达人运营商 · 北美 No.1</span>
+            <span class="en">TikTok Talent Operator · #1 NA</span>
+          </p>
+        </div>
+        <div class="card black">
+          <div class="card-num"><span class="zh">LICENSE 06 · 周受资亲签</span><span class="en">LICENSE 06 · Signed by Shou Zi Chew</span></div>
+          <h3 style="font-size: 1.5rem; color: var(--green);">US ADS</h3>
+          <p style="font-size: 0.85rem;">
+            <span class="zh">美国本土 TikTok Ads 投放牌照 · 全球 CEO 周受资亲签授权</span>
+            <span class="en">US Native TikTok Ads license · personally signed by TikTok Global CEO Shou Zi Chew</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 200+ 客户墙（提前） -->
+    <div class="rev" style="margin-bottom: 40px;">
+      <h3 style="font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.02em; margin-bottom: 8px;">
+        <span class="zh">200+ 长期合作品牌</span>
+        <span class="en">200+ Long-Term Brand Partners</span>
+      </h3>
+      <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 18px;">
+        <span class="zh">从冷启动到爆发增长 · 产品驱动 · 社交原生销售 · <strong>TikTok Shop 合作商家最多的团长机构</strong></span>
+        <span class="en">From cold-start to breakout · product-driven · social-native commerce · <strong>#1 merchant-coverage talent guild on TikTok Shop</strong></span>
+      </p>
+      <div style="background: var(--black); border-radius: 16px; padding: 24px; box-shadow: 5px 5px 0 var(--green);">
+        <div class="partner-grid">
+          <div class="partner-cell">Kind Patches</div>
+          <div class="partner-cell">GNC</div>
+          <div class="partner-cell">POP MART</div>
+          <div class="partner-cell">Bloom</div>
+          <div class="partner-cell">beplain</div>
+          <div class="partner-cell">Neuro</div>
+          <div class="partner-cell">EHPlabs</div>
+          <div class="partner-cell">SALUD</div>
+          <div class="partner-cell">CataKor</div>
+          <div class="partner-cell">ZODONE</div>
+          <div class="partner-cell">Mila Mi Amor</div>
+          <div class="partner-cell">microingredients</div>
+          <div class="partner-cell">upSpring</div>
+          <div class="partner-cell">OPositiv</div>
+          <div class="partner-cell">HUM</div>
+          <div class="partner-cell">Clean Nutra</div>
+          <div class="partner-cell">The Ordinary</div>
+          <div class="partner-cell">medicube</div>
+          <div class="partner-cell">BetterBrand</div>
+          <div class="partner-cell">Living Proof</div>
+          <div class="partner-cell">WOSADO</div>
+          <div class="partner-cell">LAfabs</div>
+          <div class="partner-cell">BioEmblem</div>
+          <div class="partner-cell">Bodywise</div>
+          <div class="partner-cell">tarte</div>
+          <div class="partner-cell">COLOURPOP</div>
+          <div class="partner-cell">SACHEU</div>
+          <div class="partner-cell">LAURA GELLER</div>
+          <div class="partner-cell">persona</div>
+          <div class="partner-cell">WONDERSKIN</div>
+          <div class="partner-cell">IMETHOD</div>
+          <div class="partner-cell">arrae</div>
+          <div class="partner-cell">PACSUN</div>
+          <div class="partner-cell">edikted</div>
+          <div class="partner-cell">FEELINGIRL</div>
+          <div class="partner-cell">HSIA</div>
+          <div class="partner-cell">OQQ</div>
+          <div class="partner-cell">Comfrt</div>
+          <div class="partner-cell">Halara</div>
+          <div class="partner-cell">Cali Curves</div>
+          <div class="partner-cell">MINISO</div>
+          <div class="partner-cell">eufy by Anker</div>
+          <div class="partner-cell">SIRIO</div>
+          <div class="partner-cell">ZIKOO</div>
+          <div class="partner-cell">EUHOMY</div>
+          <div class="partner-cell">MySmile</div>
+          <div class="partner-cell">DREO</div>
+          <div class="partner-cell">CIDER</div>
+          <div class="partner-cell">Coca-Cola</div>
+          <div class="partner-cell">BUCKED UP</div>
+          <div class="partner-cell">Funko</div>
+          <div class="partner-cell">DREAME</div>
+          <div class="partner-cell">PLAUD.AI</div>
+          <div class="partner-cell">Deeyeo</div>
+          <div class="partner-cell">Santo Remedio</div>
+          <div class="partner-cell">Harvard Apparatus</div>
+          <div class="partner-cell">Careleaf</div>
+          <div class="partner-cell">Alibaba.com</div>
+          <div class="partner-cell">dyesoo 多燕瘦</div>
+          <div class="partner-cell">TopJob</div>
+          <div class="partner-cell">元通汽车 Yuantong</div>
+          <div class="partner-cell">hi.gianna</div>
+          <div class="partner-cell">SparkFit</div>
+          <div class="partner-cell">SUNFEEL</div>
+          <div class="partner-cell">schonley</div>
+          <div class="partner-cell">Canban</div>
+          <div class="partner-cell">Sterly</div>
+          <div class="partner-cell">JOY in the WATER</div>
+          <div class="partner-cell">TUNBOT</div>
+          <div class="partner-cell">HONEYCARE</div>
+          <div class="partner-cell">AliExpress</div>
+          <div class="partner-cell">NatureSpan</div>
+          <div class="partner-cell">ASMAX</div>
+          <div class="partner-cell">PopuMusic</div>
+          <div class="partner-cell">Lil Republic</div>
+          <div class="partner-cell">PLAYIKO</div>
+          <div class="partner-cell">MAYSEEN</div>
+          <div class="partner-cell">正官庄 JKJ</div>
+          <div class="partner-cell">Murad</div>
+          <div class="partner-cell">SLOOSH</div>
+          <div class="partner-cell">SEM/R 森马</div>
+          <div class="partner-cell">SHAFITS</div>
+          <div class="partner-cell">Fiber Life</div>
+          <div class="partner-cell">CEELIKE</div>
+          <div class="partner-cell">MOTO FREEDOM</div>
+          <div class="partner-cell">RELLET 颐莲</div>
+          <div class="partner-cell">农夫山泉 Nongfu</div>
+          <div class="partner-cell">Ananke</div>
+          <div class="partner-cell">MY GNC REWARDS</div>
+          <div class="partner-cell">诺特兰德 Nuoluo</div>
+          <div class="partner-cell">SUPIELD</div>
+          <div class="partner-cell">ECOVOX</div>
+          <div class="partner-cell">HaiVision</div>
+          <div class="partner-cell">AURONIS</div>
+          <div class="partner-cell">POLLOCK</div>
+          <div class="partner-cell">Tahkie</div>
+          <div class="partner-cell">Sanpley</div>
+          <div class="partner-cell">Aceast</div>
+          <div class="partner-cell">DOWN HOME</div>
+          <div class="partner-cell">COLOR NYMPH</div>
+          <div class="partner-cell">ZEN Tonic</div>
+          <div class="partner-cell">Sasifi</div>
+          <div class="partner-cell">ONE FLY</div>
+          <div class="partner-cell">S&G Choice</div>
+          <div class="partner-cell">Joyfubabe</div>
+          <div class="partner-cell">+ 100 more</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI 电商带货成绩榜（旧 "AI 短剧带货"） -->
+    <div class="rev" style="margin-bottom: 40px;">
+      <h3 style="font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.02em; margin-bottom: 8px;">
+        <span class="zh">AI 电商带货 · 各类目头部客户合作成绩</span>
+        <span class="en">AI E-COMMERCE · Top-Tier Client Results Across Categories</span>
+      </h3>
+      <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 18px;">
+        <span class="zh">我们与 <strong>TikTok Shop 领域各个类目的头部客户</strong>持续合作 · 5,000+ AI 形象授权 · 免寄样真人发 · 出单销冠</span>
+        <span class="en">Active collaboration with <strong>top-tier clients across every TikTok Shop category</strong> · 5,000+ AI talent licenses · sample-free creator distribution</span>
+      </p>
+      <div class="cat-grid">
+        <div class="cat-card">
+          <div class="cat-tag"><span class="zh">美妆护肤</span><span class="en">Beauty</span></div>
+          <div class="cat-brand">SPRINGORIGIN</div>
+          <div class="cat-num">10,000</div>
+          <div class="cat-desc"><span class="zh">单视频销量记录</span><span class="en">Single-video sales</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-tag"><span class="zh">家居厨房</span><span class="en">Home & Kitchen</span></div>
+          <div class="cat-brand">DREAME</div>
+          <div class="cat-num">$70K</div>
+          <div class="cat-desc"><span class="zh">单视频 GMV 记录</span><span class="en">Single-video GMV</span></div>
+        </div>
+        <div class="cat-card green-bg">
+          <div class="cat-tag"><span class="zh">健康保健</span><span class="en">Health</span></div>
+          <div class="cat-brand">GNC</div>
+          <div class="cat-num">$770K</div>
+          <div class="cat-desc"><span class="zh">月 GMV</span><span class="en">Monthly GMV</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-tag"><span class="zh">时尚服饰</span><span class="en">Fashion</span></div>
+          <div class="cat-brand">KATCH ME</div>
+          <div class="cat-num">$2.15M</div>
+          <div class="cat-desc"><span class="zh">季度 GMV</span><span class="en">Quarterly GMV</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-tag"><span class="zh">宠物用品</span><span class="en">Pet</span></div>
+          <div class="cat-brand">GEOOROOD</div>
+          <div class="cat-num">$22K</div>
+          <div class="cat-desc"><span class="zh">单达人记录</span><span class="en">Single-creator</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-tag"><span class="zh">食品饮料</span><span class="en">F&B</span></div>
+          <div class="cat-brand">AMOS</div>
+          <div class="cat-num">$45K</div>
+          <div class="cat-desc"><span class="zh">月 AI-UGC GMV</span><span class="en">Monthly AI-UGC</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-tag"><span class="zh">数码配件</span><span class="en">Digital</span></div>
+          <div class="cat-brand">MINISO</div>
+          <div class="cat-num">$48K</div>
+          <div class="cat-desc"><span class="zh">月单视频记录</span><span class="en">Monthly single-video</span></div>
+        </div>
+        <div class="cat-card peach-bg">
+          <div class="cat-tag"><span class="zh">家居生活</span><span class="en">Home Living</span></div>
+          <div class="cat-brand">SONGMICS</div>
+          <div class="cat-num">$30K</div>
+          <div class="cat-desc"><span class="zh">单视频记录</span><span class="en">Single-video</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 广告代理案例 -->
+    <div class="rev" style="margin-bottom: 40px;">
+      <h3 style="font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.02em; margin-bottom: 18px;">
+        <span class="zh">本土广告代理 · 双牌照 · 跑出多类目 GMV TOP</span>
+        <span class="en">NATIVE AD AGENCY · Dual License · Top GMV across Categories</span>
+      </h3>
+      <div class="grid-4" style="margin-bottom: 18px;">
+        <div class="card">
+          <div class="card-num">GNC</div>
+          <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 4px;">
+            <span class="zh">健康保健</span><span class="en">Health</span>
+          </div>
+          <div style="font-family: var(--font-display); font-size: 2rem; color: var(--green-dark);">$2M+</div>
+          <p style="font-size: 0.82rem; color: var(--muted);">
+            <span class="zh">月 GMV · 31.5M 播放 · 类目最畅销</span>
+            <span class="en">Monthly GMV · 31.5M views · top seller</span>
+          </p>
+        </div>
+        <div class="card black">
+          <div class="card-num">DREAME</div>
+          <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 4px;">
+            <span class="zh">家居清洁</span><span class="en">Home Cleaning</span>
+          </div>
+          <div style="font-family: var(--font-display); font-size: 2rem; color: var(--green);">$6M+</div>
+          <p style="font-size: 0.82rem; color: rgba(255,255,255,0.7);">
+            <span class="zh">月 GMV · 80M 播放 · 12 月吸尘器 TOP10</span>
+            <span class="en">Monthly GMV · 80M views · Dec vacuum TOP10</span>
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-num">AMOS</div>
+          <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 4px;">
+            <span class="zh">糖果食品</span><span class="en">Confectionery</span>
+          </div>
+          <div style="font-family: var(--font-display); font-size: 2rem; color: var(--green-dark);">$409K+</div>
+          <p style="font-size: 0.82rem; color: var(--muted);">
+            <span class="zh">糖果类目 TOP1 · TastySounds</span>
+            <span class="en">Candy TOP1 · TastySounds</span>
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-num">GEOOROOD</div>
+          <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 4px;">
+            <span class="zh">宠物用品</span><span class="en">Pet</span>
+          </div>
+          <div style="font-family: var(--font-display); font-size: 2rem; color: var(--green-dark);">$79K+</div>
+          <p style="font-size: 0.82rem; color: var(--muted);">
+            <span class="zh">CPM 低至 $1 · 宠物类目 TOP8</span>
+            <span class="en">CPM as low as $1 · Pet TOP8</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- StockX 4 步测评（移到广告代理后） -->
+    <div class="rev">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; flex-wrap: wrap;">
+        <span style="background: var(--yellow); color: var(--black); padding: 4px 12px; border-radius: 6px; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.04em;">
+          CASE STUDY · STOCKX
+        </span>
+        <h3 style="font-family: var(--font-display); font-size: 1.7rem; letter-spacing: 0.02em;">
+          <span class="zh">软件出海测评 · 先测评，找到爆款组合</span>
+          <span class="en">Software Going Global · Test First, Find the Winning Combo</span>
+        </h3>
+      </div>
+      <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 18px; max-width: 800px;">
+        <span class="zh">不要在脑内想 · 直接构建测评实验 · 让广告数据告诉你哪个组合有市场——<strong>双牌照广告代理 + AIGC 内容工厂</strong>的协同应用。</span>
+        <span class="en">Don't theorize—build test rigs directly. Let ad data tell you which combo wins. A synergistic application of <strong>dual-license ad agency + AIGC content factory</strong>.</span>
+      </p>
+      <div class="stockx-grid">
+        <div class="stockx-step">
+          <div class="num purple-num">1</div>
+          <div class="body">
+            <h5><span class="zh">数字人口播区域 · 测人群画像</span><span class="en">Digital Human Talkbox · Test Demographics</span></h5>
+            <p>
+              <span class="zh">从 5000+ 形象池调取不同年龄 / 性别 / 族裔，匹配不同目标人群。</span>
+              <span class="en">Pull different ages / genders / ethnicities from the 5,000+ pool, match to target segments.</span>
+            </p>
+          </div>
+        </div>
+        <div class="stockx-step">
+          <div class="num peach-num">2</div>
+          <div class="body">
+            <h5><span class="zh">背景 · 卖点混剪 · 测关键帧 / feature</span><span class="en">Background · Selling-Point Cuts · Test Frames / Features</span></h5>
+            <p>
+              <span class="zh">不同软件界面 = 不同卖点，一天测 20+ 个，看什么内容最抓人。</span>
+              <span class="en">Different software UI = different selling points; 20+ tests/day to find what hooks.</span>
+            </p>
+          </div>
+        </div>
+        <div class="stockx-step">
+          <div class="num yellow-num">3</div>
+          <div class="body">
+            <h5><span class="zh">台词 · 字幕栏 · 测话术 / 脚本</span><span class="en">Script · Captions · Test Copy / Hooks</span></h5>
+            <p>
+              <span class="zh">价格 / 焦虑 / 社交认同，找最能驱动转化的讲法。</span>
+              <span class="en">Price / anxiety / social proof—find the highest-converting narrative.</span>
+            </p>
+          </div>
+        </div>
+        <div class="stockx-step">
+          <div class="num">4</div>
+          <div class="body">
+            <h5><span class="zh">视频数据栏 · 看哪些表现好</span><span class="en">Video Metrics · Identify Winners</span></h5>
+            <p>
+              <span class="zh">TikTok 短视频数据界面，控制变量看出谁好谁差。</span>
+              <span class="en">TikTok analytics dashboard, controlled-variable analysis identifies winners.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="note-box" style="margin-top: 20px;">
+        <div class="note-eyebrow">
+          <span class="zh">数据回传 → 找出最棒的素材组合</span>
+          <span class="en">Data Backflow → Identify Winning Combos</span>
+        </div>
+        <p>
+          <span class="zh">通过广告数据回传，找出最棒的素材组合——<strong>一周测评 &gt; 三个月空想</strong>。</span>
+          <span class="en">Via ad-data backflow, surface the winning creative combos—<strong>one week of testing &gt; three months of theorizing</strong>.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 3. AIUGC 业务核心 ============= -->
+<section id="aiugc">
+  <div class="container">
+    <div class="rev">
+      <span class="eyebrow yellow"><span class="zh">业务核心 · WHAT WE BUILD</span><span class="en">CORE OFFERING · WHAT WE BUILD</span></span>
+      <h2 class="section-h">
+        <span class="zh">AIGC + Agent =<br><span class="hl">AIUGC 服务</span></span>
+        <span class="en">AIGC + Agent =<br><span class="hl">AIUGC Service</span></span>
+      </h2>
+      <p class="section-sub">
+        <span class="zh">两条业务线深度合体——<strong>Agent 解决"谁来卖"</strong>，<strong>AIGC 解决"卖什么内容"</strong>。两者合一，把"批量找达人 + 批量做内容 + 批量上市场"变成一个可由系统自动驱动的闭环。</span>
+        <span class="en">Two business lines deeply fused—<strong>Agent solves "who sells"</strong>, <strong>AIGC solves "what content sells"</strong>. Together they form a closed-loop: bulk creator outreach + bulk content production + bulk market deployment, all driven by an autonomous system.</span>
+      </p>
+    </div>
+
+    <div class="rev grid-2">
+      <div class="card purple" style="padding: 32px;">
+        <div class="card-num">
+          <span class="zh">引擎 ① · AGENT</span><span class="en">ENGINE ① · AGENT</span>
+        </div>
+        <h3 style="font-size: 1.9rem; margin-bottom: 14px;">
+          <span class="zh">智能建联 · 替代达人 BD / 经纪人</span>
+          <span class="en">Intelligent Outreach · Replaces BD / Talent Agency</span>
+        </h3>
+        <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 14px;">
+          <span class="zh">把传统达人 BD 团队每天人工对接 5-10 个达人的人力黑洞，重构为一套 <strong>Multi-Agent Self-Evolving 框架</strong>——日触达 10 万+ 美区达人，95% 自动化决策。</span>
+          <span class="en">Replaces the manual BD-team black hole (5-10 creators per person per day) with a <strong>Multi-Agent Self-Evolving framework</strong>—reaching 100K+ US creators daily with 95% autonomous decisions.</span>
+        </p>
+        <ul>
+          <li><span class="zh">推荐 Agent · 给商家推达人 / 给达人推商家</span><span class="en">Recommendation Agent · bilateral matchmaking</span></li>
+          <li><span class="zh">合作推进 Agent · 意图识别 + 谈判推进</span><span class="en">Engagement Agent · intent recognition + negotiation</span></li>
+          <li><span class="zh">履约 + 汇报 + 评分 Agent · 全链路</span><span class="en">Fulfillment + Reporting + Scoring Agents · end-to-end</span></li>
+        </ul>
+      </div>
+      <div class="card peach" style="padding: 32px;">
+        <div class="card-num">
+          <span class="zh">引擎 ② · AIGC</span><span class="en">ENGINE ② · AIGC</span>
+        </div>
+        <h3 style="font-size: 1.9rem; margin-bottom: 14px;">
+          <span class="zh">拟真带货视频 · 真人形象授权制作</span>
+          <span class="en">Realistic Commerce Videos · Licensed Talent Production</span>
+        </h3>
+        <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 14px;">
+          <span class="zh">基于 <strong>5,000+ 真人达人形象授权池</strong>（业内最大），用 <strong>SOTA AI 视频生成模型</strong>批量制作带货视频。技术主攻方向不是 "0→1 生成"，而是 <strong>"1→100 爆款复刻"</strong>。</span>
+          <span class="en">Powered by <strong>5,000+ talent likeness licenses</strong> (largest in industry), we use <strong>SOTA AI video models</strong> to produce commerce videos at scale. Technical focus: not "0→1 generation"—but <strong>"1→100 hit replication"</strong>.</span>
+        </p>
+        <ul>
+          <li><span class="zh">日产 <strong>1,000+ 条</strong> · 单条 AI UGC 验证 <strong>$10K GMV</strong></span><span class="en"><strong>1,000+ videos/day</strong> · single AI UGC verified at <strong>$10K GMV</strong></span></li>
+          <li><span class="zh">AI 相关订单<strong>月均流水 $1M</strong></span><span class="en">AI-driven orders: <strong>$1M monthly volume</strong></span></li>
+          <li><span class="zh">短剧情节 + 真人感数字人 + 算法亲和</span><span class="en">Short-drama narratives + lifelike digital humans + algorithm-aligned</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note-box rev">
+      <div class="note-eyebrow">
+        <span class="zh">为什么必须是"双引擎"</span><span class="en">Why Both Engines Are Required</span>
+      </div>
+      <p>
+        <span class="zh">市面上做<strong>纯 AIGC</strong>的公司有渠道空缺（视频做出来发不出去）；做<strong>纯 Agent</strong>的公司有内容空缺（找到达人无内容可推）。LinknLatch 是<strong>市场上唯一一家</strong>在工程上把这两条线合并为一套服务的 MCN——这是我们的核心差异化。</span>
+        <span class="en">Pure-<strong>AIGC</strong> players lack distribution (no channel to publish). Pure-<strong>Agent</strong> players lack content (creators identified but no videos to push). LinknLatch is <strong>the only MCN</strong> engineering both lines into a single service—this is our core differentiation.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 4. AGENT 5 层架构 ============= -->
+<section id="agent" class="bg-green-light">
+  <div class="container">
+    <div class="rev">
+      <span class="eyebrow"><span class="zh">AGENT 架构 · MULTI-AGENT SELF-EVOLVING</span><span class="en">AGENT STACK · MULTI-AGENT SELF-EVOLVING</span></span>
+      <h2 class="section-h">
+        <span class="zh">不是"一个 AI 聊天机器人"——<br>是 <span class="hl">5 层 Self-Evolving 架构</span></span>
+        <span class="en">Not "An AI Chatbot"—<br>A <span class="hl">5-Layer Self-Evolving Stack</span></span>
+      </h2>
+      <p class="section-sub">
+        <span class="zh">执行业务 Agent + 打分 Agent 双轨设计——每一次互动既产出业务结果，又产出训练信号，让整个系统不断进化。</span>
+        <span class="en">Dual-track design: Execution Agents + Scoring Agents. Every interaction produces both business outcome and training signal—enabling continuous self-evolution.</span>
+      </p>
+    </div>
+
+    <!-- Linsey Pipeline · 外层呈现（先于 5 层架构出现） -->
+    <div class="rev" style="margin-bottom: 36px;">
+      <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;">
+        <span style="background: var(--green); color: var(--black); padding: 4px 12px; border-radius: 6px; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.04em;">
+          <span class="zh">外层呈现 · OUTER LAYER</span><span class="en">OUTER LAYER</span>
+        </span>
+        <div style="font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.04em;">
+          <span class="zh">Linsey · 代表淋浪沟通的 AI 经纪人</span>
+          <span class="en">Linsey · The AI Talent Agent That Speaks For Us</span>
+        </div>
+      </div>
+      <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 18px; max-width: 880px;">
+        <span class="zh">达人看到的就是 Linsey——每条消息署名 "— Linsey"，每次回复自动输出汇报卡片。但表面这个"AI 经纪人"<strong>背后是一套复杂的五层架构</strong>，向下展开就是我们真正的护城河。</span>
+        <span class="en">To creators, all they see is Linsey—every message signed "— Linsey," every reply auto-generates a report card. But what looks like an "AI agent" on the surface is <strong>backed by a complex 5-layer architecture</strong>—our actual moat, revealed below.</span>
+      </p>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-num">00 · ROUTE</div>
+          <div class="pipe-title"><span class="zh">分流</span><span class="en">Route</span></div>
+          <div class="pipe-desc"><span class="zh">按 GMV 分头/中/尾</span><span class="en">Segment by GMV tier</span></div>
+        </div>
+        <div class="pipe-step" style="background: var(--peach);">
+          <div class="pipe-num">01 · NEGOTIATE</div>
+          <div class="pipe-title"><span class="zh">议价</span><span class="en">Negotiate</span></div>
+          <div class="pipe-desc"><span class="zh">报价 · 砍价 · 争账期</span><span class="en">Quotes · counter · terms</span></div>
+        </div>
+        <div class="pipe-step" style="background: var(--purple);">
+          <div class="pipe-num">02 · CONSOLIDATE</div>
+          <div class="pipe-title"><span class="zh">汇总</span><span class="en">Consolidate</span></div>
+          <div class="pipe-desc"><span class="zh">多维表供品牌选号</span><span class="en">Sortable for brand selection</span></div>
+        </div>
+        <div class="pipe-step" style="background: var(--yellow);">
+          <div class="pipe-num">03 · FULFILL</div>
+          <div class="pipe-title"><span class="zh">履约</span><span class="en">Fulfill</span></div>
+          <div class="pipe-desc"><span class="zh">催稿 / 未选转 AI UGC</span><span class="en">Push / convert to AI UGC</span></div>
+        </div>
+        <div class="pipe-step" style="background: var(--green-light);">
+          <div class="pipe-num">04 · RETAIN</div>
+          <div class="pipe-title"><span class="zh">私域</span><span class="en">Retain</span></div>
+          <div class="pipe-desc"><span class="zh">转 WhatsApp 群</span><span class="en">Move to WhatsApp</span></div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 24px; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 0.06em; color: var(--green-dark);">
+        <span class="zh">↓ 下面是 Linsey 背后的内层架构 ↓</span>
+        <span class="en">↓ INNER ARCHITECTURE BENEATH LINSEY ↓</span>
+      </div>
+    </div>
+
+    <div class="rev" style="margin-bottom: 14px;">
+      <span style="background: var(--black); color: var(--green); padding: 4px 12px; border-radius: 6px; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.04em;">
+        <span class="zh">内层架构 · INNER STACK</span><span class="en">INNER STACK</span>
+      </span>
+    </div>
+    <div class="rev agent-stack">
+      <!-- L5 Optimization -->
+      <div class="stack-layer optimization">
+        <div class="stack-layer-h">
+          <span class="badge">L5</span>
+          <span class="zh">优化层 · OPTIMIZATION LAYER</span>
+          <span class="en">L5 · OPTIMIZATION LAYER</span>
+        </div>
+        <p>
+          <span class="zh">元层：基于 good case / bad case 反馈，让整个系统不停自进化——这是真正的 "Self-Evolving" 含义。</span>
+          <span class="en">Meta-layer: Continuously evolves based on good-case / bad-case feedback—this is the true meaning of "Self-Evolving."</span>
+        </p>
+      </div>
+
+      <!-- L4 Strategy -->
+      <div class="stack-layer strategy">
+        <div class="stack-layer-h">
+          <span class="badge">L4</span>
+          <span class="zh">策略层 · STRATEGY LAYER · 运营知识库</span>
+          <span class="en">L4 · STRATEGY LAYER · Operational Playbook</span>
+        </div>
+        <p>
+          <span class="zh">当下客户 / 商家想要以什么样的策略运营达人——门槛、阈值、分层管理，全部在这一层定义。可热替换、可按客户定制。</span>
+          <span class="en">Operational strategies—thresholds, tiers, segmentation rules. Hot-swappable, client-customizable.</span>
+        </p>
+        <ul>
+          <li><span class="zh"><strong>头部达人</strong>：给费用 → 议价空间 + 多平台权益沟通</span><span class="en"><strong>Top-tier:</strong> Paid + negotiation room + multi-platform rights</span></li>
+          <li><span class="zh"><strong>中部达人</strong>：纯佣金 + 免费样品 → 沟通脚本</span><span class="en"><strong>Mid-tier:</strong> Commission + free sample + script collaboration</span></li>
+          <li><span class="zh"><strong>长尾达人</strong>：不寄样 → AI UGC 形象授权，物归原主发布</span><span class="en"><strong>Long-tail:</strong> No samples → AI UGC + likeness license + creator-published</span></li>
+        </ul>
+      </div>
+
+      <!-- L3 Purpose -->
+      <div class="stack-layer purpose">
+        <div class="stack-layer-h">
+          <span class="badge">L3</span>
+          <span class="zh">目的层 · PURPOSE LAYER · 多 Agent 各司其职</span>
+          <span class="en">L3 · PURPOSE LAYER · Specialized Agents</span>
+        </div>
+        <ul>
+          <li><span class="zh"><strong>推荐 Agent</strong> · 给商家推达人 / 给达人推商家</span><span class="en"><strong>Recommendation Agent</strong> · Match merchants with creators (bilateral)</span></li>
+          <li><span class="zh"><strong>合作推进 Agent</strong> · 意图分析 / 意图识别 / 推进合作</span><span class="en"><strong>Engagement Agent</strong> · Intent analysis / recognition / deal progression</span></li>
+          <li><span class="zh"><strong>履约 Agent</strong> · 催达人完成视频与挂车</span><span class="en"><strong>Fulfillment Agent</strong> · Follow up on video delivery & product tagging</span></li>
+          <li><span class="zh"><strong>汇报 Agent</strong> · 自动汇总到飞书多维表格 / 客户看板</span><span class="en"><strong>Reporting Agent</strong> · Auto-aggregates to Feishu / client dashboards</span></li>
+          <li><span class="zh"><strong>打分评级 Agent</strong> · 意向度评估 + good/bad case 归集，反哺 L5</span><span class="en"><strong>Scoring Agent</strong> · Intent scoring + good/bad case aggregation → feeds L5</span></li>
+        </ul>
+      </div>
+
+      <!-- L2 Channel -->
+      <div class="stack-layer channel">
+        <div class="stack-layer-h">
+          <span class="badge">L2</span>
+          <span class="zh">通道层 · CHANNEL LAYER · 公域 + 私域</span>
+          <span class="en">L2 · CHANNEL LAYER · Public + Private</span>
+        </div>
+        <ul>
+          <li><span class="zh"><strong>公域：</strong>TikTok 持牌机构站内信通道（仅持牌机构可用）</span><span class="en"><strong>Public:</strong> TikTok official DM channel (licensed-institutions only)</span></li>
+          <li><span class="zh"><strong>私域：</strong>WhatsApp TP 通道（上架申请中）</span><span class="en"><strong>Private:</strong> WhatsApp TP channel (application in progress)</span></li>
+        </ul>
+      </div>
+
+      <!-- L1 Data -->
+      <div class="stack-layer data">
+        <div class="stack-layer-h">
+          <span class="badge">L1</span>
+          <span class="zh">数据层 · DATA LAYER · 一二三方数据</span>
+          <span class="en">L1 · DATA LAYER · 1st / 2nd / 3rd Party Data</span>
+        </div>
+        <ul>
+          <li><span class="zh"><strong>一方数据</strong> · 我们与头部商家的一手运营策略对接（独家）</span><span class="en"><strong>1st-party:</strong> Direct operational data from top-merchant collaborations (exclusive)</span></li>
+          <li><span class="zh"><strong>二方数据</strong> · 与平台独家拥有的、仅持牌机构可见的达人背景数据</span><span class="en"><strong>2nd-party:</strong> Platform-exclusive creator background data—licensed-institution-only</span></li>
+          <li><span class="zh"><strong>三方数据</strong> · Cloud Data（TikTok 最大数据平台）等深度合作 · TTO + TNP 后台全维度</span><span class="en"><strong>3rd-party:</strong> Deep partnerships with Cloud Data (largest TikTok analytics platform) · TTO + TNP full coverage</span></li>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ============= 5. AIGC 特点展开 ============= -->
+<section id="aigc" class="bg-cream2">
+  <div class="container">
+    <div class="rev">
+      <span class="eyebrow green"><span class="zh">AIGC 特点 · 我们怎么做内容</span><span class="en">AIGC FEATURES · How We Make Content</span></span>
+      <h2 class="section-h">
+        <span class="zh">不卷 0→1 生成 ·<br><span class="hl">做 1→100 爆款复刻</span></span>
+        <span class="en">Not Racing on 0→1 ·<br><span class="hl">Racing on 1→100 Hit Replication</span></span>
+      </h2>
+      <p class="section-sub">
+        <span class="zh">市面上 90% 的 AIGC 产品在卷"<strong>怎么生成第一条视频</strong>"——我们在卷"<strong>怎么把已经验证爆的视频复制 100 遍而不被限流</strong>"。这是个完全不同的技术命题。</span>
+        <span class="en">90% of AIGC products race on "<strong>how to generate the first video</strong>"—we race on "<strong>how to replicate a verified hit 100 times without getting throttled</strong>." A fundamentally different problem.</span>
+      </p>
+    </div>
+
+    <!-- Part 1: UGC 方式说明 (物归原主三步) -->
+    <div class="rev" style="margin-bottom: 44px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; flex-wrap: wrap;">
+        <span style="background: var(--green); color: var(--black); padding: 4px 12px; border-radius: 6px; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.04em;">PART 1</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0.02em;">
+          <span class="zh">我们的 UGC 方式 · "物归原主" 三步流程</span>
+          <span class="en">Our UGC Methodology · "Return-to-Origin" Flow</span>
+        </h3>
+      </div>
+      <p style="font-size: 0.95rem; line-height: 1.65; color: var(--muted); max-width: 800px; margin-bottom: 22px;">
+        <span class="zh">把 AI 生成的视频<strong>发回真人本人发布</strong>——形象与本人统一，渠道更原生，<strong>规避了 90% AI 内容的不真实感问题</strong>。</span>
+        <span class="en">Videos generated by AI <strong>are published by the original creator</strong>—likeness matches person, channel is native, <strong>solving 90% of AI content's authenticity problem</strong>.</span>
+      </p>
+      <div class="ugc-steps">
+        <div class="ugc-step">
+          <div class="ugc-step-num">01</div>
+          <h4><span class="zh">真人形象授权</span><span class="en">Likeness License</span></h4>
+          <p>
+            <span class="zh">向所有美国真人达人申请真人形象授权，进入 <strong>5,000+ 形象池</strong>。</span>
+            <span class="en">Acquire likeness licenses from US creators—<strong>5,000+ in the pool</strong>.</span>
+          </p>
+        </div>
+        <div class="ugc-step">
+          <div class="ugc-step-num">02</div>
+          <h4><span class="zh">AIGC 视频制作</span><span class="en">AIGC Production</span></h4>
+          <p>
+            <span class="zh">用授权形象制作 AIGC 带货视频，<strong>制作由我们收口</strong>——内容质量可控。</span>
+            <span class="en">Build AIGC commerce videos with licensed likeness—<strong>production owned in-house</strong>.</span>
+          </p>
+        </div>
+        <div class="ugc-step green">
+          <div class="ugc-step-num">03</div>
+          <h4><span class="zh">物归原主发布</span><span class="en">Origin Publishing</span></h4>
+          <p>
+            <span class="zh">视频<strong>发回对应达人本人发布</strong>——形象与本人统一，渠道更原生。</span>
+            <span class="en">Videos <strong>published by the original creator</strong>—seamless and native.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 2: 核心优势 + 生态位 (原 Part 3) -->
+    <div class="rev" style="margin-bottom: 14px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; flex-wrap: wrap;">
+        <span style="background: var(--green); color: var(--black); padding: 4px 12px; border-radius: 6px; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.04em;">PART 2</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0.02em;">
+          <span class="zh">核心优势与生态位 · "渠道整合商"</span>
+          <span class="en">Our Edge & Ecosystem Position · "Channel Integrator"</span>
+        </h3>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-num"><span class="zh">优势 ①</span><span class="en">EDGE ①</span></div>
+          <h4><span class="zh">大产能 × 厚商家资源</span><span class="en">Mass Output × Deep Merchant Pool</span></h4>
+          <p style="font-size: 0.92rem; line-height: 1.65; margin-top: 10px;">
+            <span class="zh">日产 1000+ 视频 × 200+ 长期合作商家 × $25M+ 月 GMV ——制作和分发两端同时跑通。</span>
+            <span class="en">1,000+ videos/day × 200+ long-term merchants × $25M+ monthly GMV—both production and distribution running at scale.</span>
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-num"><span class="zh">优势 ②</span><span class="en">EDGE ②</span></div>
+          <h4><span class="zh">"套皮"开发者网络 + 行业认知</span><span class="en">"Skin-Layer" Developer Network</span></h4>
+          <p style="font-size: 0.92rem; line-height: 1.65; margin-top: 10px;">
+            <span class="zh">和大量 "套皮" 产品开发者保持通联——任何模型升级 / 新工具发布，<strong>我们是第一批知道并跑通的人</strong>。</span>
+            <span class="en">Active link with the "skin-layer" developer community—any model upgrade or new tool release, <strong>we're the first to know and ship</strong>.</span>
+          </p>
+        </div>
+        <div class="card green">
+          <div class="card-num"><span class="zh">优势 ③</span><span class="en">EDGE ③</span></div>
+          <h4><span class="zh">渠道整合商 · 最敏锐的趋势洞察</span><span class="en">Channel Integrator · Sharpest Trend Insight</span></h4>
+          <p style="font-size: 0.92rem; line-height: 1.65; margin-top: 10px;">
+            <span class="zh">业务属性决定了我们站在 <strong>"模型 → 工具 → 渠道 → 商家"</strong> 整合最末端——对行业最新动态有<strong>极其敏锐的洞察</strong>，每一次趋势 turn 都先于市场 6-12 周捕捉到。</span>
+            <span class="en">Our business sits at the <strong>"model → tool → channel → merchant"</strong> integration tail-end—giving us <strong>razor-sharp insight</strong> on trends 6-12 weeks ahead of market.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 三档定价 (用户要求加回) -->
+    <div class="rev" style="margin-bottom: 28px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; flex-wrap: wrap;">
+        <span style="background: var(--green); color: var(--black); padding: 4px 12px; border-radius: 6px; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.04em;">PART 3</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0.02em;">
+          <span class="zh">三档单价 · 透明可议</span>
+          <span class="en">Three-Tier Pricing · Transparent</span>
+        </h3>
+      </div>
+      <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 18px; max-width: 800px;">
+        <span class="zh">锚点：与 GMV &lt; $5,000 达人合作（视频计价）共用同一定价锚点。</span>
+        <span class="en">Anchor: shared pricing with creators having GMV &lt; $5,000 (per-video pricing).</span>
+      </p>
+      <div class="pricing">
+        <div class="price-card">
+          <div class="price-tier">BASIC · <span class="zh">入门档</span><span class="en">Entry</span></div>
+          <div class="price-num">$5</div>
+          <div class="price-meta"><span class="zh">/ 条 · 300 条起</span><span class="en">/ video · 300 min order</span></div>
+          <ul>
+            <li><span class="zh">客户提供视频 · 代发</span><span class="en">Client supplies video · we distribute</span></li>
+            <li><span class="zh">不支持选号</span><span class="en">No account selection</span></li>
+            <li><span class="zh">适用：已有素材 · 仅需分发渠道</span><span class="en">For: existing creative · channel only</span></li>
+          </ul>
+        </div>
+        <div class="price-card recommend">
+          <div class="price-badge">★ RECOMMEND <span class="zh">主推</span><span class="en">PICK</span></div>
+          <div class="price-tier">STANDARD · <span class="zh">标准档</span><span class="en">Standard</span></div>
+          <div class="price-num">$20</div>
+          <div class="price-meta"><span class="zh">/ 条 · 200 条起</span><span class="en">/ video · 200 min order</span></div>
+          <ul>
+            <li><span class="zh">中等脚本 + 精修 · 质量×量产平衡</span><span class="en">Medium script + polish · balanced</span></li>
+            <li><span class="zh">与 GMV &lt; $5K 锚点对齐</span><span class="en">Aligned with GMV &lt; $5K anchor</span></li>
+            <li><span class="zh">对应 CPM $10 月结口径</span><span class="en">Maps to CPM $10 monthly</span></li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">PREMIUM · <span class="zh">精品档</span><span class="en">Premium</span></div>
+          <div class="price-num">$35</div>
+          <div class="price-meta"><span class="zh">/ 条 · 100 条起</span><span class="en">/ video · 100 min order</span></div>
+          <ul>
+            <li><span class="zh">深度脚本 + 精修包装</span><span class="en">Deep script + premium production</span></li>
+            <li><span class="zh">高度定制 · 支持打样</span><span class="en">Highly customized · sampling</span></li>
+            <li><span class="zh">适用：大店 / 品牌 · 旗舰单品</span><span class="en">For: large stores / brand flagships</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+        <!-- Closing technical assertion (1->100) -->
+    <div class="note-box rev">
+      <div class="note-eyebrow">
+        <span class="zh">技术主线 · 1→100 爆款复刻</span><span class="en">TECHNICAL THESIS · 1→100 HIT REPLICATION</span>
+      </div>
+      <p>
+        <span class="zh">通过广告数据回传识别正在起势的素材组合 → 保持爆款节奏，替换为我们自有的脸库和达人形象 → 系统化绕开 TikTok 限流——<strong>同一爆款，100 个不同变体</strong>。这是我们和市面上所有"0→1 生成"型 AIGC 公司的根本差异。</span>
+        <span class="en">Identify winners via ad-data backflow → preserve viral rhythm, swap in proprietary face library → systematically navigate TikTok throttle—<strong>same winning formula, 100 distinct variants</strong>. This is the fundamental difference between us and every "0→1 generation" AIGC company.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 6. 收入模型 (从 v2 还原 + 微调) ============= -->
+<section id="revenue">
+  <div class="container">
+    <div class="rev">
+      <span class="eyebrow yellow"><span class="zh">收入模型 · REVENUE MODEL</span><span class="en">REVENUE MODEL</span></span>
+      <h2 class="section-h">
+        <span class="zh">三层收入结构 ·<br><span class="hl">金融套利做安全垫</span></span>
+        <span class="en">Three-Layer Revenue ·<br><span class="hl">Arbitrage as Safety Net</span></span>
+      </h2>
+      <p class="section-sub">
+        <span class="zh">不是单一服务费业务——是<strong>营销底金 + 内容定价 + GMV 佣金 + 跨境支付金融套利</strong>四线合一的复合营收结构。</span>
+        <span class="en">Not a single-fee service business—a <strong>combined structure of marketing base fees + content pricing + GMV commissions + cross-border payment arbitrage</strong>.</span>
+      </p>
+    </div>
+
+    <!-- Layer 1: Marketing -->
+    <div class="rev rev-layer peach">
+      <div class="rev-layer-h">
+        <span class="layer-tag"><span class="zh">LAYER 1 · 营销收入</span><span class="en">LAYER 1 · Marketing Revenue</span></span>
+        <span class="zh">达人 + 内容 + 全案<br>三档收费</span>
+        <span class="en">Creator + Content +<br>Full-Service Fees</span>
+        <span class="data-pill">
+          <span class="zh">$1M-$2M / 月</span>
+          <span class="en">$1M-$2M / month</span>
+        </span>
+      </div>
+      <div class="rev-layer-body">
+        <ul>
+          <li><span class="zh"><strong>达人营销底金（Base Fee）</strong> · 标准化达人投放服务收费</span><span class="en"><strong>Creator Marketing Base Fee</strong> · Standardized creator service charge</span></li>
+          <li><span class="zh"><strong>AI 视频内容收入</strong> · 按达人量级三档收费（$5 / $20 / $35）</span><span class="en"><strong>AI Video Content Revenue</strong> · Three-tier pricing ($5 / $20 / $35)</span></li>
+          <li><span class="zh"><strong>全案服务费（Agent 全托管）</strong> · 客户委托 Agent 管理店铺时收取</span><span class="en"><strong>Full-Service Fee</strong> · When Agents fully manage client storefronts</span></li>
+          <li><span class="zh"><strong>毛利：</strong>10-15%（达人营销） · 服务规模化后预期提升</span><span class="en"><strong>Margin:</strong> 10-15% (creator marketing) · expected to scale with volume</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Layer 2: Commission -->
+    <div class="rev rev-layer purple">
+      <div class="rev-layer-h">
+        <span class="layer-tag"><span class="zh">LAYER 2 · 佣金收入 TAP</span><span class="en">LAYER 2 · Commission Revenue (TAP)</span></span>
+        <span class="zh">GMV 抽成 10-15%</span>
+        <span class="en">10-15% GMV Take Rate</span>
+        <span class="data-pill">
+          <span class="zh">月 GMV $200K · 上升空间最大</span>
+          <span class="en">$200K GMV/mo · Highest upside</span>
+        </span>
+      </div>
+      <div class="rev-layer-body">
+        <ul>
+          <li><span class="zh"><strong>Take Rate 10-15%</strong> · 行业标准上限附近</span><span class="en"><strong>10-15% Take Rate</strong> · Near industry ceiling</span></li>
+          <li><span class="zh">主要来自 TikTok Shop 内容带货链路</span><span class="en">Sourced primarily from TikTok Shop content-driven sales</span></li>
+          <li><span class="zh"><strong>本轮融资重点：</strong>新签头部客户陆续上量 → 此层级有 5-10x 增长空间</span><span class="en"><strong>Round focus:</strong> New top-tier client onboarding → 5-10x growth potential</span></li>
+          <li><span class="zh"><strong>护城河：</strong>持牌 TTO 资质决定我们能拿 10-15%（普通 MCN 只能 3-5%）</span><span class="en"><strong>Moat:</strong> TTO licensing enables 10-15% (vs 3-5% for non-licensed MCNs)</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Layer 3: Arbitrage -->
+    <div class="rev rev-layer green">
+      <div class="rev-layer-h">
+        <span class="layer-tag"><span class="zh">LAYER 3 · 金融套利</span><span class="en">LAYER 3 · Financial Arbitrage</span></span>
+        <span class="zh">跨境支付 Cashback<br>安全垫 + 自融资</span>
+        <span class="en">Cross-Border Payment Cashback<br>Safety Net + Self-Funding</span>
+        <span class="data-pill">
+          <span class="zh">补贴长尾 AI UGC 获取成本</span>
+          <span class="en">Subsidizes long-tail UGC acquisition</span>
+        </span>
+      </div>
+      <div class="rev-layer-body">
+        <ul>
+          <li><span class="zh"><strong>机制：</strong>下单流水产生跨境支付 Cashback 返现</span><span class="en"><strong>Mechanism:</strong> Order volume generates cross-border payment cashback</span></li>
+          <li><span class="zh"><strong>用途：</strong>补贴长尾 AI UGC 获取成本，零边际成本扩张</span><span class="en"><strong>Use:</strong> Subsidizes long-tail UGC acquisition, zero-marginal-cost expansion</span></li>
+          <li><span class="zh"><strong>安全垫属性：</strong>即使所有客户消失，套利收益足以覆盖借债利息</span><span class="en"><strong>Safety net:</strong> Even with zero clients, arbitrage covers debt service</span></li>
+          <li><span class="zh"><strong>融资 + 借债双重安全：</strong>这层让 LinknLatch 是少有的"资本越多越赚钱"的内容公司</span><span class="en"><strong>Both fundraising + debt safe:</strong> Makes LinknLatch a rare "more capital = more profit" content business</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Margin truth + use of funds -->
+    <div class="grid-2 rev" style="margin-top: 30px;">
+      <div class="card">
+        <div class="card-num"><span class="zh">当前毛利结构</span><span class="en">Current Margin Profile</span></div>
+        <h4><span class="zh">坦诚表达：还不算特别高</span><span class="en">Honest: not yet stellar</span></h4>
+        <ul>
+          <li><span class="zh">达人营销毛利 <strong>10-15%</strong></span><span class="en">Creator marketing margin <strong>10-15%</strong></span></li>
+          <li><span class="zh">广告代理毛利 <strong>3-5%</strong></span><span class="en">Ad agency margin <strong>3-5%</strong></span></li>
+          <li><span class="zh">广告月收入 <strong>$1M+</strong></span><span class="en">Ad monthly revenue <strong>$1M+</strong></span></li>
+        </ul>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-top: 10px;">
+          <span class="zh">当前是规模换效率阶段——下一阶段重点是把佣金收入推高，结构性优化毛利。</span>
+          <span class="en">Currently in scale-for-efficiency mode—next phase focuses on commission revenue to structurally lift margins.</span>
+        </p>
+      </div>
+      <div class="card green">
+        <div class="card-num"><span class="zh">本轮融资用途</span><span class="en">Use of Funds</span></div>
+        <h4><span class="zh">三件事 · 顺序锁定</span><span class="en">Three priorities · in order</span></h4>
+        <ul>
+          <li><span class="zh"><strong>1 · 技术扩张</strong> · Multi-Agent 框架研发</span><span class="en"><strong>1 · Tech expansion</strong> · Multi-Agent framework R&D</span></li>
+          <li><span class="zh"><strong>2 · 达人规模化</strong> · 从 10K 到 25K 签约</span><span class="en"><strong>2 · Creator scale</strong> · 10K → 25K signed</span></li>
+          <li><span class="zh"><strong>3 · 佣金优化毛利</strong> · 头部客户 GMV 拉升</span><span class="en"><strong>3 · Margin via commission</strong> · Top-tier client GMV uplift</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 7. 团队 ============= -->
+<section id="team" class="bg-cream2">
+  <div class="container">
+    <div class="rev">
+      <span class="eyebrow"><span class="zh">团队 · TEAM</span><span class="en">TEAM</span></span>
+      <h2 class="section-h">
+        <span class="zh">中美双背景 ·<br><span class="hl">AI × 渠道 × 金融</span> 三栖基因</span>
+        <span class="en">Cross-Pacific DNA—<br><span class="hl">AI × Distribution × Finance</span></span>
+      </h2>
+      <p class="section-sub">
+        <span class="zh">15 人核心团队 · 两位 Co-Founder 锚定战略与财务、两位 MIT 顶级 AI 实验室技术顾问对齐前沿——以一个传统 MCN 50 人的产能运转。</span>
+        <span class="en">15-person core team · Two Co-Founders anchoring strategy and finance · Two MIT advisors aligning with AI frontier—delivering output equivalent to a 50-person traditional MCN.</span>
+      </p>
+    </div>
+
+    <!-- Lisy Li -->
+    <div class="rev team-card yellow">
+      <span class="team-tag">CO-FOUNDER & CEO</span>
+      <div class="two-col">
+        <div>
+          <div class="team-name">LISY LI</div>
+          <div class="team-role">
+            <span class="zh">联合创始人 · 市场落地与渠道扩张引擎</span>
+            <span class="en">Co-Founder · Go-to-Market & Channel Expansion</span>
+          </div>
+          <div class="team-bio">
+            <p>
+              <span class="zh"><strong>教育：</strong>上外附中 → <strong>Claremont McKenna College</strong> 本科 → <strong>University of Pennsylvania</strong> 硕士。</span>
+              <span class="en"><strong>Education:</strong> SISU Affiliated High School → <strong>Claremont McKenna College</strong> (BA) → <strong>University of Pennsylvania</strong> (MS).</span>
+            </p>
+            <p>
+              <span class="zh"><strong>创业战绩：</strong>19 岁创立头部留学生社区平台 <strong>Panopath</strong>，覆盖 200+ 所海外高校 / 8 万+ 留学生。<strong>2020 年获经纬中国 $10M Pre-A 轮领投</strong>，后完成高倍数退出。</span>
+              <span class="en"><strong>Track Record:</strong> Founded <strong>Panopath</strong> at age 19—the leading overseas student community covering 200+ universities and 80,000+ students. <strong>Raised $10M Pre-A led by Matrix Partners China (2020)</strong>; later exited at high multiple.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>履历：</strong>曾在 <strong>Bilibili</strong> 主导京东、伊利、联想等国民品牌全域营销项目，是 <strong>B 站花火营销平台的创始员工</strong>。</span>
+              <span class="en"><strong>Experience:</strong> Led nationwide marketing campaigns for JD.com, Yili, Lenovo at <strong>Bilibili</strong>; founding employee of <strong>Bilibili Sparkle Marketing Platform</strong>.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>2023 年联合创立 LinknLatch（琳琅智选）</strong>，累计合作 <strong>10 万+ 美区达人渠道</strong>。</span>
+              <span class="en"><strong>Co-founded LinknLatch (2023)</strong>—now connected to <strong>100,000+ US-based creators</strong>.</span>
+            </p>
+          </div>
+        </div>
+        <div class="team-side">
+          <div class="side-h"><span class="zh">核心能力</span><span class="en">Core Strengths</span></div>
+          <ul>
+            <li><span class="zh"><strong>独立创业经验：</strong>Panopath 完整融资 + 退出周期亲历者</span><span class="en"><strong>Full Founder Cycle:</strong> Complete fundraising-to-exit journey</span></li>
+            <li><span class="zh"><strong>顶级机构背书：</strong>经纬中国 $10M Pre-A 投资人级别认可</span><span class="en"><strong>Tier-1 VC Backed:</strong> Matrix Partners $10M Pre-A endorsement</span></li>
+            <li><span class="zh"><strong>平台基因：</strong>B 站花火创始员工</span><span class="en"><strong>Platform DNA:</strong> Founding member of Bilibili Sparkle</span></li>
+            <li><span class="zh"><strong>大客户实战：</strong>京东 / 伊利 / 联想等品牌操盘</span><span class="en"><strong>Enterprise Track Record:</strong> JD.com / Yili / Lenovo operator</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chi Zhang -->
+    <div class="rev team-card">
+      <span class="team-tag">CO-FOUNDER & CFO</span>
+      <div class="two-col">
+        <div>
+          <div class="team-name">CHI ZHANG</div>
+          <div class="team-role">
+            <span class="zh">联合创始人 · 跨境运营 × 商业架构 × 平台关系</span>
+            <span class="en">Co-Founder · Cross-Border Operations × Commercial Architecture × Platform Relations</span>
+          </div>
+          <div class="team-bio">
+            <p>
+              <span class="zh"><strong>教育：</strong>复旦附中 → 同济大学中法班本科 → 法国 <strong>KEDGE 高商供应链金融硕士</strong>。</span>
+              <span class="en"><strong>Education:</strong> Fudan Affiliated High School → Tongji University → <strong>KEDGE Business School (MS, Supply Chain Finance)</strong>.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>履历：</strong>曾在<strong>众源母基金</strong>负责全球宏观与产业研究；后于<strong>华人文化集团</strong>辅助集团 VP 进行跨法域资源整合与战略协同，长期积累与 TikTok 中基层团队的平台关系。</span>
+              <span class="en"><strong>Experience:</strong> Global macro and industry research at <strong>Zhongyuan Capital</strong>; cross-jurisdictional integration & strategic alignment at <strong>China Media Capital</strong>—built long-term platform relationships within TikTok.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>2023 年与 Lisy 联合创立 LinknLatch</strong>，从 0 到 1 搭建 5,000+ 精细化运营的 TikTok 达人网络，<strong>累计管理 $20M+ 出海广告主预算</strong>。</span>
+              <span class="en"><strong>Co-founded LinknLatch with Lisy in 2023</strong>—built 5,000+ refined TikTok creator network; <strong>managed $20M+ in cross-border ad budgets</strong>.</span>
+            </p>
+          </div>
+        </div>
+        <div class="team-side">
+          <div class="side-h"><span class="zh">核心能力</span><span class="en">Core Strengths</span></div>
+          <ul>
+            <li><span class="zh"><strong>6 张牌照搭建：</strong>TSP / ISV / TAP / CAP / TTO + 美国本土 Ads 全套合规架构</span><span class="en"><strong>6-License Architecture:</strong> Full TikTok compliance suite</span></li>
+            <li><span class="zh"><strong>跨境运营架构：</strong>中美双主体 · 杭州 / HK / LA 合规清晰</span><span class="en"><strong>Cross-Border Architecture:</strong> US-China dual entity · HZ / HK / LA compliance</span></li>
+            <li><span class="zh"><strong>平台关系：</strong>TikTok 中基层团队 / 商业化体系长期对接</span><span class="en"><strong>Platform Relations:</strong> Long-term TikTok ops & commercialization team integration</span></li>
+            <li><span class="zh"><strong>大额预算操盘：</strong>$20M+ 出海广告预算的实战调度</span><span class="en"><strong>Large-Budget Operator:</strong> $20M+ cross-border ad budget orchestration</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mr. K (enriched bio, aligned with Lisy length) -->
+    <div class="rev team-card white">
+      <span class="team-tag">CHIEF PRODUCT ADVISOR</span>
+      <div class="two-col">
+        <div>
+          <div class="team-name">MR. K <span style="font-family: var(--font-hand); font-size: 1.4rem; color: var(--muted); margin-left: 12px;"><span class="zh">（产品总顾问）</span><span class="en">(Chief Product Advisor)</span></span></div>
+          <div class="team-role">
+            <span class="zh">达人增长 Agent 首席产品顾问 · 连续创业者 · ~10 年阿里 / 蚂蚁核心系统架构经验</span>
+            <span class="en">Chief Product Advisor · Serial Founder · ~10 Yrs Alibaba / Ant Core-System Architecture</span>
+          </div>
+          <div class="team-bio">
+            <p>
+              <span class="zh"><strong>资深技术背景：</strong>连续创业者，具备约 <strong>10 年阿里巴巴与蚂蚁金服核心系统架构与建设经验</strong>，后续连续参与跨境 SaaS、TikTok Shop 工具、达人 CRM、达人建联与营销增长产品建设。</span>
+              <span class="en"><strong>Senior Technical Background:</strong> Serial founder with ~<strong>10 years of core-system architecture experience at Alibaba and Ant Group</strong>, then consecutively built cross-border SaaS, TikTok Shop tooling, creator CRM, and creator-outreach / growth products.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>早期大厂履历：</strong>早期在<strong>阿里巴巴集团阿里妈妈平台</strong>参与广告联盟平台建设，后在<strong>蚂蚁金融核心</strong>、阿里集团业务中台参与金融核心、支付中台和集团统一支付系统建设，担任过<strong>资深工程师 / 架构师 / 团队 Leader</strong>，具备复杂业务系统架构设计、跨团队协同与团队管理经验。</span>
+              <span class="en"><strong>Early Big-Tech Track Record:</strong> Built ad-affiliate platform at <strong>Alibaba's Alimama</strong>; then worked on <strong>Ant financial core</strong>, payment middleware, and Alibaba's unified payment system as a <strong>senior engineer / architect / team lead</strong>—deep experience in complex system architecture, cross-team coordination, and team management.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>连续创业 ① · ShoppeDance / A创 联合创始人 & CTO：</strong>负责跨境 SaaS 产品方向、技术战略、核心架构与研发团队交付，建设覆盖商品 / 订单 / 履约 / 达人营销与增长工具的一体化产品能力。主导从 0 到 1 的<strong>达人营销 CRM 产品 "A创"</strong>——覆盖达人建联、达人管理、履约跟进、Ad Code 收集、数据监控，<strong>2025-06 商业化后首月即实现 55 万人民币销售额</strong>；同时主导面向美国市场的 Verisync 系统架构升级，<strong>月营收约 5 万美金</strong>，升级后维护成本降至 1 名技术即可支撑。</span>
+              <span class="en"><strong>Startup ① · ShoppeDance / A-Chuang, Co-Founder & CTO:</strong> Led cross-border SaaS product direction, tech strategy, core architecture, and R&D delivery—building integrated product capability across goods / orders / fulfillment / creator marketing & growth. Drove the <strong>creator-marketing CRM "A-Chuang" from zero to one</strong>—covering creator outreach, management, fulfillment, Ad Code collection, data monitoring—<strong>hitting ¥550K in first-month sales after commercialization in June 2025</strong>. Also led the architecture upgrade of Verisync (US market, ~$50K MRR), cutting maintenance cost to a single engineer.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>连续创业 ② · 小数汇智 Proboost 合伙人 / 技术总监：</strong>负责 Proboost 整体产品与技术——面向 TikTok 达人带货场景，核心链路覆盖达人发现、建联触达、履约管理与绩效分析，<strong>累计注册用户 7 万+、覆盖店铺 1 万+</strong>。这两段经历让他对达人建联 / 达人 CRM / 履约管理类产品的真实客户需求、付费基础、产品边界与同质化风险有直接经验。</span>
+              <span class="en"><strong>Startup ② · Proboost (Xiaoshu Huizhi), Partner / Tech Director:</strong> Owned Proboost's full product and tech—for TikTok creator commerce, covering creator discovery, outreach, fulfillment, and performance analytics, reaching <strong>70,000+ registered users and 10,000+ stores</strong>. These two ventures gave him direct experience with the real customer needs, willingness-to-pay, product boundaries, and commoditization risks of creator-CRM / fulfillment products.</span>
+            </p>
+            <p style="font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 8px;">
+              <span class="zh">出于商业敏感原因以 "Mr. K" 代号出现。完整 bio 可在与领投签署 NDA 后单独披露。</span>
+              <span class="en">Identity withheld for competitive reasons. Full bio available under NDA to lead investors.</span>
+            </p>
+          </div>
+        </div>
+        <div class="team-side">
+          <div class="side-h"><span class="zh">为 LinknLatch 带来的关键价值</span><span class="en">Strategic Value</span></div>
+          <ul>
+            <li><span class="zh"><strong>产品架构母版：</strong>已经做过两次达人 CRM / 建联产品从 0 到 1，A创首月 55 万、Proboost 7 万用户</span><span class="en"><strong>Architecture Blueprint:</strong> Built creator-CRM products zero-to-one twice—A-Chuang ¥550K month-one, Proboost 70K users</span></li>
+            <li><span class="zh"><strong>核心系统级工程力：</strong>阿里妈妈广告联盟 + 蚂蚁支付中台级别的架构经验，hold 得住高并发复杂系统</span><span class="en"><strong>Core-System Engineering:</strong> Alimama ad-affiliate + Ant payment-middleware-grade architecture—handles high-concurrency complexity</span></li>
+            <li><span class="zh"><strong>避坑 know-how：</strong>亲历达人 CRM 赛道的付费基础与同质化风险，知道哪些产品边界是死路</span><span class="en"><strong>Pitfall Know-how:</strong> Lived the creator-CRM category's monetization base and commoditization traps—knows which product boundaries are dead ends</span></li>
+            <li><span class="zh"><strong>跨境 SaaS 商业化实战：</strong>从产品 0 到 1、架构落地、技术突破到商业化验证的完整闭环</span><span class="en"><strong>Cross-Border SaaS Commercialization:</strong> Full loop from zero-to-one to architecture to commercial validation</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mr. A · second mystery advisor (enriched bio) -->
+    <div class="rev team-card green">
+      <span class="team-tag">TECHNICAL ADVISOR · <span class="zh">非全职</span><span class="en">Part-time</span></span>
+      <div class="two-col">
+        <div>
+          <div class="team-name">MR. A <span style="font-family: var(--font-hand); font-size: 1.4rem; color: var(--muted); margin-left: 12px;"><span class="zh">（神秘技术顾问）</span><span class="en">(undisclosed)</span></span></div>
+          <div class="team-role">
+            <span class="zh">技术顾问 · MIT 多模态 Agent 研究者 · AI Startup 连续创业者</span>
+            <span class="en">Technical Advisor · MIT Multimodal Agent Researcher · Serial AI Founder</span>
+          </div>
+          <div class="team-bio">
+            <p>
+              <span class="zh"><strong>教育背景：</strong><strong>MIT 人工智能博士</strong>（城市研究 / 计算机科学方向），隶属 MIT <strong>Mens Manus Machina (M3S) Lab</strong>。</span>
+              <span class="en"><strong>Education:</strong> <strong>MIT AI PhD</strong> (Urban Science / Computer Science), affiliated with MIT's <strong>Mens, Manus and Machina (M3S) Lab</strong>.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>研究方向：</strong>聚焦<strong>多模态 LLM Agent</strong>、AI Alignment、基础模型与计算社会科学——目前正在构建<strong>可交互的多模态 Agent 系统</strong>（教育与城市科学领域应用），技术栈与 LinknLatch 的 4 大 Agent 架构<strong>高度同源</strong>。</span>
+              <span class="en"><strong>Research:</strong> <strong>Multimodal LLM Agents</strong>, AI Alignment, foundation models & computational social science—currently building <strong>interactive multimodal Agent systems</strong> (education & urban science applications), a stack <strong>highly congruent</strong> with LinknLatch's 4-agent architecture.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>顶会发表：</strong>EMNLP、KDD、CIKM、ICLR、ACM TKDD、ACM TIST 等 AI 顶级会议与期刊论文作者。</span>
+              <span class="en"><strong>Publications:</strong> Author at top-tier AI venues—EMNLP, KDD, CIKM, ICLR, ACM TKDD, ACM TIST.</span>
+            </p>
+            <p>
+              <span class="zh"><strong>产业背景：</strong>加入 MIT 之前曾<strong>独立创立两家 AI 创业公司</strong>，为多家公司担任技术顾问，并有<strong>字节跳动（ByteDance）工作经历</strong>——学术深度 + 工业实战 + 创业经验三重背景。</span>
+              <span class="en"><strong>Industry:</strong> Before MIT, <strong>founded two AI startups</strong>, advised multiple companies, and has <strong>ByteDance work experience</strong>—academic depth + industrial execution + founder experience, all three.</span>
+            </p>
+            <p style="font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 8px;">
+              <span class="zh">出于隐私原因以 "Mr. A" 代号出现。完整 bio 与发表清单可在与领投签署 NDA 后披露。</span>
+              <span class="en">Identity withheld as "Mr. A" for privacy. Full bio and publication list available under NDA to lead investors.</span>
+            </p>
+          </div>
+        </div>
+        <div class="team-side">
+          <div class="side-h"><span class="zh">为 LinknLatch 带来的关键价值</span><span class="en">Strategic Value</span></div>
+          <ul>
+            <li><span class="zh"><strong>Agent 架构对齐：</strong>MIT 在研课题就是多模态 Agent 系统，直接同步 LinknLatch Recruit / AIGC / Matchmaking / Distribute 架构</span><span class="en"><strong>Architecture Alignment:</strong> His MIT research IS multimodal agent systems—directly syncs with our Recruit / AIGC / Matchmaking / Distribute stack</span></li>
+            <li><span class="zh"><strong>前沿模型 know-how：</strong>EMNLP / ICLR / KDD 级论文成果，对接 LLM 最前沿技术演进</span><span class="en"><strong>Frontier Model Know-how:</strong> EMNLP / ICLR / KDD-level research, plugged into the LLM frontier</span></li>
+            <li><span class="zh"><strong>字节系生态认知：</strong>ByteDance 工作背景，对 TikTok 底层算法逻辑有深度理解</span><span class="en"><strong>ByteDance Ecosystem Insight:</strong> ByteDance background—deep understanding of TikTok's underlying algorithm logic</span></li>
+            <li><span class="zh"><strong>连续创业实战：</strong>两家 AI 创业公司经验，理解 0 到 1 的工程落地节奏，不是纯学院派</span><span class="en"><strong>Serial Founder:</strong> Two AI startups—understands zero-to-one shipping cadence, not pure academic</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 8. 合作方案 · DEAL ============= -->
+<section id="deal" class="bg-black">
+  <div class="container">
+    <div class="rev">
+      <span class="eyebrow green"><span class="zh">合作方案 · THE DEAL</span><span class="en">THE DEAL · PARTNERSHIP STRUCTURE</span></span>
+      <h2 class="section-h" style="color: var(--white);">
+        <span class="zh">$2M 资金合作 ·<br><span class="hl">两种结构 · 一份赋能</span></span>
+        <span class="en">$2M Partnership ·<br><span class="hl">Two Structures · One Strategic Value</span></span>
+      </h2>
+      <p class="section-sub" style="color: rgba(255,255,255,0.75); max-width: 880px;">
+        <span class="zh">这不是一次纯财务投资——是一次<strong>资金 + 渠道 + Know-how 的三向交换</strong>。投资人投钱给我们；我们用 TikTok Shop 代运营 + Agent 赋能反哺投资人的品牌组合。</span>
+        <span class="en">This isn't a pure financial transaction—it's a <strong>three-way exchange of capital + channel + know-how</strong>. Investors fund us; we serve their brand portfolio with TikTok Shop operations and Agent capabilities.</span>
+      </p>
+    </div>
+
+    <!-- 两种结构选择 -->
+    <div class="rev grid-2" style="margin-bottom: 36px;">
+      <div style="background: rgba(255,255,255,0.06); border: 3px solid var(--green); border-radius: 18px; padding: 32px; box-shadow: 5px 5px 0 var(--green);">
+        <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--green); letter-spacing: 0.06em; margin-bottom: 12px;">
+          <span class="zh">结构 A · 股权合作</span><span class="en">STRUCTURE A · EQUITY</span>
+        </div>
+        <h3 style="font-family: var(--font-display); font-size: 2.4rem; color: var(--white); letter-spacing: 0.01em; line-height: 1.1; margin-bottom: 16px;">
+          $2M · 10%
+        </h3>
+        <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.7; margin-bottom: 14px;">
+          <span class="zh">$20M post-money 估值入股，标准 SAFE 或 Seed Preferred 工具。</span>
+          <span class="en">Investment at $20M post-money valuation, standard SAFE or Seed Preferred instrument.</span>
+        </p>
+        <ul style="list-style: none; padding: 0; font-size: 0.9rem; line-height: 1.7;">
+          <li style="padding-left: 16px; position: relative; color: rgba(255,255,255,0.85); margin-bottom: 6px;">
+            <span style="position: absolute; left: 0; color: var(--green);">▸</span>
+            <span class="zh">享有公司未来 IPO / 退出全部 upside</span>
+            <span class="en">Full upside on future IPO / acquisition</span>
+          </li>
+          <li style="padding-left: 16px; position: relative; color: rgba(255,255,255,0.85); margin-bottom: 6px;">
+            <span style="position: absolute; left: 0; color: var(--green);">▸</span>
+            <span class="zh">Pro-rata 跟投权（Series A 优先）</span>
+            <span class="en">Pro-rata rights (Series A priority)</span>
+          </li>
+          <li style="padding-left: 16px; position: relative; color: rgba(255,255,255,0.85);">
+            <span style="position: absolute; left: 0; color: var(--green);">▸</span>
+            <span class="zh">Board observer seat（无投票权）</span>
+            <span class="en">Board observer seat (non-voting)</span>
+          </li>
+        </ul>
+      </div>
+      <div style="background: rgba(255,255,255,0.06); border: 3px solid var(--white); border-radius: 18px; padding: 32px; box-shadow: 5px 5px 0 var(--white);">
+        <div style="font-family: var(--font-display); font-size: 0.85rem; color: rgba(255,255,255,0.7); letter-spacing: 0.06em; margin-bottom: 12px;">
+          <span class="zh">结构 B · 借债合作</span><span class="en">STRUCTURE B · DEBT</span>
+        </div>
+        <h3 style="font-family: var(--font-display); font-size: 2.4rem; color: var(--white); letter-spacing: 0.01em; line-height: 1.1; margin-bottom: 16px;">
+          $2M · 8% APR
+        </h3>
+        <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.7; margin-bottom: 14px;">
+          <span class="zh">借款形式，<strong>最高承担 8% 年化利息</strong>。无股权稀释，纯债权安排。</span>
+          <span class="en">Loan structure with <strong>up to 8% annualized interest</strong>. No equity dilution, pure debt.</span>
+        </p>
+        <ul style="list-style: none; padding: 0; font-size: 0.9rem; line-height: 1.7;">
+          <li style="padding-left: 16px; position: relative; color: rgba(255,255,255,0.85); margin-bottom: 6px;">
+            <span style="position: absolute; left: 0; color: var(--white);">▸</span>
+            <span class="zh">期限可议（建议 18-24 个月）</span>
+            <span class="en">Term negotiable (suggest 18-24 months)</span>
+          </li>
+          <li style="padding-left: 16px; position: relative; color: rgba(255,255,255,0.85); margin-bottom: 6px;">
+            <span style="position: absolute; left: 0; color: var(--white);">▸</span>
+            <span class="zh">公司金融套利收益足够覆盖利息支出</span>
+            <span class="en">Our arbitrage cashflow easily covers interest</span>
+          </li>
+          <li style="padding-left: 16px; position: relative; color: rgba(255,255,255,0.85);">
+            <span style="position: absolute; left: 0; color: var(--white);">▸</span>
+            <span class="zh">同样享有下方"投资人赋能包"全部权益</span>
+            <span class="en">Same access to investor benefits package below</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 投资人能拿到什么 · 战略赋能 -->
+    <div class="rev" style="margin-bottom: 30px;">
+      <h3 style="font-family: var(--font-display); font-size: 1.9rem; color: var(--green); letter-spacing: 0.02em; margin-bottom: 8px;">
+        <span class="zh">投资人能拿到什么 · STRATEGIC PACKAGE</span>
+        <span class="en">WHAT INVESTORS GET · STRATEGIC PACKAGE</span>
+      </h3>
+      <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 24px; max-width: 800px;">
+        <span class="zh">不只是股权或债权回报——还包括<strong>免费的 TikTok Shop 代运营 + Agent 赋能 + 出海 know-how</strong>，这部分对产业型投资人来说价值远超 $2M 本金本身。</span>
+        <span class="en">Beyond equity or interest returns—investors get <strong>complimentary TikTok Shop operations + Agent enablement + go-global know-how</strong>. For industry-type investors, this value far exceeds the $2M principal.</span>
+      </p>
+
+      <div class="grid-3">
+        <div style="background: rgba(255,255,255,0.06); border: 2px solid var(--green); border-radius: 14px; padding: 24px;">
+          <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--green); letter-spacing: 0.06em; margin-bottom: 12px;">
+            <span class="zh">权益 ①</span><span class="en">BENEFIT ①</span>
+          </div>
+          <h4 style="color: var(--white); font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 10px;">
+            <span class="zh">TikTok Shop 代运营</span>
+            <span class="en">TikTok Shop Operations</span>
+          </h4>
+          <p style="color: rgba(255,255,255,0.85); font-size: 0.88rem; line-height: 1.65;">
+            <span class="zh">为投资人推荐的品牌客户提供 <strong>免费 TikTok Shop 代运营服务</strong>——开店 / 运营 / 内容 / 广告全链路。</span>
+            <span class="en">Full TikTok Shop operations <strong>at no cost</strong> for investor-introduced brand clients—setup, ops, content, and ads end-to-end.</span>
+          </p>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); border: 2px solid var(--green); border-radius: 14px; padding: 24px;">
+          <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--green); letter-spacing: 0.06em; margin-bottom: 12px;">
+            <span class="zh">权益 ②</span><span class="en">BENEFIT ②</span>
+          </div>
+          <h4 style="color: var(--white); font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 10px;">
+            <span class="zh">Agent 能力赋能</span>
+            <span class="en">Agent Capability</span>
+          </h4>
+          <p style="color: rgba(255,255,255,0.85); font-size: 0.88rem; line-height: 1.65;">
+            <span class="zh">把我们的 Multi-Agent 框架部署到投资人的品牌组合——<strong>达人 BD / 内容生产 / 投放优化</strong>全自动化，单品牌可节省 10-20 人团队成本。</span>
+            <span class="en">Deploy our Multi-Agent framework into investor's brand portfolio—<strong>creator BD / content / ad optimization</strong> fully automated, saving 10-20 headcount per brand.</span>
+          </p>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); border: 2px solid var(--green); border-radius: 14px; padding: 24px;">
+          <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--green); letter-spacing: 0.06em; margin-bottom: 12px;">
+            <span class="zh">权益 ③</span><span class="en">BENEFIT ③</span>
+          </div>
+          <h4 style="color: var(--white); font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 10px;">
+            <span class="zh">出海 Know-how</span>
+            <span class="en">Go-Global Know-how</span>
+          </h4>
+          <p style="color: rgba(255,255,255,0.85); font-size: 0.88rem; line-height: 1.65;">
+            <span class="zh">投资人推荐的 Founder 可获得 <strong>TikTok Shop 全方位 know-how 共享</strong>——从开店到爆款打造，对接我们的实战团队。</span>
+            <span class="en">Founders introduced by the investor get <strong>full TikTok Shop know-how transfer</strong>—from store setup to viral campaigns, with our ops team.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 资金用途简述 -->
+    <div class="rev" style="margin-top: 30px;">
+      <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--white); letter-spacing: 0.02em; margin-bottom: 14px;">
+        <span class="zh">资金用途 · USE OF FUNDS</span>
+        <span class="en">USE OF FUNDS</span>
+      </h3>
+      <div class="grid-3">
+        <div style="background: rgba(255,255,255,0.05); padding: 18px; border-radius: 12px; border-left: 4px solid var(--green);">
+          <div style="font-family: var(--font-display); font-size: 1.6rem; color: var(--green);">40%</div>
+          <div style="color: var(--white); font-weight: 600; margin-top: 4px; font-size: 0.95rem;">
+            <span class="zh">技术 · Multi-Agent 框架研发</span>
+            <span class="en">Tech · Multi-Agent R&D</span>
+          </div>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); padding: 18px; border-radius: 12px; border-left: 4px solid var(--green);">
+          <div style="font-family: var(--font-display); font-size: 1.6rem; color: var(--green);">35%</div>
+          <div style="color: var(--white); font-weight: 600; margin-top: 4px; font-size: 0.95rem;">
+            <span class="zh">达人扩张 · 10K → 25K</span>
+            <span class="en">Creator Scale · 10K → 25K</span>
+          </div>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); padding: 18px; border-radius: 12px; border-left: 4px solid var(--green);">
+          <div style="font-family: var(--font-display); font-size: 1.6rem; color: var(--green);">25%</div>
+          <div style="color: var(--white); font-weight: 600; margin-top: 4px; font-size: 0.95rem;">
+            <span class="zh">毛利结构优化 · 佣金线扩张</span>
+            <span class="en">Margin Lift · Commission Scale</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CLOSING ============= -->
+<section class="closing">
+  <h2 class="closing-h">
+    <span class="zh"><span class="hl">AIGC + AGENT</span><br>双引擎驱动出海</span>
+    <span class="en"><span class="hl">AIGC + AGENT</span><br>Dual-Engine Going Global</span>
+  </h2>
+  <p class="closing-sub">
+    <span class="zh">淋浪 LinknLatch —— AI-Native 的新时代 MCN<br>一万达人 · 五千形象 · 期待一起出海</span>
+    <span class="en">LinknLatch—The AI-Native Next-Gen MCN<br>10K creators · 5K talent licenses · ready to scale together</span>
+  </p>
+  <p style="color: var(--muted); font-size: 0.92rem;">
+    <span class="zh">李西 LisyLi · CEO · 杭州淋浪信息技术有限公司</span>
+    <span class="en">Lisy Li · CEO · LinknLatch Inc.</span>
+  </p>
+</section>
+
+<footer>
+  © 2026 LinknLatch · BP v3.0 · Confidential—For Authorized Investors Only
+</footer>
+
+<script>
+  // Language toggle
+  const langBtns = document.querySelectorAll('.lang-toggle button');
+  const savedLang = localStorage.getItem('linknlatch-lang') || 'zh';
+
+  function setLang(lang) {
+    document.body.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    langBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    localStorage.setItem('linknlatch-lang', lang);
+  }
+
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  setLang(savedLang);
+
+  // Scroll reveal
+  const revs = document.querySelectorAll('.rev');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('vis');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  revs.forEach(r => io.observe(r));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>bdagent 后台</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+         height: 100vh; display: flex; background: #f5f6f7; color: #1f2329; }
+
+  /* 左栏：群列表 */
+  #sidebar { width: 260px; background: #fff; border-right: 1px solid #e5e6e8;
+             display: flex; flex-direction: column; }
+  #sidebar h1 { font-size: 15px; padding: 14px 16px; border-bottom: 1px solid #e5e6e8; }
+  #sidebar h1 small { color: #8f959e; font-weight: normal; margin-left: 6px; font-size: 12px; }
+  #group-list { flex: 1; overflow-y: auto; }
+  .group-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #f2f3f5; }
+  .group-item:hover { background: #f2f3f5; }
+  .group-item.active { background: #e1eaff; }
+  .group-item .gname { font-size: 14px; display: flex; align-items: center; gap: 6px; }
+  .group-item .gpreview { font-size: 12px; color: #8f959e; margin-top: 3px;
+                          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .badge-off { font-size: 10px; color: #fff; background: #f54a45; border-radius: 3px; padding: 1px 5px; }
+  .badge-remind { font-size: 10px; color: #fff; background: #ff8800; border-radius: 3px; padding: 1px 5px; }
+
+  /* 中栏：聊天记录 */
+  #main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  #chat-header { background: #fff; border-bottom: 1px solid #e5e6e8; padding: 12px 18px;
+                 font-size: 15px; font-weight: 600; min-height: 45px; }
+  #chat-header small { color: #8f959e; font-weight: normal; margin-left: 8px; font-size: 12px; }
+  #messages { flex: 1; overflow-y: auto; padding: 16px 20px; }
+  .msg { max-width: 62%; margin-bottom: 12px; clear: both; }
+  .msg .who { font-size: 11px; color: #8f959e; margin-bottom: 3px; }
+  .msg .bubble { padding: 8px 12px; border-radius: 8px; font-size: 13px;
+                 line-height: 1.55; word-break: break-word; white-space: pre-wrap; }
+  .msg.customer { float: left; }
+  .msg.customer .bubble { background: #fff; border: 1px solid #e5e6e8; }
+  .msg.ops { float: right; text-align: right; }
+  .msg.ops .bubble { background: #3370ff; color: #fff; text-align: left; }
+  .msg.bot { float: right; text-align: right; }
+  .msg.bot .bubble { background: #7f57c2; color: #fff; text-align: left; }
+  .msg.system { float: none; margin: 10px auto; max-width: 80%; text-align: center; }
+  .msg.system .bubble { background: none; color: #8f959e; font-size: 12px; }
+  .mention { color: #3370ff; text-decoration: underline; font-weight: 500; }
+  .msg.ops .mention, .msg.bot .mention { color: #d6e4ff; }  /* 深色气泡里用浅蓝，保证对比 */
+  #empty-hint { color: #8f959e; text-align: center; margin-top: 40vh; font-size: 14px; }
+
+  /* 右栏：设置 + 成员 */
+  #panel { width: 300px; background: #fff; border-left: 1px solid #e5e6e8;
+           overflow-y: auto; display: none; }
+  #panel section { padding: 14px 16px; border-bottom: 1px solid #f2f3f5; }
+  #panel h2 { font-size: 13px; color: #8f959e; margin-bottom: 10px; font-weight: 600; }
+  .setting-row { display: flex; align-items: center; justify-content: space-between;
+                 margin-bottom: 10px; font-size: 13px; gap: 8px; }
+  .setting-row label { flex: 1; }
+  .setting-row .hint { display: block; font-size: 11px; color: #b0b6be; margin-top: 1px; }
+  .setting-row select, .setting-row input[type=number] {
+      border: 1px solid #d0d3d6; border-radius: 4px; padding: 3px 6px; font-size: 12px; }
+  .setting-row input[type=number] { width: 52px; }
+  .switch { position: relative; width: 36px; height: 20px; flex: none; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch .slider { position: absolute; inset: 0; background: #d0d3d6; border-radius: 10px;
+                    cursor: pointer; transition: .15s; }
+  .switch .slider:before { content: ""; position: absolute; width: 16px; height: 16px;
+                           left: 2px; top: 2px; background: #fff; border-radius: 50%; transition: .15s; }
+  .switch input:checked + .slider { background: #3370ff; }
+  .switch input:checked + .slider:before { transform: translateX(16px); }
+  .member-row { display: flex; align-items: center; justify-content: space-between;
+                margin-bottom: 8px; font-size: 13px; }
+  .member-row select { border: 1px solid #d0d3d6; border-radius: 4px; padding: 3px 6px; font-size: 12px; }
+  .role-tag { font-size: 10px; border-radius: 3px; padding: 1px 5px; margin-left: 6px; color: #fff; }
+  .role-tag { background: #8f959e; }  /* 默认/其他职务的兜底色 */
+  .role-技术 { background: #14a05e; }
+  .role-达人运营 { background: #ff8800; }
+  .role-商务对接运营 { background: #3370ff; }
+  #toast { position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+           background: #1f2329; color: #fff; font-size: 13px; padding: 8px 18px;
+           border-radius: 6px; display: none; z-index: 9; }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h1>bdagent 后台<small>机器人所在的群</small></h1>
+  <div id="group-list"></div>
+</div>
+
+<div id="main">
+  <div id="chat-header">
+    <span id="chat-title">选择一个群</span>
+    <button id="sync-btn" onclick="syncHistory()" style="display:none;float:right;border:1px solid #3370ff;color:#3370ff;background:#fff;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer">⟳ 同步历史</button>
+  </div>
+  <div id="messages"><div id="empty-hint">← 从左侧选择一个群查看聊天记录</div></div>
+</div>
+
+<div id="panel">
+  <section>
+    <h2>机器人设置（改完立即生效）</h2>
+    <div class="setting-row">
+      <label>启用机器人<span class="hint">关闭后只记录消息，不回复不弹卡</span></label>
+      <span class="switch"><input type="checkbox" id="s-bot_enabled"><span class="slider" onclick="toggle('bot_enabled')"></span></span>
+    </div>
+    <div class="setting-row">
+      <label>消息收集模式<span class="hint">主动问询=检测到新客户弹登记表单</span></label>
+      <select id="s-collection_mode" onchange="saveSetting('collection_mode', this.value)">
+        <option value="proactive">主动问询</option>
+        <option value="silent">默默收集</option>
+      </select>
+    </div>
+    <div class="setting-row">
+      <label>被@时回复</label>
+      <span class="switch"><input type="checkbox" id="s-reply_on_mention"><span class="slider" onclick="toggle('reply_on_mention')"></span></span>
+    </div>
+    <div class="setting-row">
+      <label>秒答常见问题<span class="hint">没被@也直接按语料库回答FAQ</span></label>
+      <span class="switch"><input type="checkbox" id="s-instant_faq"><span class="slider" onclick="toggle('instant_faq')"></span></span>
+    </div>
+    <div class="setting-row">
+      <label>无人回复安抚<span class="hint">超时安抚客户+私信提醒同事</span></label>
+      <span class="switch"><input type="checkbox" id="s-reminder_enabled"><span class="slider" onclick="toggle('reminder_enabled')"></span></span>
+    </div>
+    <div class="setting-row">
+      <label>超时时长</label>
+      <span>
+        <input type="number" id="s-hours" min="0" max="24" onchange="saveMinutes()"> 小时
+        <input type="number" id="s-mins" min="0" max="59" onchange="saveMinutes()"> 分钟
+      </span>
+    </div>
+  </section>
+  <section>
+    <h2>本群成员（命中淋浪名册=自家人，其余=客户）</h2>
+    <div id="member-list"></div>
+  </section>
+  <section>
+    <h2>淋浪人员名册（全局，配一次所有群通用）
+      <span class="hint" style="font-weight:normal">改名册后所有群历史身份自动跟着变</span></h2>
+    <div id="roster-list"></div>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <input type="text" id="roster-name" placeholder="姓名" style="flex:1;border:1px solid #d0d3d6;border-radius:4px;padding:4px 6px;font-size:12px">
+      <select id="roster-role" style="border:1px solid #d0d3d6;border-radius:4px;padding:4px 6px;font-size:12px"></select>
+      <button onclick="addRoster()" style="border:none;background:#3370ff;color:#fff;border-radius:4px;padding:4px 10px;font-size:12px;cursor:pointer">添加</button>
+    </div>
+  </section>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let groups = [];
+let roles = [];
+let currentId = null;
+let currentSettings = null;
+
+function toastMsg(text) {
+  const el = document.getElementById("toast");
+  el.textContent = text;
+  el.style.display = "block";
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.display = "none"; }, 1800);
+}
+
+function esc(s) {
+  return (s || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+function localTime(utc) {
+  if (!utc) return "";
+  const d = new Date(utc.replace(" ", "T") + "Z");
+  return isNaN(d) ? utc : d.toLocaleString("zh-CN", { hour12: false });
+}
+
+async function loadGroups() {
+  try {
+    const data = await (await fetch("/api/groups")).json();
+    groups = data.groups; roles = data.roles;
+    renderGroupList();
+  } catch (e) { toastMsg("群列表加载失败"); }
+}
+
+function renderGroupList() {
+  const box = document.getElementById("group-list");
+  box.innerHTML = groups.map(g => {
+    const off = g.settings.bot_enabled ? "" : '<span class="badge-off">已停用</span>';
+    const remind = g.settings.reminder_enabled ? '<span class="badge-remind">安抚</span>' : "";
+    const preview = g.last_message ? esc(`${g.last_message.speaker}: ${g.last_message.text}`) : "还没有消息记录";
+    return `<div class="group-item ${g.chat_id === currentId ? "active" : ""}" onclick="selectGroup('${g.chat_id}')">
+      <div class="gname">${esc(g.name)} ${off}${remind}</div>
+      <div class="gpreview">${preview}</div></div>`;
+  }).join("") || '<div style="padding:16px;color:#8f959e;font-size:13px">机器人还没加入任何群</div>';
+}
+
+async function selectGroup(chatId) {
+  currentId = chatId;
+  renderGroupList();
+  document.getElementById("panel").style.display = "block";
+  await refreshDetail(true, true);
+}
+
+async function refreshDetail(scroll, panel) {
+  // panel=true 才重建右栏(设置/成员)——只在切群和保存后。5秒轮询用 panel=false，
+  // 只刷聊天记录，不去动正在被编辑的下拉框/输入框，免得把操作打断/输入清空。
+  const requestedId = currentId;
+  if (!requestedId) return;
+  try {
+    const data = await (await fetch(`/api/groups/${requestedId}`)).json();
+    if (requestedId !== currentId) return;  // 已切走：过期响应直接丢弃
+    currentSettings = data.settings;
+    document.getElementById("chat-title").innerHTML =
+      `${esc(data.name || requestedId)}<small>${data.members.length} 名成员 · ${data.history.length} 条记录</small>`;
+    document.getElementById("sync-btn").style.display = "inline-block";
+    renderMessages(data.history, scroll);
+    if (panel) {
+      renderSettings(data.settings);
+      renderMembers(data.members);
+      loadRoster();
+    }
+  } catch (e) { toastMsg("加载群详情失败"); }
+}
+
+function renderMsgText(text, mentions) {
+  // 先整体转义(防XSS)，再把"真·@到的人名"(mentions 数组)对应的 @名字 包成蓝色下划线。
+  // token 已转义、span 是本代码控制的，安全；手打的"@某某"不在 mentions 里→保持普通文字。
+  let html = esc(text);
+  // 名字长的先替换：避免 @李 把 @李明 里的前缀先包掉(前缀名互相干扰)
+  const names = (mentions || []).filter(Boolean).slice().sort((a, b) => b.length - a.length);
+  for (const name of names) {
+    const token = esc("@" + name);
+    html = html.split(token).join(`\x01${token}\x02`);  // 先占位，避免二次包裹
+  }
+  return html.split("\x01").join('<span class="mention">').split("\x02").join("</span>");
+}
+
+function msgTime(m) {
+  // 优先真实发送时间(feishu_create_time ms)，同步进来的历史才不会全塌成"入库那一刻"
+  if (m.ts) { const d = new Date(m.ts); if (!isNaN(d)) return d.toLocaleString("zh-CN", { hour12: false }); }
+  return localTime(m.created_at);
+}
+
+let lastMsgSig = "";
+function msgSig(h) { return h.length + ":" + (h.length ? h[h.length - 1].id : 0); }
+
+function renderMessages(history, scroll) {
+  const box = document.getElementById("messages");
+  const prevTop = box.scrollTop;
+  const stick = scroll || box.scrollTop + box.clientHeight >= box.scrollHeight - 30;
+  lastMsgSig = msgSig(history);
+  box.innerHTML = history.map(m => {
+    const cls = m.speaker === "客户" ? "customer" : m.speaker === "运营" ? "ops"
+              : m.speaker === "机器人" ? "bot" : "system";
+    // who = 解析后的身份：淋浪·职务·姓名 / 客户名 / 机器人（按当前名册现算）
+    return `<div class="msg ${cls}"><div class="who">${esc(m.who || m.speaker)} · ${msgTime(m)}</div>
+      <div class="bubble">${renderMsgText(m.text, m.mentions)}</div></div>`;
+  }).join("") || '<div id="empty-hint">这个群还没有消息记录（点右上角"同步历史"从飞书拉取）</div>';
+  if (stick) box.scrollTop = box.scrollHeight;
+  else box.scrollTop = prevTop;  // 用户在往上翻看历史：保持位置，别被重建拽回顶部
+}
+
+function renderSettings(s) {
+  for (const key of ["bot_enabled", "reply_on_mention", "instant_faq", "reminder_enabled"]) {
+    document.getElementById("s-" + key).checked = !!s[key];
+  }
+  document.getElementById("s-collection_mode").value = s.collection_mode;
+  document.getElementById("s-hours").value = Math.floor(s.reminder_minutes / 60);
+  document.getElementById("s-mins").value = s.reminder_minutes % 60;
+}
+
+function renderMembers(members) {
+  // 每个成员一个下拉：选职务=把他按姓名加进淋浪名册(自家人)，选"客户"=从名册移除
+  const box = document.getElementById("member-list");
+  box.innerHTML = members.map((m, i) => {
+    const options = ['<option value="">客户</option>']
+      .concat(roles.map(r => `<option value="${esc(r)}" ${m.role === r ? "selected" : ""}>淋浪·${esc(r)}</option>`)).join("");
+    return `<div class="member-row"><span class="mname" data-i="${i}"></span>
+      <select data-name="${esc(m.name)}" data-i="${i}">${options}</select></div>`;
+  }).join("") || '<div style="color:#8f959e;font-size:12px">拉不到成员列表</div>';
+  box.querySelectorAll(".mname").forEach(el => {
+    const m = members[el.dataset.i];
+    el.textContent = m.name;  // textContent 安全注入(群昵称客户可控)
+    if (m.is_linlang) { const t = document.createElement("span"); t.className = "role-tag role-" + (m.role || "商务对接运营"); t.textContent = "淋浪" + (m.role ? "·" + m.role : ""); el.appendChild(t); }
+  });
+  box.querySelectorAll("select[data-name]").forEach(sel => {
+    sel.addEventListener("change", () => saveRosterRole(members[sel.dataset.i].name, sel.value, members[sel.dataset.i].open_id));
+  });
+}
+
+function renderRoster(roster) {
+  const box = document.getElementById("roster-list");
+  box.innerHTML = (roster || []).map((r, i) => `<div class="member-row">
+      <span class="rname" data-i="${i}"></span>
+      <span><span class="role-tag role-${esc(r.role || '商务对接运营')}">${esc(r.role || '未分职务')}</span>
+      <a href="#" data-name="${esc(r.name)}" class="rdel" style="color:#f54a45;font-size:12px;margin-left:8px;text-decoration:none">移除</a></span>
+    </div>`).join("") || '<div style="color:#8f959e;font-size:12px">名册还是空的，下面添加或在上方成员里选职务</div>';
+  box.querySelectorAll(".rname").forEach(el => { el.textContent = roster[el.dataset.i].name; });
+  box.querySelectorAll(".rdel").forEach(a => {
+    a.addEventListener("click", (e) => { e.preventDefault(); delRoster(a.dataset.name); });
+  });
+}
+
+function toggle(key) {
+  const el = document.getElementById("s-" + key);
+  saveSetting(key, el.checked ? 0 : 1);  // slider 点击时 checkbox 还没翻转
+}
+
+function saveMinutes() {
+  const hours = parseInt(document.getElementById("s-hours").value) || 0;
+  const mins = parseInt(document.getElementById("s-mins").value) || 0;
+  const total = Math.min(1440, Math.max(1, hours * 60 + mins));  // 后端上限 1440(24h)
+  saveSetting("reminder_minutes", total);
+}
+
+async function saveSetting(key, value) {
+  const requestedId = currentId;
+  if (!requestedId) return;
+  try {
+    const resp = await fetch(`/api/groups/${requestedId}/settings`, {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ [key]: value }),
+    });
+    if (!resp.ok) throw new Error();
+    const data = await resp.json();
+    if (requestedId !== currentId) return;
+    currentSettings = data.settings;
+    renderSettings(data.settings);
+    const g = groups.find(x => x.chat_id === requestedId);
+    if (g) { g.settings = data.settings; renderGroupList(); }
+    toastMsg("已保存，立即生效");
+  } catch (e) { toastMsg("保存失败"); refreshDetail(false, true); }
+}
+
+async function saveRosterRole(name, role, openId) {
+  // 选了职务=加进名册(自家人)；选"客户"(空)=从名册移除
+  if (!role) { return delRoster(name); }
+  try {
+    const resp = await fetch("/api/roster", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, role, open_id: openId || null }),
+    });
+    if (!resp.ok) throw new Error();
+    toastMsg(`已加入名册：淋浪·${role}·${name}`);
+    refreshDetail(false, true);
+  } catch (e) { toastMsg("加入名册失败"); refreshDetail(false, true); }
+}
+
+async function addRoster() {
+  const name = document.getElementById("roster-name").value.trim();
+  const role = document.getElementById("roster-role").value;
+  if (!name) { toastMsg("请填姓名"); return; }
+  try {
+    const resp = await fetch("/api/roster", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, role }),
+    });
+    if (!resp.ok) throw new Error();
+    document.getElementById("roster-name").value = "";
+    toastMsg(`已加入名册：${name}`);
+    refreshDetail(false, true);
+  } catch (e) { toastMsg("添加失败"); }
+}
+
+async function delRoster(name) {
+  try {
+    await fetch(`/api/roster/${encodeURIComponent(name)}`, { method: "DELETE" });
+    toastMsg(`已移出名册：${name}`);
+    refreshDetail(false, true);
+  } catch (e) { toastMsg("移除失败"); }
+}
+
+async function loadRoster() {
+  try {
+    const data = await (await fetch("/api/roster")).json();
+    renderRoster(data.roster);
+    const sel = document.getElementById("roster-role");
+    if (!sel.options.length) sel.innerHTML = (data.roles || []).map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
+  } catch (e) {}
+}
+
+async function syncHistory() {
+  const requestedId = currentId;
+  if (!requestedId) return;
+  const btn = document.getElementById("sync-btn");
+  btn.disabled = true; btn.textContent = "同步中…";
+  try {
+    const resp = await fetch(`/api/groups/${requestedId}/sync`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: "{}",
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error();
+    toastMsg(`同步完成：新增 ${data.inserted} 条（扫描 ${data.scanned}）`);
+    if (requestedId === currentId) refreshDetail(true, false);
+  } catch (e) { toastMsg("同步失败"); }
+  finally { btn.disabled = false; btn.textContent = "⟳ 同步历史"; }
+}
+
+async function pollMessages() {
+  // 5秒轮询只拉聊天记录(不重拉成员/不重建设置面板)；没有新消息就不动DOM，
+  // 免得把用户正在往上翻看历史的位置拽回去。
+  const requestedId = currentId;
+  if (!requestedId) return;
+  try {
+    const data = await (await fetch(`/api/groups/${requestedId}/history`)).json();
+    if (requestedId !== currentId) return;
+    if (msgSig(data.history) === lastMsgSig) return;  // 无变化，跳过
+    renderMessages(data.history, false);
+  } catch (e) {}
+}
+
+loadGroups();
+setInterval(loadGroups, 30000);
+setInterval(pollMessages, 5000);
+</script>
+</body>
+</html>

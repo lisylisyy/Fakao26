@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>bdagent 训练台</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    background: #f5f5f7;
+    color: #1a1a1a;
+    font-size: 14px;
+  }
+
+  /* ---------- Column 1: sessions ---------- */
+  #col-sessions {
+    width: 300px;
+    flex: none;
+    border-right: 1px solid #e2e2e5;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  #new-session-box {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+  }
+  #new-session-box .label {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  #hint-input {
+    width: 100%;
+    padding: 7px 9px;
+    border: 1px solid #d0d0d5;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  #hint-input:focus { outline: none; border-color: #2563eb; }
+  #new-session-btn {
+    width: 100%;
+    padding: 8px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  #new-session-btn:hover { background: #1d4ed8; }
+  #new-session-btn:disabled { background: #93b4f0; cursor: not-allowed; }
+
+  #session-list { flex: 1; overflow-y: auto; }
+  .session-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f2f2f2;
+    cursor: pointer;
+  }
+  .session-item:hover { background: #f8f9fb; }
+  .session-item.active { background: #eef2ff; }
+  .session-item .row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .session-item .row2 {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+  }
+  .badge {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .badge-active { background: #dcfce7; color: #15803d; }
+  .badge-ended { background: #f0f0f2; color: #888; }
+  #session-list-empty {
+    padding: 24px 14px;
+    color: #aaa;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  /* ---------- Column 2: role picker ---------- */
+  #col-role {
+    width: 150px;
+    flex: none;
+    border-right: 1px solid #e2e2e5;
+    background: #fff;
+    padding: 14px 12px;
+  }
+  #col-role .label {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  .role-option {
+    display: block;
+    width: 100%;
+    padding: 10px 10px;
+    margin-bottom: 8px;
+    border: 1px solid #d0d0d5;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: left;
+    transition: border-color .15s, background .15s;
+  }
+  .role-option:hover { border-color: #93b4f0; }
+  .role-option.selected {
+    border-color: #2563eb;
+    background: #eef2ff;
+    color: #1d4ed8;
+    font-weight: 600;
+  }
+  .role-option .sub {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .role-option.selected .sub { color: #6b86d6; }
+
+  /* ---------- Column 3: chat ---------- */
+  #col-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  #chat-topbar {
+    padding: 12px 20px;
+    border-bottom: 1px solid #e2e2e5;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 24px;
+  }
+  #chat-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  #chat-title .muted { font-weight: 400; color: #999; margin-left: 6px; font-size: 12px; }
+  #topbar-actions { display: flex; gap: 8px; }
+  #end-session-btn {
+    padding: 6px 14px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  #end-session-btn:hover { background: #dc2626; }
+  #auto-chat-btn {
+    padding: 6px 14px;
+    background: #16a34a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  #auto-chat-btn:hover { background: #15803d; }
+  #auto-chat-btn.running { background: #ef4444; }
+  #auto-chat-btn.running:hover { background: #dc2626; }
+  #auto-chat-btn:disabled { background: #d0d0d5; cursor: not-allowed; }
+
+  #transcript {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f7f7f9;
+  }
+  #transcript-empty {
+    color: #aaa;
+    text-align: center;
+    margin-top: 60px;
+    font-size: 13px;
+  }
+  .msg-row { display: flex; margin-bottom: 14px; }
+  .msg-row.customer { justify-content: flex-start; }
+  .msg-row.ops { justify-content: flex-end; }
+  .msg-row.system { justify-content: center; }
+  .bubble {
+    max-width: 62%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    line-height: 1.5;
+    font-size: 13.5px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .msg-row.customer .bubble {
+    background: #fff;
+    border: 1px solid #e2e2e5;
+    border-bottom-left-radius: 3px;
+  }
+  .msg-row.ops .bubble {
+    background: #2563eb;
+    color: #fff;
+    border-bottom-right-radius: 3px;
+  }
+  .msg-row.bot { justify-content: flex-end; }
+  .msg-row.bot .bubble {
+    background: #7c3aed;
+    color: #fff;
+    border-bottom-right-radius: 3px;
+  }
+  .msg-row.bot .msg-speaker { text-align: right; color: #d8c8f8; }
+  .msg-row.system .bubble {
+    background: transparent;
+    color: #999;
+    font-size: 12px;
+    text-align: center;
+    max-width: 90%;
+    padding: 4px 10px;
+  }
+  .msg-speaker {
+    display: block;
+    font-size: 11px;
+    color: #aaa;
+    margin-bottom: 3px;
+  }
+  .msg-row.ops .msg-speaker { text-align: right; color: #b7c9f5; }
+
+  #chat-input-area {
+    border-top: 1px solid #e2e2e5;
+    background: #fff;
+    padding: 12px 20px 16px;
+  }
+  #pending-badge {
+    display: none;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #b45309;
+    background: #fef3c7;
+    border-radius: 6px;
+    padding: 5px 10px;
+    width: fit-content;
+  }
+  #pending-badge.show { display: block; }
+  #ended-banner {
+    display: none;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #888;
+    background: #f0f0f2;
+    border-radius: 6px;
+    padding: 5px 10px;
+    width: fit-content;
+  }
+  #ended-banner.show { display: block; }
+  #auto-chat-banner {
+    display: none;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #15803d;
+    background: #dcfce7;
+    border-radius: 6px;
+    padding: 5px 10px;
+    width: fit-content;
+  }
+  #auto-chat-banner.show { display: block; }
+  #input-row { display: flex; gap: 8px; }
+  #text-input {
+    flex: 1;
+    padding: 9px 12px;
+    border: 1px solid #d0d0d5;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-family: inherit;
+    resize: none;
+    height: 40px;
+  }
+  #text-input:focus { outline: none; border-color: #2563eb; }
+  #text-input:disabled, #send-btn:disabled, #ai-reply-btn:disabled {
+    background: #f2f2f4;
+    color: #bbb;
+    cursor: not-allowed;
+    border-color: #e2e2e5;
+  }
+  #send-btn, #ai-reply-btn {
+    padding: 0 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  #send-btn { background: #2563eb; color: #fff; }
+  #send-btn:hover:not(:disabled) { background: #1d4ed8; }
+  #ai-reply-btn { background: #fff; color: #2563eb; border: 1px solid #2563eb; }
+  #ai-reply-btn:hover:not(:disabled) { background: #eef2ff; }
+  #ai-reply-btn:disabled { border-color: #e2e2e5; }
+</style>
+</head>
+<body>
+
+  <!-- Column 1: session list -->
+  <div id="col-sessions">
+    <div id="new-session-box">
+      <div class="label">发起新会话</div>
+      <input id="hint-input" type="text" placeholder="试点客户提示，如 oxyenergy，留空随机">
+      <button id="new-session-btn" onclick="createSession()">新建会话</button>
+    </div>
+    <div id="session-list">
+      <div id="session-list-empty">暂无会话</div>
+    </div>
+  </div>
+
+  <!-- Column 2: role picker -->
+  <div id="col-role">
+    <div class="label">扮演角色</div>
+    <button class="role-option selected" data-role="客户" onclick="selectRole('客户')">
+      客户
+      <span class="sub">模拟客户发言</span>
+    </button>
+    <button class="role-option" data-role="运营" onclick="selectRole('运营')">
+      运营
+      <span class="sub">模拟运营真人发言</span>
+    </button>
+    <div style="margin-top:10px;font-size:11px;color:#999;line-height:1.5">
+      机器人(bdagent)不用扮演：它自动旁听每条消息，自己决定弹卡、接话或沉默。
+    </div>
+  </div>
+
+  <!-- Column 3: chat -->
+  <div id="col-chat">
+    <div id="chat-topbar">
+      <div id="chat-title">选择左侧一个会话查看对话</div>
+      <div id="topbar-actions">
+        <button id="auto-chat-btn" style="display:none" onclick="toggleAutoChat()">开始自动聊天</button>
+        <button id="end-session-btn" style="display:none" onclick="endSession()">结束会话</button>
+      </div>
+    </div>
+    <div id="transcript">
+      <div id="transcript-empty">还没有选中任何会话</div>
+    </div>
+    <div id="chat-input-area">
+      <div id="pending-badge">等待客户填写表单</div>
+      <div id="auto-chat-banner">自动聊天中…客户和运营两个人设在自动对话，bdagent 自动旁听插话，随时可以点"停止自动聊天"</div>
+      <div id="ended-banner">会话已结束，只读</div>
+      <div id="input-row">
+        <textarea id="text-input" placeholder="以当前角色发送一条消息…" disabled></textarea>
+        <button id="send-btn" onclick="sendMessage()" disabled>发送</button>
+        <button id="ai-reply-btn" onclick="aiReply()" disabled>AI回复</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+let currentId = null;
+let currentRole = '客户';
+let currentSession = null;
+let listPollTimer = null;
+let sessionPollTimer = null;
+let aiReplyBusyForId = null; // 正在等 AI 回复的会话 id，用来只把"AI思考中"状态显示在真正在等的那个会话上
+let creatingSession = false;
+let autoChatToggleBusy = false; // 开始/停止自动聊天这个请求本身在飞行，避免连点
+
+const ROLE_CUSTOMER = '客户';
+const ROLE_OPS = '运营';
+const ROLE_BOT = '机器人';
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s == null ? '' : String(s);
+  return div.innerHTML;
+}
+
+// ---------------- Left column: session list ----------------
+
+let lastSessionListSignature = null;
+
+async function refreshSessionList() {
+  let sessions;
+  try {
+    const resp = await fetch('/api/sessions');
+    if (!resp.ok) return;
+    sessions = await resp.json();
+  } catch (e) {
+    return;
+  }
+  const listEl = document.getElementById('session-list');
+
+  // Avoid tearing down and rebuilding the whole list on every poll when nothing
+  // actually changed - keeps hover/focus stable and avoids DOM-node churn.
+  const signature = JSON.stringify(sessions) + '|' + currentId;
+  if (signature === lastSessionListSignature) return;
+  lastSessionListSignature = signature;
+
+  if (!sessions.length) {
+    listEl.innerHTML = '<div id="session-list-empty">暂无会话</div>';
+    return;
+  }
+  listEl.innerHTML = '';
+  for (const s of sessions) {
+    const div = document.createElement('div');
+    div.className = 'session-item' + (s.id === currentId ? ' active' : '');
+    div.onclick = () => selectSession(s.id);
+    const title = s.company || s.hint || '(随机客户)';
+    const statusBadge = s.status === 'active'
+      ? '<span class="badge badge-active">active</span>'
+      : '<span class="badge badge-ended">ended</span>';
+    div.innerHTML = `
+      <div class="row1"><span>${escapeHtml(title)}</span>${statusBadge}</div>
+      <div class="row2"><span>${escapeHtml(s.hint || '(无提示)')}</span><span>${s.message_count} 条</span></div>
+    `;
+    listEl.appendChild(div);
+  }
+}
+
+async function createSession() {
+  if (creatingSession) return;
+  creatingSession = true;
+  const btn = document.getElementById('new-session-btn');
+  const hintInput = document.getElementById('hint-input');
+  btn.disabled = true;
+  const prevLabel = btn.textContent;
+  btn.textContent = '创建中…（可能需要几秒）';
+  try {
+    const hint = hintInput.value.trim();
+    const resp = await fetch('/api/sessions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hint }),
+    });
+    if (!resp.ok) {
+      alert('创建会话失败: ' + resp.status);
+      return;
+    }
+    const session = await resp.json();
+    hintInput.value = '';
+    await refreshSessionList();
+    selectSession(session.id);
+  } catch (e) {
+    alert('创建会话失败: ' + e);
+  } finally {
+    creatingSession = false;
+    btn.disabled = false;
+    btn.textContent = prevLabel;
+  }
+}
+
+// ---------------- Middle column: role picker ----------------
+
+function selectRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-option').forEach((el) => {
+    el.classList.toggle('selected', el.dataset.role === role);
+  });
+}
+
+// ---------------- Right column: chat ----------------
+
+function selectSession(id) {
+  currentId = id;
+  refreshSessionList();
+  loadSession();
+  if (sessionPollTimer) clearInterval(sessionPollTimer);
+  sessionPollTimer = setInterval(loadSession, 2000);
+}
+
+async function loadSession() {
+  if (!currentId) return;
+  const requestedId = currentId;
+  let resp;
+  try {
+    resp = await fetch(`/api/sessions/${requestedId}`);
+  } catch (e) {
+    return;
+  }
+  if (!resp.ok) return;
+  const data = await resp.json();
+  if (requestedId !== currentId) return; // 用户在请求飞行期间切换了会话，这条响应已经过期，丢弃
+  currentSession = data;
+  renderSession(data);
+
+  if (data.status !== 'active' && sessionPollTimer) {
+    clearInterval(sessionPollTimer);
+    sessionPollTimer = null;
+  }
+}
+
+let lastTranscriptSignature = null;
+
+function renderSession(data) {
+  const isActive = data.status === 'active';
+
+  const titleEl = document.getElementById('chat-title');
+  const companyPart = data.backstory && data.backstory.company ? ` · ${data.backstory.company}` : '';
+  titleEl.innerHTML = `${escapeHtml(data.id)}<span class="muted">${escapeHtml(data.status)}${escapeHtml(companyPart)}</span>`;
+
+  document.getElementById('end-session-btn').style.display = isActive ? 'inline-block' : 'none';
+
+  const autoBtn = document.getElementById('auto-chat-btn');
+  autoBtn.style.display = isActive ? 'inline-block' : 'none';
+  autoBtn.classList.toggle('running', !!data.auto_chat);
+  autoBtn.textContent = data.auto_chat ? '停止自动聊天' : '开始自动聊天';
+  autoBtn.disabled = autoChatToggleBusy;
+
+  // Avoid tearing down and rebuilding the transcript DOM on every poll when the
+  // history hasn't actually changed (keeps text-selection/scroll stable, and
+  // avoids node churn while a click may be in flight).
+  const transcriptSignature = JSON.stringify(data.history) + '|' + data.id;
+  if (transcriptSignature !== lastTranscriptSignature) {
+    lastTranscriptSignature = transcriptSignature;
+    const box = document.getElementById('transcript');
+    const wasAtBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
+    box.innerHTML = '';
+    if (!data.history || data.history.length === 0) {
+      box.innerHTML = '<div id="transcript-empty">还没有对话内容</div>';
+    } else {
+      for (const turn of data.history) {
+        const row = document.createElement('div');
+        let cls = 'system';
+        if (turn.speaker === ROLE_CUSTOMER) cls = 'customer';
+        else if (turn.speaker === ROLE_OPS) cls = 'ops';
+        else if (turn.speaker === ROLE_BOT) cls = 'bot';
+        row.className = 'msg-row ' + cls;
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        if (cls !== 'system') {
+          const speakerLabel = document.createElement('span');
+          speakerLabel.className = 'msg-speaker';
+          speakerLabel.textContent = turn.speaker;
+          bubble.appendChild(speakerLabel);
+        }
+        const textNode = document.createElement('span');
+        textNode.textContent = turn.text;
+        bubble.appendChild(textNode);
+        row.appendChild(bubble);
+        box.appendChild(row);
+      }
+    }
+    if (wasAtBottom) box.scrollTop = box.scrollHeight;
+  }
+
+  document.getElementById('pending-badge').classList.toggle('show', !!data.pending_card && isActive && !data.auto_chat);
+  document.getElementById('auto-chat-banner').classList.toggle('show', !!data.auto_chat);
+  document.getElementById('ended-banner').classList.toggle('show', !isActive);
+
+  const textInput = document.getElementById('text-input');
+  const sendBtn = document.getElementById('send-btn');
+  const aiBtn = document.getElementById('ai-reply-btn');
+  // 自动聊天跑起来的时候手动控件全部锁死，避免手动发言跟自动循环打架。
+  const disable = !isActive || !!data.auto_chat;
+  textInput.disabled = disable;
+  sendBtn.disabled = disable;
+  aiBtn.disabled = disable || aiReplyBusyForId === data.id;
+}
+
+async function sendMessage() {
+  if (!currentId || !currentSession || currentSession.status !== 'active' || currentSession.auto_chat) return;
+  const requestedId = currentId;
+  const textInput = document.getElementById('text-input');
+  const text = textInput.value.trim();
+  if (!text) return;
+  const sendBtn = document.getElementById('send-btn');
+  sendBtn.disabled = true;
+  textInput.disabled = true;
+  try {
+    const resp = await fetch(`/api/sessions/${requestedId}/message`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: currentRole, text }),
+    });
+    if (!resp.ok) {
+      const err = await resp.text();
+      alert('发送失败: ' + err);
+      return;
+    }
+    const data = await resp.json();
+    if (requestedId !== currentId) return; // 用户在请求飞行期间切换了会话，这条响应已经过期，丢弃
+    currentSession = data;
+    textInput.value = '';
+    renderSession(data);
+    refreshSessionList();
+  } catch (e) {
+    alert('发送失败: ' + e);
+  } finally {
+    // 过期请求不碰输入框/按钮状态——那两个 DOM 元素现在属于新选中的会话，
+    // 它自己的 loadSession() 已经/将会设置好正确状态。
+    if (requestedId === currentId && currentSession && currentSession.status === 'active') {
+      sendBtn.disabled = false;
+      textInput.disabled = false;
+      textInput.focus();
+    }
+  }
+}
+
+async function aiReply() {
+  if (!currentId || !currentSession || currentSession.status !== 'active' || currentSession.auto_chat) return;
+  if (aiReplyBusyForId) return; // 全局同一时间只允许一个 AI 调用在飞行，避免并发打爆 DeepSeek
+  const requestedId = currentId;
+  aiReplyBusyForId = requestedId;
+  const aiBtn = document.getElementById('ai-reply-btn');
+  const prevLabel = aiBtn.textContent;
+  aiBtn.disabled = true;
+  aiBtn.textContent = 'AI 思考中…';
+  try {
+    const resp = await fetch(`/api/sessions/${requestedId}/ai_reply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: currentRole }),
+    });
+    if (!resp.ok) {
+      const err = await resp.text();
+      alert('AI 回复失败: ' + err);
+      return;
+    }
+    const data = await resp.json();
+    if (requestedId !== currentId) return; // 用户在请求飞行期间切换了会话，这条响应已经过期，丢弃
+    currentSession = data;
+    renderSession(data);
+    refreshSessionList();
+  } catch (e) {
+    alert('AI 回复失败: ' + e);
+  } finally {
+    aiReplyBusyForId = null;
+    // 过期请求不碰按钮文案/状态——那是新选中会话自己的按钮了。
+    if (requestedId === currentId) {
+      aiBtn.textContent = prevLabel;
+      if (currentSession && currentSession.status === 'active') {
+        aiBtn.disabled = false;
+      }
+    }
+  }
+}
+
+async function endSession() {
+  if (!currentId) return;
+  if (!confirm('确定结束该会话吗？结束后不可再发送消息。')) return;
+  try {
+    await fetch(`/api/sessions/${currentId}/end`, { method: 'POST' });
+    await loadSession();
+    await refreshSessionList();
+  } catch (e) {
+    alert('结束会话失败: ' + e);
+  }
+}
+
+async function toggleAutoChat() {
+  if (!currentId || !currentSession || currentSession.status !== 'active') return;
+  if (autoChatToggleBusy) return;
+  const requestedId = currentId;
+  const starting = !currentSession.auto_chat;
+  autoChatToggleBusy = true;
+  const btn = document.getElementById('auto-chat-btn');
+  btn.disabled = true;
+  try {
+    const resp = await fetch(`/api/sessions/${requestedId}/auto_chat/${starting ? 'start' : 'stop'}`, {
+      method: 'POST',
+    });
+    if (!resp.ok) {
+      const err = await resp.text();
+      alert((starting ? '开始' : '停止') + '自动聊天失败: ' + err);
+      return;
+    }
+    const data = await resp.json();
+    if (requestedId !== currentId) return; // 用户在请求飞行期间切换了会话，这条响应已经过期，丢弃
+    currentSession = data;
+    renderSession(data);
+    refreshSessionList();
+  } catch (e) {
+    alert((starting ? '开始' : '停止') + '自动聊天失败: ' + e);
+  } finally {
+    autoChatToggleBusy = false;
+    if (requestedId === currentId) {
+      btn.disabled = false;
+    }
+  }
+}
+
+document.getElementById('text-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// ---------------- init ----------------
+refreshSessionList();
+listPollTimer = setInterval(refreshSessionList, 5000);
+</script>
+</body>
+</html>

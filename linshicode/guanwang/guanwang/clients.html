@@ -1,0 +1,3894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="淋浪 LinknLatch — AIGC + Agent 双引擎 AIUGC 服务，为 TikTok Shop 大店批量建联达人、批量生产内容、批量上市场 · The AIUGC growth engine for TikTok Shop key accounts" />
+<title>LinknLatch · AIUGC 增长引擎 · TikTok Shop 大店合作</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   LINKNLATCH · newlinlang.html
+   Paper · Ink · Stamps · Money-green
+   Design system locked — flat offset shadows, zero blur.
+   ========================================================== */
+:root{
+  --cream:#F0EBE0;
+  --cream2:#E8E3D5;
+  --black:#111111;
+  --white:#FFFFFF;
+  --green:#1DBA6A;
+  --green-dark:#0FA355;
+  --green-light:#D4F5E2;
+  --purple:#E8DFFF;
+  --peach:#FFE8D4;
+  --yellow:#FEFFC2;
+  --muted:#666666;
+  --accent3:#7B61FF;
+  --orange-dark:#C0510A;
+  --font-display:'Bebas Neue','PingFang SC','Microsoft YaHei',sans-serif;
+  --font-body:'DM Sans','PingFang SC','Microsoft YaHei',sans-serif;
+  --font-hand:'Caveat','PingFang SC','Microsoft YaHei',cursive;
+  --ease:cubic-bezier(.22,.9,.35,1);
+  --ease-pop:cubic-bezier(.34,1.4,.44,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip}
+section{scroll-margin-top:var(--nav-h,67px)}
+body{
+  font-family:var(--font-body);
+  background:var(--cream);
+  color:var(--black);
+  line-height:1.6;
+  overflow-x:hidden;
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--green);color:var(--black)}
+img,svg{max-width:100%}
+
+/* ---- bilingual switch ---- */
+body[data-lang="zh"] .en{display:none !important}
+body[data-lang="en"] .zh{display:none !important}
+
+/* ---- focus ring · green offset, on brand ---- */
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--black);
+  box-shadow:3px 3px 0 var(--green-dark);
+}
+
+/* ==========================================================
+   NAV + PROGRESS THREAD
+   ========================================================== */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--cream);
+  border-bottom:3px solid var(--black);
+  padding:12px 4%;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+.progress{
+  position:absolute;left:0;bottom:-3px;height:3px;width:100%;
+  transform:scaleX(0);transform-origin:0 50%;
+  background:var(--green);z-index:101;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-display);
+  font-size:1.5rem;letter-spacing:.04em;
+  color:var(--black);text-decoration:none;
+}
+.logo-mark{
+  width:34px;height:34px;flex-shrink:0;
+  background:var(--green);
+  border:2px solid var(--black);
+  border-radius:8px;
+  box-shadow:2px 2px 0 var(--black);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);font-size:1.2rem;line-height:1;
+  transform:rotate(-4deg);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.logo:hover .logo-mark{transform:rotate(0deg) translate(-2px,-2px);box-shadow:4px 4px 0 var(--black)}
+.nav-links{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.nav-links a.nl{
+  display:inline-block;
+  color:var(--black);text-decoration:none;
+  font-size:.86rem;font-weight:600;
+  padding:3px 2px;
+  border-bottom:3px solid transparent;
+  transition:border-color .15s,color .15s,transform .15s var(--ease);
+}
+.nav-links a.nl:hover{color:var(--green-dark);transform:translateY(-1px)}
+.nav-links a.nl:active{transform:translateY(0)}
+.nav-links a.nl.cur{border-bottom-color:var(--green)}
+.nav-cta{
+  font-family:var(--font-display);
+  background:var(--green);color:var(--black);
+  text-decoration:none;
+  border:2px solid var(--black);border-radius:100px;
+  padding:6px 18px;font-size:.95rem;letter-spacing:.05em;
+  box-shadow:3px 3px 0 var(--black);
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease);
+}
+.nav-cta.cur{box-shadow:3px 3px 0 var(--green-dark)}
+.nav-cta:hover{transform:translate(-2px,-3px);box-shadow:5px 6px 0 var(--black)}
+.nav-cta:active{transform:translate(0,0);box-shadow:1px 1px 0 var(--black)}
+.lang-toggle{
+  display:flex;
+  border:2px solid var(--black);border-radius:100px;overflow:hidden;
+  box-shadow:2px 2px 0 var(--black);background:var(--white);
+  transition:transform .15s var(--ease),box-shadow .15s var(--ease);
+}
+.lang-toggle:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--black)}
+.lang-toggle:active{transform:translate(0,0);box-shadow:1px 1px 0 var(--black)}
+.lang-toggle button{
+  background:var(--white);border:none;cursor:pointer;
+  padding:6px 14px;
+  font-family:var(--font-body);font-size:.78rem;font-weight:700;
+  color:var(--black);
+  transition:background .15s,color .15s;
+}
+.lang-toggle button:hover{background:var(--green-light)}
+.lang-toggle button:active{background:var(--green)}
+.lang-toggle button.active,.lang-toggle button.active:hover{background:var(--black);color:var(--green)}
+.menu-btn{
+  display:none;align-items:center;gap:8px;cursor:pointer;
+  background:var(--white);color:var(--black);
+  border:2px solid var(--black);border-radius:8px;
+  padding:5px 12px;
+  font-family:var(--font-display);font-size:.95rem;letter-spacing:.06em;
+  box-shadow:2px 2px 0 var(--black);
+  transition:transform .15s var(--ease),box-shadow .15s var(--ease);
+}
+.menu-btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--black)}
+.menu-btn:active{transform:translate(0,0);box-shadow:1px 1px 0 var(--black)}
+
+/* ==========================================================
+   SHARED PRIMITIVES
+   ========================================================== */
+.wrap{max-width:1240px;margin:0 auto;padding:88px 5%}
+section{border-bottom:3px solid var(--black);position:relative}
+.bg-cream2{background:var(--cream2)}
+.bg-green-light{background:var(--green-light)}
+.bg-black{background:var(--black);color:var(--white)}
+
+.eyebrow{
+  display:inline-block;
+  background:var(--white);
+  border:2px solid var(--black);border-radius:100px;
+  padding:6px 16px;
+  font-size:.75rem;font-weight:700;letter-spacing:.1em;
+  box-shadow:2px 2px 0 var(--black);
+  margin-bottom:20px;
+}
+.eyebrow.green{background:var(--green)}
+.eyebrow.yellow{background:var(--yellow)}
+.eyebrow.purple{background:var(--purple)}
+.eyebrow.peach{background:var(--peach)}
+
+.sec-h{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:clamp(2.2rem,5vw,3.6rem);
+  line-height:1.05;letter-spacing:.01em;
+  margin-bottom:16px;
+}
+.sec-h .hl{color:var(--green-dark)}
+.bg-black .sec-h{color:var(--white)}
+.sec-sub{
+  font-size:1.05rem;color:var(--muted);
+  max-width:820px;margin-bottom:44px;
+}
+.bg-black .sec-sub{color:rgba(255,255,255,.75)}
+/* intro variants — no two spreads open the same way */
+.eyebrow.stampt{
+  transform:rotate(-2.5deg);
+  border-radius:8px;
+  border-width:3px;
+  font-family:var(--font-display);font-size:.9rem;letter-spacing:.12em;
+}
+.sec-h .band{
+  display:inline-block;
+  background:var(--black);color:var(--white);
+  padding:2px 18px 0;border-radius:8px;
+  box-shadow:5px 5px 0 var(--green);
+}
+.sec-h .band .hl{color:var(--green)}
+.sec-sub.hand-intro{
+  font-family:var(--font-hand);font-weight:600;
+  font-size:1.45rem;line-height:1.4;color:var(--black);
+  transform:rotate(-.6deg);
+}
+
+h3.blk-h{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.5rem,2.6vw,1.9rem);
+  letter-spacing:.02em;line-height:1.1;
+}
+.blk-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.blk-sub{font-size:.94rem;color:var(--muted);max-width:820px;margin-bottom:24px}
+
+.chip{
+  display:inline-block;
+  font-family:var(--font-display);font-size:.85rem;letter-spacing:.05em;
+  padding:4px 12px;border-radius:8px;
+  border:2px solid var(--black);
+  background:var(--yellow);color:var(--black);
+  box-shadow:2px 2px 0 var(--black);
+}
+.chip.green{background:var(--green)}
+.chip.ink{background:var(--black);color:var(--green);box-shadow:2px 2px 0 var(--green)}
+.chip.purple{background:var(--purple)}
+.chip.peach{background:var(--peach)}
+
+.hand{font-family:var(--font-hand);font-weight:700}
+
+/* black mic-drop note */
+.note-box{
+  background:var(--black);color:var(--white);
+  border:3px solid var(--black);border-radius:18px;
+  padding:24px 30px;
+  box-shadow:6px 6px 0 var(--green);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.note-box:hover{transform:translate(-2px,-3px);box-shadow:8px 9px 0 var(--green)}
+.note-box:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--green)}
+.note-box .note-eyebrow{
+  color:var(--green);font-family:var(--font-display);
+  font-size:.85rem;letter-spacing:.08em;margin-bottom:8px;
+}
+.note-box p{font-size:.98rem;line-height:1.7}
+/* demoted note — yellow sticker, so the black drops stay rare */
+.note-box.sticker{
+  background:var(--yellow);color:var(--black);
+  box-shadow:6px 6px 0 var(--black);
+  transform:rotate(-.8deg);
+}
+.note-box.sticker:hover{transform:rotate(0deg) translate(-2px,-3px);box-shadow:8px 9px 0 var(--black)}
+.note-box.sticker:active{transform:rotate(0deg) translate(1px,1px);box-shadow:2px 2px 0 var(--black)}
+.note-box.sticker .note-eyebrow{color:var(--green-dark)}
+/* pressed states — objects press down when grabbed */
+main .lic-card:active,main .engine:active,main .linsey-card:active,main .pipe-card:active,
+main .fstep-card:active,main .price:active,main .tcard:active,main .edge:active,
+main .cat-sticker:active,main .rlayer:active,main .layer:active{
+  transform:translate(1px,1px) !important;
+  box-shadow:1px 1px 0 var(--black) !important;
+}
+main .benefit:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--green)}
+
+/* ==========================================================
+   REVEAL CHOREOGRAPHY — one IntersectionObserver, many verbs
+   .rev = standalone unit  ·  .grp/.gi = choreographed group
+   ========================================================== */
+.rev,.grp .gi{
+  opacity:0;
+  transition:opacity .65s var(--ease),transform .65s var(--ease);
+  transition-delay:var(--d,0s);
+  will-change:opacity,transform;
+}
+.rev.r-up{transform:translateY(28px)}
+.rev.r-left{transform:translateX(-40px)}
+.rev.r-right{transform:translateX(40px)}
+.rev.r-drop{transform:translateY(-26px)}
+.rev.r-stamp{transform:scale(1.5) rotate(8deg);transition-timing-function:var(--ease-pop)}
+.rev.vis{opacity:1;transform:none}
+
+.grp .gi.g-up{transform:translateY(26px)}
+.grp .gi.g-left{transform:translateX(-36px)}
+.grp .gi.g-right{transform:translateX(36px)}
+.grp .gi.g-drop{transform:translateY(-22px)}
+.grp .gi.g-pop{transform:scale(.72) rotate(-4deg);transition-timing-function:var(--ease-pop)}
+.grp .gi.g-stamp{transform:scale(1.3) rotate(5deg);transition-timing-function:var(--ease-pop)}
+.grp.vis .gi{opacity:1;transform:none}
+/* .rot — items that keep a resting tilt after reveal (rotation survives .vis);
+   :where() keeps specificity low so each object's own :hover still wins */
+:where(.grp .gi.rot){--r:0deg}
+.grp .gi.rot.g-up{transform:translateY(26px) rotate(var(--r))}
+.grp .gi.rot.g-drop{transform:translateY(-22px) rotate(var(--r))}
+.grp.vis :where(.gi.rot){transform:perspective(800px) rotate(var(--r)) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg))}
+
+/* ==========================================================
+   HERO — the typographic monument
+   ========================================================== */
+.hero{padding:72px 5% 96px;position:relative}
+.hero-inner{max-width:1240px;margin:0 auto;position:relative}
+.hero-eyebrows{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.hero-h1{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(3.2rem,7.5vw,5.8rem);
+  line-height:1.02;letter-spacing:.005em;
+  margin-bottom:26px;
+  max-width:1000px;
+}
+.h-line{display:block;overflow:hidden;padding-bottom:.06em}
+.h-line .li{display:block;transform:translateY(115%) rotate(1.5deg);transform-origin:0 100%}
+.hero-h1 .punch{color:var(--green)}
+.hero-h1 .small-line{font-size:.52em;letter-spacing:.03em}
+@media (prefers-reduced-motion:no-preference){
+  .js .h-line .li{animation:lineUp .85s var(--ease) forwards}
+  .js .h-line:nth-child(1) .li{animation-delay:.08s}
+  .js .h-line:nth-child(2) .li{animation-delay:.22s}
+  .js .h-line:nth-child(3) .li{animation-delay:.36s}
+}
+html:not(.js) .h-line .li{transform:none}
+@keyframes lineUp{to{transform:translateY(0) rotate(0)}}
+
+.hero-note{
+  position:absolute;
+  top:-14px;right:2%;
+  font-family:var(--font-hand);font-weight:700;
+  font-size:clamp(1.2rem,2.2vw,1.7rem);
+  color:var(--black);
+  transform:rotate(5deg);
+  text-align:center;line-height:1.15;
+  max-width:260px;
+}
+.hero-note .arrow{display:block;margin:2px auto 0}
+.hero-tagline{
+  font-size:1.15rem;line-height:1.65;
+  max-width:740px;margin-bottom:30px;
+}
+.hero-lic{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+.hero-lic .lic-label{font-size:.85rem;color:var(--muted);font-weight:600;margin-right:4px}
+.pill-w{display:inline-block}
+@media (prefers-reduced-motion:no-preference){
+  .js .pill-w{opacity:0;animation:popIn .5s var(--ease-pop) forwards;animation-delay:var(--pd,.7s)}
+}
+@keyframes popIn{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.lic-pill{
+  display:inline-block;
+  background:var(--white);
+  border:2px solid var(--black);border-radius:8px;
+  padding:4px 12px;
+  font-family:var(--font-display);font-size:.9rem;letter-spacing:.06em;
+  box-shadow:2px 2px 0 var(--black);
+  transform:rotate(var(--r,0deg));
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease);
+}
+.lic-pill:hover{transform:rotate(0deg) translate(-2px,-3px);box-shadow:4px 5px 0 var(--black)}
+.lic-pill.tsp{background:var(--yellow)}
+.lic-pill.cap{background:var(--peach)}
+.lic-pill.tap{background:var(--green-light)}
+.lic-pill.tto{background:var(--purple)}
+.lic-pill.ads{background:var(--black);color:var(--green)}
+.hero-byline{font-size:.88rem;color:var(--muted)}
+
+/* ==========================================================
+   MARQUEE — full-bleed green band
+   ========================================================== */
+.marquee{
+  background:var(--green);
+  border-bottom:3px solid var(--black);
+  padding:12px 0;overflow:hidden;
+  font-family:var(--font-display);
+  font-size:1.15rem;letter-spacing:.08em;
+  color:var(--black);
+}
+.marquee-inner{display:flex;white-space:nowrap;width:max-content}
+.mq-group{display:flex;gap:40px;padding-right:40px}
+@media (prefers-reduced-motion:no-preference){
+  .marquee-inner{animation:mq 30s linear infinite}
+  .marquee:hover .marquee-inner{animation-play-state:paused}
+}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ==========================================================
+   PROOF — metric monuments
+   ========================================================== */
+.metrics{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:3px solid var(--black);
+  border-bottom:3px solid var(--black);
+  margin-bottom:56px;
+}
+.metric{
+  padding:26px 22px 24px;
+  border-left:3px solid var(--black);
+}
+.metric:first-child{border-left:none}
+.metric .m-tag{
+  font-size:.74rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+}
+.metric .m-num{
+  font-family:var(--font-display);
+  font-size:clamp(2.6rem,4.6vw,4.2rem);
+  line-height:.95;color:var(--black);
+  white-space:nowrap;
+}
+.metric:nth-child(1) .m-num{color:var(--green-dark)}
+.metric:nth-child(2) .m-num{color:var(--accent3)}
+.metric:nth-child(3) .m-num{color:var(--orange-dark)}
+.metric .m-label{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+/* talent network — the black drop */
+.talent{
+  background:var(--black);color:var(--white);
+  border:3px solid var(--black);border-radius:20px;
+  padding:32px 34px;
+  box-shadow:8px 8px 0 var(--green);
+  margin-bottom:64px;
+}
+.talent .t-eyebrow{
+  font-family:var(--font-display);font-size:.9rem;
+  color:var(--green);letter-spacing:.08em;margin-bottom:20px;
+}
+.talent-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.t-stat{border-left:3px solid var(--green);padding-left:16px}
+.t-stat .num{
+  font-family:var(--font-display);
+  font-size:clamp(2.2rem,4vw,3.4rem);
+  line-height:1;color:var(--green);white-space:nowrap;
+}
+.t-stat .lbl{font-size:.86rem;margin-top:8px;color:rgba(255,255,255,.92)}
+.talent .t-note{font-size:.9rem;color:rgba(255,255,255,.7);margin-top:22px;max-width:760px}
+
+/* six license stamp cards */
+.lic-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:26px 22px;margin-bottom:64px;padding-top:8px;
+}
+.lic-card{
+  position:relative;
+  border:3px solid var(--black);border-radius:16px;
+  background:var(--white);
+  padding:24px 22px 20px;
+  box-shadow:5px 5px 0 var(--black);
+  transform:rotate(var(--r,0deg));
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+  min-height:150px;
+}
+.lic-card:hover{transform:rotate(0deg) translate(-2px,-3px);box-shadow:7px 8px 0 var(--black)}
+.lic-card.yellow{background:var(--yellow)}
+.lic-card.purple{background:var(--purple)}
+.lic-card.peach{background:var(--peach)}
+.lic-card.greenlight{background:var(--green-light)}
+.lic-card.ink{background:var(--black);color:var(--white);box-shadow:5px 5px 0 var(--green)}
+.lic-card.ink:hover{box-shadow:7px 8px 0 var(--green)}
+.lic-num{
+  position:absolute;top:-13px;left:18px;
+  background:var(--black);color:var(--white);
+  font-family:var(--font-display);font-size:.75rem;letter-spacing:.1em;
+  padding:3px 12px;border-radius:100px;
+}
+.lic-card.ink .lic-num{background:var(--green);color:var(--black)}
+.lic-acro{
+  font-family:var(--font-display);
+  font-size:2.6rem;line-height:1;letter-spacing:.02em;
+  margin:6px 0 8px;
+}
+.lic-card.ink .lic-acro{color:var(--green)}
+.lic-desc{font-size:.86rem;line-height:1.55}
+.lic-card.ink .lic-desc{color:rgba(255,255,255,.85)}
+.lic-sign{
+  position:absolute;right:14px;top:-16px;
+  font-family:var(--font-hand);font-weight:700;
+  font-size:1.25rem;color:var(--black);
+  background:var(--yellow);
+  border:2px solid var(--black);border-radius:8px;
+  padding:1px 12px;
+  transform:rotate(4deg);
+  box-shadow:2px 2px 0 var(--black);
+}
+
+/* brand wall — abundance, not a spreadsheet · light paper, black accents */
+.bwall{
+  background:var(--cream);
+  border:3px solid var(--black);border-radius:20px;
+  padding:26px;
+  box-shadow:8px 8px 0 var(--black);
+  margin-bottom:64px;
+}
+.bw-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
+.bw-cell{
+  background:var(--white);
+  border:2px solid var(--black);
+  border-radius:8px;
+  min-height:50px;padding:8px 6px;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:var(--font-display);font-size:.78rem;letter-spacing:.04em;
+  color:var(--black);
+  box-shadow:2px 2px 0 var(--black);
+  transition:border-color .15s,transform .15s,box-shadow .15s;
+}
+.bw-cell:hover{border-color:var(--green-dark);transform:translate(-1px,-2px);box-shadow:3px 4px 0 var(--black)}
+.bw-cell.feat{
+  grid-column:span 2;
+  border:2px solid var(--black);
+  color:var(--black);font-size:1.05rem;
+  box-shadow:3px 3px 0 var(--green);
+}
+.bw-cell.feat:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--green)}
+.bw-cell.feat.yellow{background:var(--yellow)}
+.bw-cell.feat.purple{background:var(--purple)}
+.bw-cell.feat.peach{background:var(--peach)}
+.bw-cell.feat.greenlight{background:var(--green-light)}
+.bw-cell.more{
+  background:var(--black);color:var(--green);
+  border:2px solid var(--black);
+  font-size:.95rem;
+  box-shadow:2px 2px 0 var(--green);
+}
+/* scattered wave-in */
+.grp.vis .bw-cell{transition-delay:0s}
+.grp.vis .bw-cell:nth-child(2n){transition-delay:.05s}
+.grp.vis .bw-cell:nth-child(3n){transition-delay:.1s}
+.grp.vis .bw-cell:nth-child(5n){transition-delay:.16s}
+.grp.vis .bw-cell:nth-child(7n){transition-delay:.22s}
+.grp.vis .bw-cell:nth-child(11n){transition-delay:.28s}
+
+/* typographic breath — a quiet hand-written beat between the proof blocks */
+.breath{
+  padding:26px 0 50px;text-align:center;
+}
+.breath .b-line{
+  display:inline-block;
+  font-family:var(--font-hand);font-weight:700;
+  font-size:clamp(1.5rem,3.2vw,2.3rem);line-height:1.35;
+  color:var(--black);
+  transform:rotate(-1deg);
+  max-width:900px;
+}
+.breath .b-line .u{box-shadow:inset 0 -0.35em 0 var(--green-light)}
+
+/* category results — one monument number + satellite stats (not another card grid) */
+.catmon{
+  display:grid;grid-template-columns:1.05fr 1fr;
+  gap:36px;align-items:stretch;margin-bottom:26px;
+}
+.catmon-big{
+  position:relative;overflow:hidden;
+  background:var(--green-light);
+  border:3px solid var(--black);border-radius:20px;
+  box-shadow:8px 8px 0 var(--black);
+  padding:30px 0 26px 30px;
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.catmon-big:hover{transform:translate(-2px,-3px);box-shadow:10px 11px 0 var(--black)}
+.catmon-big:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--black)}
+.catmon-big .cm-tag{
+  font-size:.78rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);
+}
+.catmon-big .cm-brand{
+  font-family:var(--font-display);font-size:2rem;letter-spacing:.04em;
+  margin-bottom:2px;
+}
+.catmon-big .cm-num{
+  font-family:var(--font-display);
+  font-size:clamp(4.6rem,10.5vw,9rem);
+  line-height:.92;color:var(--green-dark);
+  white-space:nowrap;letter-spacing:-.005em;
+  margin-right:-20px; /* deliberately cropped off the right edge — Cash-App monument */
+}
+.catmon-big .cm-desc{font-size:.9rem;color:var(--muted);margin-top:8px;padding-right:30px}
+.catmon-sats{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px 26px;align-content:center;
+}
+.sat{border-left:3px solid var(--black);padding-left:14px}
+.sat .s-tag{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.sat .s-brand{font-family:var(--font-display);font-size:1.05rem;letter-spacing:.04em}
+.sat .s-num{font-family:var(--font-display);font-size:1.95rem;line-height:1.05;color:var(--green-dark)}
+.sat .s-desc{font-size:.76rem;color:var(--muted)}
+.sat.hot{border-left-color:var(--green-dark)}
+.sat.hot .s-num{font-size:2.4rem}
+.cat-sticker{
+  background:var(--yellow);
+  border:2px solid var(--black);border-radius:8px;
+  box-shadow:4px 4px 0 var(--black);
+  padding:14px 22px;
+  font-family:var(--font-hand);font-weight:700;
+  font-size:1.45rem;line-height:1.25;
+  display:inline-flex;align-items:center;justify-content:center;text-align:center;
+  transform:rotate(-1.5deg);
+  margin-bottom:64px;
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.cat-sticker:hover{transform:rotate(0deg) translate(-2px,-3px);box-shadow:6px 7px 0 var(--black)}
+
+/* ad agency — thermal-paper receipts: torn edge, dotted totals, PAID-style tick */
+.adrow{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-bottom:64px;align-items:start}
+.ad{
+  position:relative;
+  background:var(--white);
+  border:2px solid var(--black);border-bottom:none;
+  border-radius:8px 8px 0 0;
+  transform:perspective(800px) rotate(var(--r,0deg)) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));
+  filter:drop-shadow(4px 4px 0 var(--black));
+  transition:transform .2s var(--ease),filter .2s var(--ease);
+}
+.ad:hover{transform:perspective(800px) rotate(0deg) translate(-2px,-3px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));filter:drop-shadow(6px 7px 0 var(--black))}
+.ad:active{transform:rotate(0deg) translate(1px,1px);filter:drop-shadow(1px 1px 0 var(--black))}
+.ad::after{ /* torn perforated bottom edge */
+  content:"";display:block;height:9px;margin:0 -2px;
+  background-image:
+    linear-gradient(45deg,var(--white) 50%,transparent 50%),
+    linear-gradient(-45deg,var(--white) 50%,transparent 50%);
+  background-size:14px 18px;
+  background-position:0 0,7px 0;
+  background-repeat:repeat-x;
+}
+.ad .a-paid{
+  position:absolute;right:10px;top:44px;
+  width:36px;height:36px;border-radius:100px;
+  border:3px solid var(--green-dark);color:var(--green-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:1.25rem;
+  transform:rotate(10deg);opacity:.9;pointer-events:none;
+}
+.ad .a-head{
+  font-family:var(--font-display);font-size:1.2rem;letter-spacing:.08em;
+  border-bottom:2px dashed var(--black);
+  padding:12px 18px 10px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+}
+.ad .a-cat{font-family:var(--font-body);font-size:.74rem;font-weight:600;color:var(--muted)}
+.ad .a-body{padding:14px 18px 12px}
+.ad .a-num{
+  font-family:var(--font-display);font-size:2.4rem;line-height:1;
+  color:var(--green-dark);
+  padding-bottom:8px;margin-bottom:8px;
+  border-bottom:2px dotted var(--black);
+}
+.ad .a-desc{font-size:.82rem;color:var(--muted);line-height:1.55}
+
+/* StockX — connected test rig */
+.rig{position:relative;padding-left:64px;display:grid;gap:16px;margin-bottom:8px}
+.rig::before{
+  content:"";position:absolute;left:25px;top:26px;bottom:26px;
+  border-left:3px dashed var(--black);
+}
+.rig-step{position:relative}
+.rig-step .r-num{
+  position:absolute;left:-64px;top:6px;
+  width:52px;height:52px;border-radius:100px;
+  border:3px solid var(--black);
+  background:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:1.4rem;
+  box-shadow:3px 3px 0 var(--black);
+}
+.rig-step .r-num.purple{background:var(--purple)}
+.rig-step .r-num.peach{background:var(--peach)}
+.rig-step .r-num.yellow{background:var(--yellow)}
+.rig-step .r-card{
+  background:var(--white);
+  border:3px solid var(--black);border-radius:14px;
+  padding:16px 22px;
+  box-shadow:4px 4px 0 var(--black);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.rig-step:hover .r-card{transform:translate(-2px,-3px);box-shadow:6px 7px 0 var(--black)}
+.rig-step h4{
+  font-family:var(--font-display);font-weight:400;
+  font-size:1.15rem;letter-spacing:.04em;margin-bottom:4px;
+}
+.rig-step p{font-size:.88rem;color:var(--muted);line-height:1.55}
+
+/* ==========================================================
+   AIUGC — the facing engine pair
+   ========================================================== */
+.engines{
+  position:relative;
+  display:grid;grid-template-columns:1fr 1fr;gap:34px;
+  margin-bottom:40px;padding-top:10px;
+}
+.engine{
+  border:3px solid var(--black);border-radius:20px;
+  padding:32px;
+  box-shadow:6px 6px 0 var(--black);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.engine:hover{transform:rotate(0deg) translate(-2px,-3px) !important;box-shadow:8px 9px 0 var(--black)}
+.engine.agent{background:var(--purple);transform:rotate(-.8deg)}
+.engine.aigc{background:var(--peach);transform:rotate(.8deg)}
+.engine .e-tag{
+  font-family:var(--font-display);font-size:.85rem;letter-spacing:.08em;
+  color:var(--muted);margin-bottom:10px;
+}
+.engine h3{
+  font-family:var(--font-display);font-weight:400;
+  font-size:1.9rem;line-height:1.1;letter-spacing:.01em;margin-bottom:14px;
+}
+.engine p{font-size:.95rem;line-height:1.7;margin-bottom:14px}
+.engine ul{list-style:none;font-size:.9rem;line-height:1.7}
+.engine ul li{padding-left:18px;position:relative;margin-bottom:6px}
+.engine ul li::before{content:"▸";position:absolute;left:0;color:var(--green-dark);font-weight:700}
+.plus-badge{
+  position:absolute;left:50%;top:46%;
+  transform:translate(-50%,-50%) rotate(-6deg);
+  width:64px;height:64px;border-radius:100px;
+  background:var(--black);color:var(--green);
+  border:3px solid var(--black);
+  box-shadow:4px 4px 0 var(--green);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:2.2rem;line-height:1;
+  z-index:5;pointer-events:none;
+}
+
+/* ==========================================================
+   AGENT STACK — Linsey + the paper stack
+   ========================================================== */
+.linsey{
+  display:grid;grid-template-columns:1.5fr 1fr;gap:28px;
+  margin-bottom:36px;align-items:start;
+}
+.linsey-copy p{font-size:.96rem;color:var(--muted);max-width:640px;margin-top:12px}
+.linsey-card{
+  background:var(--white);
+  border:3px solid var(--black);border-radius:18px;
+  padding:24px 26px 18px;
+  box-shadow:6px 6px 0 var(--black);
+  transform:rotate(1.2deg);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.linsey-card:hover{transform:rotate(0deg) translate(-2px,-3px);box-shadow:8px 9px 0 var(--black)}
+.linsey-card .msg{
+  font-family:var(--font-hand);font-weight:600;
+  font-size:1.45rem;line-height:1.35;
+}
+.linsey-card .sig{
+  font-family:var(--font-hand);font-weight:700;
+  font-size:1.9rem;color:var(--green-dark);
+  text-align:right;margin-top:10px;
+}
+.linsey-card .cap{
+  font-size:.76rem;color:var(--muted);
+  border-top:2px dashed var(--black);
+  margin-top:12px;padding-top:8px;
+}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:8px}
+.pipe{position:relative;padding-right:26px}
+.pipe:last-child{padding-right:0}
+.pipe::after{
+  content:"→";position:absolute;right:2px;top:38%;
+  font-family:var(--font-display);font-size:1.5rem;color:var(--black);
+}
+.pipe:last-child::after{content:none}
+.pipe-card{
+  background:var(--white);
+  border:3px solid var(--black);border-radius:14px;
+  padding:14px 14px 16px;
+  box-shadow:3px 3px 0 var(--black);
+  height:100%;
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.pipe-card:hover{transform:translate(-2px,-3px);box-shadow:5px 6px 0 var(--black)}
+.pipe-card.peach{background:var(--peach)}
+.pipe-card.purple{background:var(--purple)}
+.pipe-card.yellow{background:var(--yellow)}
+.pipe-card.greenlight{background:var(--green-light)}
+.pipe-num{
+  display:inline-block;
+  font-family:var(--font-display);font-size:.75rem;letter-spacing:.1em;
+  background:var(--black);color:var(--white);
+  border-radius:100px;padding:2px 10px;margin-bottom:8px;
+}
+.pipe-title{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.04em;margin-bottom:4px}
+.pipe-desc{font-size:.78rem;line-height:1.5;color:var(--muted)}
+.stack-divider{
+  text-align:center;margin:34px 0 26px;
+  font-family:var(--font-display);
+  font-size:1.25rem;letter-spacing:.08em;color:var(--green-dark);
+}
+
+/* the 5-layer paper stack — sheets genuinely overlap, tilt and cast onto each other */
+.stack{max-width:980px;padding-bottom:8px}
+.layer{
+  border:3px solid var(--black);border-radius:14px;
+  padding:20px 24px;
+  box-shadow:5px 5px 0 var(--black);
+  position:relative;
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.layer:hover{transform:rotate(0deg) translate(-2px,-3px) !important;box-shadow:7px 8px 0 var(--black);z-index:9}
+.layer.l5{background:var(--green);margin:0;z-index:1;--r:-.7deg}
+.layer.l4{background:var(--yellow);margin:-12px 0 0 32px;z-index:2;--r:.6deg}
+.layer.l3{background:var(--peach);margin:-12px 0 0 64px;z-index:3;--r:-.5deg}
+.layer.l2{background:var(--purple);margin:-12px 0 0 96px;z-index:4;--r:.7deg}
+.layer.l1{background:var(--green-light);margin:-12px 0 0 128px;z-index:5;--r:-.6deg}
+.layer .l-badge{
+  position:absolute;left:-23px;top:16px;
+  background:var(--black);color:var(--green);
+  font-family:var(--font-display);font-size:1.05rem;letter-spacing:.06em;
+  border-radius:10px;padding:4px 10px;
+  box-shadow:2px 2px 0 var(--green);
+}
+.layer .l-h{
+  font-family:var(--font-display);font-size:1.35rem;letter-spacing:.04em;
+  margin-bottom:8px;padding-left:26px;
+}
+.layer p{font-size:.9rem;line-height:1.6;padding-left:26px}
+.layer ul{list-style:none;margin-top:8px;font-size:.87rem;padding-left:26px}
+.layer ul li{padding-left:16px;position:relative;margin-bottom:4px}
+.layer ul li::before{content:"▸";position:absolute;left:0;color:var(--black)}
+
+/* ==========================================================
+   AIGC METHOD — flow, edges, tilted price tags
+   ========================================================== */
+/* "return-to-origin" flow — three overlapping polaroids pinned to the desk,
+   NOT another numbered-card-arrow strip (the pipeline next door already owns that) */
+.flow3{
+  display:flex;justify-content:center;align-items:stretch;
+  margin-bottom:56px;padding:14px 0 22px;
+}
+.fstep{position:relative;flex:1;max-width:330px;z-index:1}
+.fstep:nth-child(2){margin:0 -20px;z-index:2}
+.fstep:nth-child(3){z-index:3}
+.fstep:hover{z-index:9}
+.fstep-card{
+  background:var(--white);
+  border:3px solid var(--black);border-radius:8px;
+  padding:14px 14px 10px;height:100%;
+  box-shadow:5px 5px 0 var(--black);
+  display:flex;flex-direction:column;
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.fstep:nth-child(1) .fstep-card{transform:rotate(-2deg)}
+.fstep:nth-child(2) .fstep-card{transform:rotate(1.6deg) translateY(16px)}
+.fstep:nth-child(3) .fstep-card{transform:rotate(-1.2deg)}
+.fstep:hover .fstep-card{transform:rotate(0deg) translate(-2px,-3px);box-shadow:7px 8px 0 var(--black)}
+.fstep-card .ph{ /* the "photo" area of the polaroid */
+  background:var(--purple);
+  border:2px solid var(--black);border-radius:8px;
+  padding:16px 16px 18px;flex:1;
+}
+.fstep:nth-child(2) .fstep-card .ph{background:var(--peach)}
+.fstep-card.pay .ph{background:var(--green)}
+.fstep-num{
+  font-family:var(--font-display);font-size:1.5rem;letter-spacing:.05em;
+  color:var(--green-dark);margin-bottom:8px;
+}
+.fstep-card.pay .fstep-num{color:var(--black)}
+.fstep-card h4{
+  font-family:var(--font-hand);font-weight:700;
+  font-size:1.55rem;letter-spacing:.01em;
+  text-align:center;padding:10px 4px 4px;margin:0;
+}
+.fstep-card p{font-size:.92rem;line-height:1.6}
+
+/* the value chain, drawn in ink — we sit stamped at the tail end */
+.chain{
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;flex-wrap:wrap;
+  margin-bottom:34px;padding:4px 0;
+}
+.chain .c-node{
+  border:2px solid var(--black);border-radius:100px;
+  background:var(--white);
+  padding:6px 18px;
+  font-family:var(--font-display);font-size:1rem;letter-spacing:.06em;
+  box-shadow:2px 2px 0 var(--black);
+}
+.chain .c-arrow{
+  font-family:var(--font-hand);font-weight:700;
+  font-size:1.7rem;line-height:1;color:var(--black);
+  transform:rotate(-4deg);
+}
+.chain .c-stamp{
+  border:3px solid var(--green-dark);border-radius:8px;
+  color:var(--green-dark);
+  padding:5px 14px;margin-left:8px;
+  font-family:var(--font-display);font-size:1rem;letter-spacing:.08em;
+  transform:rotate(-3deg);
+  background:var(--white);
+}
+.edges{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:56px}
+.edge{
+  background:var(--white);
+  border:3px solid var(--black);border-radius:18px;
+  overflow:hidden;
+  box-shadow:5px 5px 0 var(--black);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.grp.vis .gi.edge:hover,.edge:hover{transform:rotate(0deg) translate(-2px,-3px);box-shadow:7px 8px 0 var(--black)}
+.edge .e-band{
+  background:var(--black);color:var(--white);
+  font-family:var(--font-display);font-size:.9rem;letter-spacing:.08em;
+  padding:8px 20px;
+}
+.edge.sticky{background:var(--yellow)}
+.edge.sticky .e-band{background:var(--peach);color:var(--black);border-bottom:2px dashed var(--black)}
+.edge.win .e-band{background:var(--green);color:var(--black)}
+.edge .e-body{padding:20px}
+.edge h4{
+  font-family:var(--font-display);font-weight:400;
+  font-size:1.35rem;line-height:1.15;letter-spacing:.02em;margin-bottom:10px;
+}
+.edge p{font-size:.9rem;line-height:1.65}
+.edge.win{background:var(--green-light)}
+
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding-top:20px;margin-bottom:44px}
+.price{
+  background:var(--white);
+  border:3px solid var(--black);border-radius:18px;
+  padding:28px;position:relative;
+  box-shadow:5px 5px 0 var(--black);
+  transform:perspective(800px) rotate(var(--r,0deg)) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.price:hover{transform:perspective(800px) rotate(0deg) translate(-2px,-3px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));box-shadow:7px 8px 0 var(--black)}
+.price.rec{
+  background:var(--black);color:var(--white);
+  border-color:var(--green);
+  box-shadow:6px 6px 0 var(--green);
+}
+.price.rec:hover{box-shadow:8px 9px 0 var(--green)}
+.price-badge{
+  position:absolute;top:-16px;left:50%;transform:translateX(-50%) rotate(-2deg);
+  background:var(--green);color:var(--black);
+  border:2px solid var(--black);border-radius:100px;
+  padding:4px 16px;white-space:nowrap;
+  font-family:var(--font-display);font-size:.9rem;letter-spacing:.06em;
+  box-shadow:2px 2px 0 var(--black);
+}
+.price-tier{
+  font-family:var(--font-display);font-size:.9rem;
+  color:var(--muted);letter-spacing:.06em;margin-bottom:8px;
+}
+.price.rec .price-tier{color:var(--green)}
+.price-num{font-family:var(--font-display);font-size:4.2rem;line-height:1}
+.price.rec .price-num{color:var(--green)}
+.price-meta{
+  font-size:.88rem;color:var(--muted);
+  margin:4px 0 16px;padding-bottom:14px;
+  border-bottom:2px dashed var(--black);
+}
+.price.rec .price-meta{color:rgba(255,255,255,.7);border-bottom-color:rgba(255,255,255,.4)}
+.price ul{list-style:none;font-size:.88rem;line-height:1.7}
+.price ul li{padding-left:16px;position:relative;margin-bottom:6px}
+.price ul li::before{content:"●";position:absolute;left:0;color:var(--green-dark);font-size:.65em;top:.55em}
+.price.rec ul li::before{color:var(--green)}
+
+/* ==========================================================
+   SERVICES — layer bars with huge left labels
+   ========================================================== */
+.rlayer{
+  border:3px solid var(--black);border-radius:18px;
+  padding:26px 30px;margin-bottom:18px;
+  box-shadow:5px 5px 0 var(--black);
+  display:grid;grid-template-columns:1.1fr 1.6fr;gap:28px;align-items:center;
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.rlayer:hover{transform:translate(-2px,-3px);box-shadow:7px 8px 0 var(--black)}
+.rlayer.peach{background:var(--peach)}
+.rlayer.purple{background:var(--purple)}
+.rlayer.greenlight{background:var(--green-light)}
+.rlayer .rl-left{display:flex;gap:18px;align-items:flex-start}
+.rlayer .rl-index{
+  font-family:var(--font-display);
+  font-size:clamp(3rem,6vw,4.6rem);line-height:.9;
+  color:var(--black);
+}
+.rlayer .rl-tag{
+  font-size:.76rem;color:var(--muted);font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;
+}
+.rlayer .rl-title{
+  font-family:var(--font-display);font-size:1.7rem;
+  line-height:1.1;letter-spacing:.02em;
+}
+.rlayer .data-pill{
+  display:inline-block;
+  background:var(--black);color:var(--green);
+  padding:4px 12px;border-radius:8px;
+  font-family:var(--font-display);font-size:1rem;letter-spacing:.03em;
+  margin-top:10px;
+}
+.rlayer ul{list-style:none;font-size:.92rem;line-height:1.7}
+.rlayer ul li{padding-left:18px;position:relative;margin-bottom:6px}
+.rlayer ul li::before{content:"▸";position:absolute;left:0;color:var(--green-dark);font-weight:700}
+
+/* ==========================================================
+   TEAM — trading cards
+   ========================================================== */
+.tcard{
+  border:3px solid var(--black);border-radius:20px;
+  /* padding lives on .tc-front so the flip's containing block (.tc-inner)
+     matches the card's inner box exactly — no anchor jump mid-flip */
+  padding:0;margin-bottom:34px;
+  box-shadow:6px 6px 0 var(--black);
+  position:relative;
+  background:var(--white);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.tcard .tc-front{padding:36px 34px 30px}
+.tcard:hover{transform:translate(-2px,-3px) rotate(0deg) !important;box-shadow:8px 9px 0 var(--black)}
+.tcard.yellow{background:var(--yellow);transform:rotate(-1.2deg)}
+.tcard.purple{background:var(--purple);transform:rotate(1.1deg)}
+.tcard.white{background:var(--white);transform:rotate(-1deg)}
+.tcard.greenlight{background:var(--green-light);transform:rotate(1.2deg)}
+.tcard .t-tag{
+  position:absolute;top:-16px;left:26px;
+  background:var(--black);color:var(--green);
+  padding:6px 18px;border-radius:100px;
+  font-family:var(--font-display);font-size:.9rem;letter-spacing:.06em;
+  box-shadow:2px 2px 0 var(--green);
+}
+.tcard .t-mark{
+  position:absolute;right:26px;top:8px;
+  font-family:var(--font-display);
+  font-size:7rem;line-height:1;
+  color:var(--black);opacity:.07;
+  pointer-events:none;user-select:none;
+}
+.tcard .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:30px;margin-top:6px}
+.t-name{
+  font-family:var(--font-display);font-size:2.5rem;
+  letter-spacing:.01em;line-height:1;margin-bottom:8px;
+}
+.t-name .hand-sub{font-family:var(--font-hand);font-size:1.4rem;color:var(--muted);margin-left:10px}
+.t-role{
+  font-size:.8rem;color:var(--muted);font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;
+}
+.t-bio p{font-size:.93rem;line-height:1.7;margin-bottom:12px}
+.t-side{
+  background:var(--white);
+  border:2px solid var(--black);border-radius:14px;
+  padding:20px;
+  box-shadow:4px 4px 0 var(--black);
+  align-self:start;
+}
+.t-side .s-h{
+  font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--muted);font-weight:700;margin-bottom:12px;
+}
+.t-side ul{list-style:none;font-size:.87rem;line-height:1.65}
+.t-side ul li{padding-left:16px;position:relative;margin-bottom:8px}
+.t-side ul li::before{content:"★";position:absolute;left:0;color:var(--green-dark);font-size:.7em;top:.45em}
+.k-chips{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 14px}
+.k-chips .chip{font-size:.8rem}
+
+/* ==========================================================
+   CONTACT — black band, coupon steps + email CTA
+   ========================================================== */
+/* benefits — punched paper vouchers with a stamped seal, not another dark tile */
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:52px}
+.benefit{
+  position:relative;
+  background:var(--cream);color:var(--black);
+  border:3px dashed var(--black);border-radius:14px;
+  padding:24px 24px 56px;
+  transform:perspective(800px) rotate(var(--r,0deg)) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.benefit::before,.benefit::after{ /* punched coupon notches — same ink as the black band */
+  content:"";position:absolute;top:50%;
+  width:22px;height:22px;border-radius:100px;
+  background:var(--black);
+  transform:translateY(-50%);
+}
+.benefit::before{left:-14px}
+.benefit::after{right:-14px}
+.benefit:hover{transform:perspective(800px) rotate(0deg) translate(-2px,-3px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));box-shadow:5px 6px 0 var(--green)}
+.benefit .b-tag{
+  font-family:var(--font-display);font-size:.85rem;
+  color:var(--green-dark);letter-spacing:.08em;margin-bottom:12px;
+}
+.benefit h4{
+  color:var(--black);font-family:var(--font-display);font-weight:400;
+  font-size:1.35rem;margin-bottom:10px;letter-spacing:.02em;
+}
+.benefit p{color:var(--black);font-size:.88rem;line-height:1.65}
+.benefit .b-seal{
+  position:absolute;right:16px;bottom:12px;
+  width:42px;height:42px;border-radius:100px;
+  border:3px solid var(--green-dark);color:var(--green-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:1.3rem;line-height:1;
+  transform:rotate(-12deg);opacity:.9;pointer-events:none;
+}
+.contact-h3{
+  font-family:var(--font-display);font-weight:400;
+  font-size:1.9rem;color:var(--green);letter-spacing:.03em;margin-bottom:8px;
+}
+.contact-sub{color:rgba(255,255,255,.7);font-size:.95rem;margin-bottom:28px;max-width:820px}
+.contact-cta{text-align:center;padding-top:10px}
+/* black band swallows the black button shadow — press on dark-green plates instead */
+.bg-black .btn-cta{box-shadow:5px 5px 0 var(--green-dark)}
+.bg-black .btn-cta:hover{box-shadow:8px 8px 0 var(--green-dark)}
+.bg-black .btn-cta:active{box-shadow:2px 2px 0 var(--green-dark)}
+.contact-mail-label{
+  margin-top:26px;
+  font-family:var(--font-display);font-size:.95rem;letter-spacing:.1em;
+  color:var(--green);text-transform:uppercase;
+}
+.contact-mail{
+  font-family:var(--font-display);
+  font-size:clamp(1.5rem,3.2vw,2.4rem);letter-spacing:.04em;
+  word-break:break-all;
+}
+.contact-mail a{color:var(--white);text-decoration:none;border-bottom:3px solid var(--green)}
+.contact-mail a:hover{color:var(--green)}
+
+/* ==========================================================
+   CLOSING + FOOTER
+   ========================================================== */
+.closing{text-align:center;position:relative}
+.closing-stamp{
+  position:absolute;top:44px;right:7%;
+  pointer-events:none;z-index:2;
+}
+.closing-stamp .cs-in{
+  display:inline-block;
+  border:4px solid var(--green-dark);border-radius:10px;
+  color:var(--green-dark);
+  padding:8px 20px 4px;
+  font-family:var(--font-display);
+  font-size:clamp(1.2rem,2.4vw,1.8rem);
+  letter-spacing:.12em;line-height:1.1;
+  transform:rotate(9deg);
+  opacity:.92;
+}
+.closing-h{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2.8rem,6.5vw,5rem);
+  line-height:1.04;margin-bottom:22px;
+}
+.closing-h .hl{color:var(--green-dark)}
+.closing-sub{font-size:1.12rem;color:var(--muted);margin-bottom:24px}
+.btn-cta{
+  display:inline-block;
+  background:var(--green);color:var(--black);
+  border:3px solid var(--black);border-radius:100px;
+  padding:14px 40px;
+  font-family:var(--font-display);font-size:1.3rem;letter-spacing:.06em;
+  text-decoration:none;
+  box-shadow:5px 5px 0 var(--black);
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease);
+}
+.btn-cta:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--black)}
+.btn-cta:active{transform:translate(0,0);box-shadow:2px 2px 0 var(--black)}
+.closing-byline{color:var(--muted);font-size:.92rem;margin-top:30px}
+footer{
+  background:var(--black);color:var(--white);
+  padding:26px 5%;text-align:center;
+  font-size:.85rem;letter-spacing:.04em;
+}
+footer .f-green{color:var(--green)}
+
+/* ==========================================================
+   REDUCED MOTION — final states, no drift
+   ========================================================== */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rev,.grp .gi,.pill-w,.h-line .li{opacity:1 !important;transform:none !important;animation:none !important;transition:none !important}
+  .marquee-inner{animation:none !important}
+  *{scroll-behavior:auto !important}
+}
+
+/* ==========================================================
+   RESPONSIVE — 1080 / 880 / 768 / 540
+   ========================================================== */
+@media (max-width:1080px){
+  .bw-grid{grid-template-columns:repeat(6,1fr)}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:nth-child(3){border-left:none}
+  .metric:nth-child(n+3){border-top:3px solid var(--black)}
+}
+@media (max-width:880px){
+  .nav-links a.nl{display:none}
+  .menu-btn{display:inline-flex}
+  nav.menu-open .nav-links{
+    position:absolute;top:100%;left:0;right:0;
+    background:var(--cream);
+    border-bottom:3px solid var(--black);
+    flex-direction:column;align-items:flex-start;
+    padding:16px 5% 20px;gap:12px;z-index:99;
+  }
+  nav.menu-open .nav-links a.nl{display:block;font-size:1rem}
+  .lic-grid{grid-template-columns:repeat(2,1fr)}
+  .catmon{grid-template-columns:1fr;gap:26px}
+  .adrow{grid-template-columns:repeat(2,1fr)}
+  .engines{grid-template-columns:1fr;gap:44px}
+  .plus-badge{top:50%}
+  .engine.agent,.engine.aigc{transform:rotate(0)}
+  .linsey{grid-template-columns:1fr}
+  .pipeline{grid-template-columns:repeat(2,1fr);gap:14px}
+  .pipe{padding-right:0}
+  .pipe::after{content:none}
+  .flow3{flex-direction:column;align-items:center;gap:20px}
+  .fstep{max-width:420px;width:100%}
+  .fstep:nth-child(2){margin:0}
+  .fstep:nth-child(2) .fstep-card{transform:rotate(1.6deg)}
+  .edges{grid-template-columns:1fr}
+  .pricing{grid-template-columns:1fr;gap:30px}
+  .rlayer{grid-template-columns:1fr}
+  .tcard .two-col{grid-template-columns:1fr}
+  .benefits{grid-template-columns:1fr}
+  .layer.l4{margin:-10px 0 0 14px}
+  .layer.l3{margin:-10px 0 0 28px}
+  .layer.l2{margin:-10px 0 0 42px}
+  .layer.l1{margin:-10px 0 0 56px}
+  .hero-note{position:static;transform:rotate(-2deg);margin:0 0 18px;max-width:none;text-align:left}
+  .hero-note .arrow{display:none}
+  .talent-stats{grid-template-columns:1fr;gap:16px}
+  .closing-stamp{position:static;display:block;margin-bottom:20px}
+}
+@media (max-width:768px){
+  .wrap{padding:64px 5%}
+  .closing-core{padding:72px 5%}
+  .bw-grid{grid-template-columns:repeat(4,1fr)}
+  .bw-cell.feat{font-size:.92rem}
+  .rig{padding-left:52px}
+  .rig::before{left:20px}
+  .rig-step .r-num{left:-52px;width:42px;height:42px;font-size:1.15rem}
+}
+@media (max-width:540px){
+  .metrics{grid-template-columns:1fr}
+  .metric{border-left:none}
+  .metric:nth-child(n+2){border-top:3px solid var(--black)}
+  .lic-grid{grid-template-columns:1fr}
+  .catmon-sats{grid-template-columns:1fr;gap:14px}
+  .catmon-big .cm-num{font-size:clamp(3.6rem,16vw,5.5rem)}
+  .adrow{grid-template-columns:1fr}
+  .bw-grid{grid-template-columns:repeat(3,1fr)}
+  .bw-cell.feat{grid-column:span 3}
+  .pipeline{grid-template-columns:1fr}
+  .layer .l-badge{position:static;display:inline-block;margin-bottom:8px}
+  .layer .l-h,.layer p,.layer ul{padding-left:0}
+  .layer.l4,.layer.l3,.layer.l2,.layer.l1{margin:-8px 0 0 0}
+  .tcard .tc-front{padding:30px 22px 24px}
+  .tcard .t-mark{font-size:4.5rem}
+}
+
+/* ==========================================================
+   WIDE SCREENS ≥1600px — use the width, keep the system
+   ========================================================== */
+@media (min-width:1600px){
+  .wrap{max-width:1440px}
+  /* centered with moderate spread — not edge-to-edge justified */
+  .hero-inner{max-width:1000px}
+  .hero-h1{font-size:clamp(3.2rem,7.5vw,6.6rem);max-width:1200px}
+  .sec-h{font-size:clamp(2.2rem,5vw,4rem)}
+  .hero-note{top:-22px;right:-2vw}
+  .hero-lic{gap:14px}
+  /* internal blocks track the widened wrap — no dead right column */
+  .stack{max-width:1140px}
+}
+
+/* ==========================================================
+   PAPER SHEET STACK — full-viewport sheets pile up on scroll.
+   fx mode = min-width 880px AND no reduced-motion; JS stamps
+   html.fx / html.no-fx. In no-fx the page flows exactly as before.
+   ========================================================== */
+/* sheets that used to inherit the body cream need it explicit — opaque covering */
+.sheet--hero,#aiugc,#services,.closing{background:var(--cream)}
+.closing-core{padding:110px 5%}
+.sheet{position:relative}
+.sheet>*{position:relative;z-index:1}
+/* ghost typography — one huge buried Bebas word per sheet, ink at 4.5% */
+.ghost{
+  position:absolute;z-index:0;
+  font-family:var(--font-display);
+  font-size:min(24vw,480px);line-height:1;letter-spacing:.02em; /* capped — vw texture must never overflow its sheet vertically */
+  color:rgba(17,17,17,.045);
+  white-space:nowrap;
+  -webkit-user-select:none;user-select:none;
+  pointer-events:none;
+}
+#proof .ghost{top:3vh;right:-4vw}
+#aiugc .ghost{bottom:5vh;left:-3vw}
+#agent .ghost{top:9vh;left:-4vw} /* tilted -4deg via --pr inline */
+#aigc .ghost{bottom:3vh;right:-5vw}
+#services .ghost{top:5vh;left:-4vw}
+#team .ghost{bottom:7vh;right:-4vw}
+#contact .ghost{top:6vh;right:-3vw;color:rgba(255,255,255,.05)}
+.closing .ghost{bottom:9vh;left:-3vw;font-size:min(20vw,400px)}
+html:not(.fx) .ghost{display:none}
+
+html.fx .sheet{
+  position:sticky;
+  top:var(--stick-top,0px);
+  /* sheets live BELOW the sticky nav — JS measures the real nav and keeps --nav-h in sync */
+  min-height:calc(100vh - var(--nav-h,67px));
+  min-height:calc(100svh - var(--nav-h,67px));
+  overflow:hidden;overflow:clip;
+  will-change:transform;
+}
+html.fx main>.sheet:nth-child(1){z-index:1}
+html.fx main>.sheet:nth-child(2){z-index:2}
+html.fx main>.sheet:nth-child(3){z-index:3}
+html.fx main>.sheet:nth-child(4){z-index:4}
+html.fx main>.sheet:nth-child(5){z-index:5}
+html.fx main>.sheet:nth-child(6){z-index:6}
+html.fx main>.sheet:nth-child(7){z-index:7}
+html.fx main>.sheet:nth-child(8){z-index:8}
+html.fx main>.sheet:nth-child(9){z-index:9}
+/* every incoming sheet reads as a paper edge */
+html.fx main>.sheet+.sheet{border-top:3px solid var(--black)}
+html.fx [data-fx="settle"]{transform-origin:50% 100%}
+html.fx [data-fx="settle-top"]{transform-origin:50% 0}
+/* generic parallax hook — JS drives --py (and --pr for data-rot elements) */
+html.fx [data-para]{transform:translate3d(0,var(--py,0px),0) rotate(var(--pr,0deg))}
+/* short sheets center their content inside the viewport */
+html.fx .sheet-center{display:flex;flex-direction:column;justify-content:center}
+html.fx .sheet--hero{display:flex;flex-direction:column}
+/* hero fills the sheet minus the marquee — trimmed vertical paddings so
+   headline + tagline + pills + byline + marquee all fit one viewport (~800px+) */
+html.fx .sheet--hero .hero{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;padding-top:28px;padding-bottom:32px}
+html.fx .sheet--hero .marquee{flex:0 0 auto}
+/* column-flex + margin:0 auto children shrink-to-fit — force full width so
+   max-width caps (1240/1440/1560) actually apply on wide screens  这里我手动注释掉了*/
+html.fx .sheet--hero .hero-inner{width:100%}
+html.fx .sheet-center>.wrap{width:100%}
+html.fx .closing.sheet{display:flex;flex-direction:column}
+html.fx .closing-core{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
+/* sheets now pin below the nav (--stick-top = nav height), so the stamp only
+   needs to clear the sheet's own paper edge — not the nav */
+html.fx .closing-stamp{top:48px}
+
+/* ==========================================================
+   CSS-3D TRANSITION PACK — flip / ink / stamp / snap / tilt /
+   stack explode. All scroll-driven fx live under html.fx only;
+   the team card flip is a click interaction → works in both modes.
+   ========================================================== */
+/* ---- #aigc page flip — shared perspective on main.
+   perspective creates a stacking context on main but NOT a 3D rendering
+   context (no preserve-3d), so the nth-child z-index ladder still owns
+   paint order and nav (z-index:100, root context) stays above. Sticky
+   is unaffected — perspective creates a containing block for fixed
+   descendants only, and sheets are sticky against the viewport scroller. */
+html.fx main{perspective:1600px}
+/* fold line sits at the bottom of the first viewportful — the sheet is
+   taller than the viewport, so a true 50% 100% origin would swing the
+   visible page thousands of px through Z */
+html.fx [data-fx="flip"]{
+  transform-origin:50% calc(100vh - var(--nav-h,67px));
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+
+/* ---- #contact ink-blot — the black sheet is the blot; splat dots live on
+   the covered team sheet (a splat inside the clipped contact sheet would be
+   black-on-black AND clipped away) ---- */
+html.fx [data-fx="ink"]{will-change:transform,clip-path}
+.ink-splats{position:absolute;inset:0;z-index:2;pointer-events:none}
+html:not(.fx) .ink-splats{display:none}
+.ink-splat{position:absolute;background:var(--black);border-radius:100px;transform:scale(0)}
+
+/* ---- registration snap — one-shot print click when a sheet seats at p=1 ---- */
+html.fx .sheet.snap .sec-h,
+html.fx .sheet.snap .closing-h{animation:regSnap .14s linear}
+@keyframes regSnap{
+  0%,54%{text-shadow:4px 4px 0 var(--green);transform:translate(-1px,-1px)}
+  55%,100%{text-shadow:none;transform:none}
+}
+
+/* ---- .closing stamp-press — scroll-driven press replaces the IO pop ---- */
+html.fx .closing-stamp.rev{opacity:1;transform:none;transition:none}
+html.fx .closing-stamp .cs-in{will-change:transform}
+html.fx .closing.thud .closing-core{animation:thudPress 90ms var(--ease)}
+@keyframes thudPress{from{transform:scale(1.004)}to{transform:scale(1)}}
+
+/* ---- #agent stack 3D explode — modest translateZ keeps text crisp ---- */
+html.fx .stack{perspective:1200px}
+html.fx .grp.vis .stack .layer{
+  transform:translate3d(var(--sx,0px),var(--sy,0px),var(--tz,0px)) rotate(var(--r,0deg));
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+/* hover/press must COMPOSE with the scroll-driven explode depth (--tz) —
+   the base .layer:hover / main .layer:active !important rules would wipe
+   translate3d and make hovered layers snap flat. Higher specificity + later
+   source keeps the lift/press physics while preserving depth. */
+html.fx .grp.vis .stack .layer:hover{
+  transform:translate3d(var(--sx,0px),var(--sy,0px),var(--tz,0px)) rotate(0deg) translate(-2px,-3px) !important;
+}
+html.fx .grp.vis .stack .layer:active{
+  transform:translate3d(var(--sx,0px),var(--sy,0px),var(--tz,0px)) rotate(0deg) translate(1px,1px) !important;
+}
+
+/* ---- team card flip — click interaction, works in fx AND no-fx ---- */
+.tcard{perspective:1000px}
+/* .tc-inner is ALWAYS the containing block for absolute descendants
+   (position:relative), so applying the flip transform never re-anchors
+   .t-tag / .t-mark / .tc-back mid-transition; the card's padding sits on
+   .tc-front so .tc-inner fills the card's inner box edge-to-edge */
+.tc-inner{position:relative;transform-style:preserve-3d;transition:transform .5s var(--ease)}
+.tcard.flipped .tc-inner{transform:rotateY(180deg)}
+.tc-front{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.tc-back{
+  position:absolute;inset:0;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  transform:rotateY(180deg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;padding:30px;text-align:center;
+}
+.tc-back .t-tag{position:static}
+.tc-back .tc-sig{
+  font-family:var(--font-hand);font-weight:700;
+  font-size:clamp(2.8rem,6vw,4.6rem);line-height:1;
+  transform:rotate(-3deg);
+}
+.tc-back svg{width:150px;height:150px}
+.tc-flip{
+  position:absolute;right:0;bottom:0;z-index:5;
+  width:44px;height:44px;
+  background:transparent;border:none;padding:0;cursor:pointer;
+  border-radius:0 0 17px 0;
+}
+.tc-flip::after{ /* folded dog-ear corner */
+  content:"";position:absolute;right:5px;bottom:5px;
+  width:0;height:0;
+  border-left:24px solid transparent;
+  border-bottom:24px solid var(--black);
+  transform-origin:100% 100%;
+  transition:transform .18s var(--ease);
+}
+.tc-flip:hover::after,.tc-flip:focus-visible::after{transform:scale(1.18)}
+.tc-flip .zh,.tc-flip .en{ /* visually hidden — bilingual accessible name */
+  position:absolute;width:1px;height:1px;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;
+}
+@media (prefers-reduced-motion:reduce){
+  .tc-inner{transition:none !important} /* instant face swap, no rotation */
+}
+
+/* ==========================================================
+   DEMO THEATER — auto-cycling two-scene demo panel in the
+   hero's right slot. A moving print illustration (ink lines,
+   token colors, paper physics), NOT a screen recording.
+   ≥1100px only. Every scene animation runs on one shared 8s
+   clock (the .dt-bar timer); JS only swaps .on and pauses.
+   ========================================================== */
+#demo-theater{
+  position:absolute;right:-20px;top:110px;
+  width:min(580px,36vw);aspect-ratio:4/3;
+  background:var(--white);
+  border:3px solid var(--black);border-radius:24px;
+  box-shadow:8px 8px 0 var(--black);
+  display:none;z-index:2;
+}
+@media (min-width:1100px){
+  #demo-theater{display:flex;flex-direction:column}
+  /* clear the theater column — the H1 monument keeps its full measure */
+  .hero-tagline,.hero-lic{max-width:56%}
+}
+@media (min-width:1100px) and (max-width:1399.98px){
+  #demo-theater{width:min(480px,32vw)}
+}
+/* --- header strip · scene tabs + 8s auto-cycle progress bar --- */
+.dt-head{
+  position:relative;flex-shrink:0;
+  display:flex;gap:8px;align-items:center;
+  padding:10px 14px 12px;
+  background:var(--cream);
+  border-bottom:3px solid var(--black);
+  border-radius:21px 21px 0 0;
+}
+.dt-tab{
+  cursor:pointer;
+  background:var(--white);color:var(--black);
+  border:2px solid var(--black);border-radius:100px;
+  padding:3px 13px;
+  font-family:var(--font-display);font-size:.85rem;letter-spacing:.05em;
+  box-shadow:2px 2px 0 var(--black);
+  transition:transform .15s var(--ease),box-shadow .15s var(--ease),background .15s;
+}
+.dt-tab:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--black)}
+.dt-tab:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}
+.dt-tab.on{background:var(--green)}
+.dt-progress{position:absolute;left:0;right:0;bottom:0;height:4px;overflow:hidden;pointer-events:none}
+.dt-bar{
+  display:block;width:100%;height:100%;
+  background:var(--green);
+  transform:scaleX(0);transform-origin:0 50%;
+  animation:dtBar 8s linear infinite;
+}
+@keyframes dtBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.dt-body{position:relative;flex:1;min-height:0;overflow:hidden;border-radius:0 0 21px 21px}
+#demo-theater .scene{display:none;position:absolute;inset:0}
+#demo-theater .scene.on{display:block}
+#demo-theater .scene-media{position:absolute;inset:0}
+.dt-sticker{
+  position:absolute;top:-16px;right:-14px;z-index:3;
+  background:var(--yellow);
+  border:2px solid var(--black);border-radius:8px;
+  padding:1px 14px;
+  font-family:var(--font-hand);font-weight:700;font-size:1.3rem;line-height:1.4;
+  transform:rotate(6deg);
+  box-shadow:2px 2px 0 var(--black);
+  pointer-events:none;
+}
+/* JS stamps .paused (media hover / hidden tab / covered hero sheet) —
+   the bar IS the cycle timer, so pausing it pauses the auto-swap too */
+#demo-theater.paused .dt-bar,
+#demo-theater.paused .scene *{animation-play-state:paused !important}
+
+/* --- SCENE A · AIGC compose — polaroids → engine → phone.
+   Base styles (no animation) = the composed final frame, which is
+   exactly what reduced-motion shows. All keyframes share 8s. --- */
+.dtA-stage{position:absolute;inset:0;animation:dtStageA 8s linear infinite}
+@keyframes dtStageA{
+  0%,93%{opacity:1;transform:none}
+  100%{opacity:0;transform:translateY(8px) rotate(.6deg)}
+}
+.dtA-card{
+  position:absolute;top:7%;width:31%;
+  background:var(--white);
+  border:2px solid var(--black);border-radius:8px;
+  padding:3.5% 3% 1.5%;
+  box-shadow:4px 4px 0 var(--black);
+}
+.dtA-cardL{left:8%;transform:rotate(-4deg);animation:dtCardL 8s linear infinite}
+.dtA-cardR{right:8%;transform:rotate(3deg);animation:dtCardR 8s linear infinite}
+@keyframes dtCardL{
+  0%{transform:translate(-190%,-12%) rotate(-18deg);opacity:0;animation-timing-function:cubic-bezier(.34,1.4,.44,1)}
+  9%,24%{transform:rotate(-4deg);opacity:1;animation-timing-function:cubic-bezier(.22,.9,.35,1)}
+  33%,100%{transform:translate(85%,58%) rotate(-10deg) scale(.16);opacity:0}
+}
+@keyframes dtCardR{
+  0%,2%{transform:translate(190%,-12%) rotate(18deg);opacity:0;animation-timing-function:cubic-bezier(.34,1.4,.44,1)}
+  11%,24%{transform:rotate(3deg);opacity:1;animation-timing-function:cubic-bezier(.22,.9,.35,1)}
+  33%,100%{transform:translate(-85%,58%) rotate(9deg) scale(.16);opacity:0}
+}
+.dtA-ph{display:block;background:var(--cream2);border:2px solid var(--black);border-radius:6px;overflow:hidden}
+.dtA-ph svg{display:block;width:100%;height:auto}
+.dtA-cap{
+  display:block;text-align:center;
+  font-family:var(--font-hand);font-weight:700;font-size:1.02rem;line-height:1.6;
+  white-space:nowrap;overflow:hidden;
+}
+.dtA-machine{
+  position:absolute;left:23%;right:23%;top:47%;height:26%;
+  background:var(--black);
+  border:3px solid var(--black);border-radius:12px;
+  box-shadow:5px 5px 0 var(--green);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+}
+.dtA-slot{
+  position:absolute;top:-8px;left:50%;margin-left:-23%;width:46%;height:12px;
+  background:var(--cream);
+  border:2px solid var(--black);border-radius:6px;
+}
+.dtA-mlabel{
+  font-family:var(--font-display);
+  font-size:clamp(.85rem,1.3vw,1.15rem);letter-spacing:.14em;
+  color:var(--green);
+}
+.dtA-pips{display:flex;gap:9%;align-items:center;max-width:94%}
+.dtA-pip{display:flex;align-items:center;gap:4px;min-width:0}
+.dtA-pip i{
+  width:9px;height:9px;border-radius:100px;flex-shrink:0;
+  background:var(--green); /* final frame: all pips lit */
+  border:2px solid var(--green);
+}
+.dtA-pip em{
+  font-style:normal;font-size:.56rem;font-weight:700;letter-spacing:.03em;
+  color:var(--white);white-space:nowrap;
+}
+.dtA-pip i.pp1{animation:dtPip1 8s linear infinite}
+.dtA-pip i.pp2{animation:dtPip2 8s linear infinite}
+.dtA-pip i.pp3{animation:dtPip3 8s linear infinite}
+@keyframes dtPip1{0%,33%{background:var(--black)}36%,100%{background:var(--green)}}
+@keyframes dtPip2{0%,43%{background:var(--black)}46%,100%{background:var(--green)}}
+@keyframes dtPip3{0%,53%{background:var(--black)}56%,100%{background:var(--green)}}
+.dtA-phone{
+  position:absolute;left:50%;top:5%;
+  width:25%;height:62%;margin-left:-12.5%;z-index:2;
+  background:var(--white);
+  border:3px solid var(--black);border-radius:16px;
+  box-shadow:5px 5px 0 var(--black);
+  padding:5px;
+  animation:dtPhone 8s linear infinite;
+}
+@keyframes dtPhone{
+  0%,57%{transform:translateY(62%) scale(.2);opacity:0;animation-timing-function:cubic-bezier(.34,1.4,.44,1)}
+  65%,100%{transform:none;opacity:1}
+}
+.dtA-screen{
+  position:relative;width:100%;height:100%;
+  background:var(--cream);
+  border:2px solid var(--black);border-radius:10px;
+  overflow:hidden;
+}
+.dtA-play{
+  position:absolute;left:50%;top:34%;
+  width:34%;aspect-ratio:1;margin-left:-17%;
+  background:var(--white);
+  border:2px solid var(--black);border-radius:100px;
+  display:flex;align-items:center;justify-content:center;
+}
+.dtA-play svg{width:62%;height:62%}
+.dtA-bar{
+  position:absolute;left:7%;right:7%;bottom:6%;height:8px;
+  background:var(--white);border:2px solid var(--black);border-radius:100px;
+  overflow:hidden;
+}
+.dtA-bar i{
+  display:block;height:100%;
+  background:var(--green);
+  transform-origin:0 50%;
+  animation:dtSweep 8s linear infinite;
+}
+@keyframes dtSweep{0%,63%{transform:scaleX(0)}88%,100%{transform:scaleX(1)}}
+.dtA-tag{
+  position:absolute;left:50%;top:58%;width:88%;margin-left:-44%;
+  background:var(--green);color:var(--black);
+  border:2px solid var(--black);border-radius:6px;
+  padding:3px 2px;text-align:center;
+  font-family:var(--font-display);font-size:.58rem;letter-spacing:.04em;line-height:1.3;
+  transform:rotate(-3deg);
+  box-shadow:2px 2px 0 var(--black);
+  animation:dtTag 8s linear infinite;
+}
+@keyframes dtTag{
+  0%,70%{opacity:0;transform:rotate(-9deg) scale(1.6);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}
+  74%,100%{opacity:1;transform:rotate(-3deg) scale(1)}
+}
+.dtA-heart{position:absolute;right:12%;bottom:22%;width:17%;opacity:0}
+.dtA-heart svg{display:block;width:100%;height:auto}
+.dtA-heart.h1{animation:dtHeart1 8s linear infinite}
+.dtA-heart.h2{right:28%;bottom:20%;width:13%;animation:dtHeart2 8s linear infinite}
+.dtA-heart.h3{right:6%;bottom:19%;width:12%;animation:dtHeart3 8s linear infinite}
+@keyframes dtHeart1{
+  0%,64%{opacity:0;transform:translateY(0) scale(.5)}
+  67%{opacity:1}
+  80%,100%{opacity:0;transform:translateY(-340%) scale(1.05)}
+}
+@keyframes dtHeart2{
+  0%,70%{opacity:0;transform:translateY(0) scale(.5)}
+  73%{opacity:1}
+  86%,100%{opacity:0;transform:translateY(-300%) scale(1)}
+}
+@keyframes dtHeart3{
+  0%,76%{opacity:0;transform:translateY(0) scale(.5)}
+  79%{opacity:1}
+  92%,100%{opacity:0;transform:translateY(-260%) scale(.9)}
+}
+
+/* --- SCENE B · Agent outreach — neo-brutalist browser-plugin window.
+   Abstract creator rows only (no handles, no real data). --- */
+.dtB-win{
+  position:absolute;inset:4% 4% 5%;
+  background:var(--white);
+  border:2px solid var(--black);border-radius:12px;
+  box-shadow:4px 4px 0 var(--black);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  animation:dtBWin 8s linear infinite;
+}
+@keyframes dtBWin{
+  0%{opacity:0;transform:scale(.96) rotate(-1deg);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}
+  4%,94%{opacity:1;transform:none}
+  100%{opacity:0;transform:translateY(6px) rotate(.5deg)}
+}
+.dtB-chrome{
+  display:flex;gap:5px;align-items:center;flex-shrink:0;
+  padding:6px 10px;
+  background:var(--cream);
+  border-bottom:2px solid var(--black);
+}
+.dtB-dot{width:9px;height:9px;border-radius:100px;border:2px solid var(--black);background:var(--white)}
+.dtB-dot:nth-child(2){background:var(--yellow)}
+.dtB-dot:nth-child(3){background:var(--green)}
+.dtB-cols{display:flex;flex:1;min-height:0}
+.dtB-pane{min-width:0;padding:7px 8px;display:flex;flex-direction:column}
+.dtB-inbox{flex:0 0 30%;background:var(--cream)}
+.dtB-chat{flex:1 1 40%;border-left:2px solid var(--black);border-right:2px solid var(--black)}
+.dtB-plug{flex:0 0 30%;background:var(--purple)}
+.dtB-ptitle{
+  font-family:var(--font-display);font-size:.62rem;letter-spacing:.05em;
+  border-bottom:2px dashed var(--black);
+  padding-bottom:4px;margin-bottom:6px;
+  white-space:nowrap;overflow:hidden;
+}
+.dtB-row{display:flex;align-items:center;gap:5px;padding:3px 0}
+.dtB-ava{width:15px;height:15px;border-radius:100px;flex-shrink:0;background:var(--cream2);border:2px solid var(--black)}
+.dtB-lines{flex:1;min-width:0}
+.dtB-l{display:block;height:4px;border-radius:100px;background:var(--cream2);margin:3px 0}
+.dtB-l.s{width:58%}
+.dtB-ck{
+  font-family:var(--font-display);font-size:.62rem;line-height:11px;text-align:center;
+  width:15px;height:15px;border-radius:100px;flex-shrink:0;
+  border:2px solid var(--green-dark);color:var(--green-dark);
+  transform:rotate(-8deg);
+}
+.dtB-ck.ck1{animation:dtCk1 8s linear infinite}
+.dtB-ck.ck2{animation:dtCk2 8s linear infinite}
+.dtB-ck.ck3{animation:dtCk3 8s linear infinite}
+.dtB-ck.ck4{animation:dtCk4 8s linear infinite}
+.dtB-ck.ck5{animation:dtCk5 8s linear infinite}
+@keyframes dtCk1{0%,16%{opacity:0;transform:scale(2) rotate(10deg);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}20%,100%{opacity:1;transform:scale(1) rotate(-8deg)}}
+@keyframes dtCk2{0%,30%{opacity:0;transform:scale(2) rotate(10deg);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}34%,100%{opacity:1;transform:scale(1) rotate(-8deg)}}
+@keyframes dtCk3{0%,44%{opacity:0;transform:scale(2) rotate(10deg);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}48%,100%{opacity:1;transform:scale(1) rotate(-8deg)}}
+@keyframes dtCk4{0%,58%{opacity:0;transform:scale(2) rotate(10deg);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}62%,100%{opacity:1;transform:scale(1) rotate(-8deg)}}
+@keyframes dtCk5{0%,72%{opacity:0;transform:scale(2) rotate(10deg);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}76%,100%{opacity:1;transform:scale(1) rotate(-8deg)}}
+.dtB-bub{
+  background:var(--green-light);
+  border:2px solid var(--black);border-radius:10px 10px 10px 3px;
+  padding:5px 7px;margin-bottom:6px;
+  font-size:.58rem;line-height:1.55;
+  animation:dtBub1 8s linear infinite;
+}
+@keyframes dtBub1{0%,7%{opacity:0;transform:translateY(6px)}10%,100%{opacity:1;transform:none}}
+/* message settles in as paper (stamp-in), not a typewriter — stays in the
+   print language; bubble container fades first (dtBub1), text lands after */
+.dtB-type{display:block;animation:dtType 8s linear infinite}
+@keyframes dtType{
+  0%,12%{opacity:0;transform:translateY(6px);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}
+  20%,100%{opacity:1;transform:none}
+}
+.dtB-bub.b2{
+  background:var(--white);border-radius:10px 10px 3px 10px;
+  font-family:var(--font-hand);font-weight:700;font-size:.98rem;line-height:1.2;
+  color:var(--green-dark);
+  animation:dtBub2 8s linear infinite;
+}
+@keyframes dtBub2{
+  0%,41%{opacity:0;transform:translateY(6px) scale(.7);animation-timing-function:cubic-bezier(.34,1.4,.44,1)}
+  45%,100%{opacity:1;transform:none}
+}
+.dtB-send{
+  margin-top:auto;align-self:flex-end;
+  background:var(--green);color:var(--black);
+  border:2px solid var(--black);border-radius:100px;
+  padding:2px 12px;
+  font-family:var(--font-display);font-size:.62rem;letter-spacing:.08em;
+  box-shadow:2px 2px 0 var(--black);
+  animation:dtSend 8s linear infinite;
+}
+@keyframes dtSend{
+  0%,53%{transform:none;box-shadow:2px 2px 0 var(--black)}
+  55%,58%{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}
+  60%,100%{transform:none;box-shadow:2px 2px 0 var(--black)}
+}
+.dtB-btn{
+  display:flex;align-items:center;gap:5px;
+  background:var(--white);
+  border:2px solid var(--black);border-radius:8px;
+  padding:4px 6px;margin-bottom:6px;
+  font-size:.55rem;font-weight:700;line-height:1.3;
+  box-shadow:2px 2px 0 var(--black);
+}
+.dtB-btn i{width:10px;height:10px;border-radius:100px;flex-shrink:0;background:var(--green);border:2px solid var(--black)}
+.dtB-btn.p1{animation:dtPr1 8s linear infinite}
+.dtB-btn.p2{animation:dtPr2 8s linear infinite}
+.dtB-btn.p3{animation:dtPr3 8s linear infinite}
+@keyframes dtPr1{0%,13%{transform:none;box-shadow:2px 2px 0 var(--black)}15%,18%{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}20%,100%{transform:none;box-shadow:2px 2px 0 var(--black)}}
+@keyframes dtPr2{0%,35%{transform:none;box-shadow:2px 2px 0 var(--black)}37%,40%{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}42%,100%{transform:none;box-shadow:2px 2px 0 var(--black)}}
+@keyframes dtPr3{0%,57%{transform:none;box-shadow:2px 2px 0 var(--black)}59%,62%{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}64%,100%{transform:none;box-shadow:2px 2px 0 var(--black)}}
+.dtB-btn.p1 i{animation:dtDot1 8s linear infinite}
+.dtB-btn.p2 i{animation:dtDot2 8s linear infinite}
+.dtB-btn.p3 i{animation:dtDot3 8s linear infinite}
+@keyframes dtDot1{0%,13%{opacity:.2}15%{opacity:1}17%{opacity:.25}19%,100%{opacity:1}}
+@keyframes dtDot2{0%,35%{opacity:.2}37%{opacity:1}39%{opacity:.25}41%,100%{opacity:1}}
+@keyframes dtDot3{0%,57%{opacity:.2}59%{opacity:1}61%{opacity:.25}63%,100%{opacity:1}}
+.dtB-foot{
+  display:flex;gap:8px;justify-content:center;align-items:center;flex-shrink:0;
+  padding:7px 8px;
+  background:var(--cream);
+  border-top:2px solid var(--black);
+}
+.dtB-chip{
+  font-family:var(--font-display);font-size:.62rem;letter-spacing:.04em;
+  background:var(--yellow);
+  border:2px solid var(--black);border-radius:100px;
+  padding:1px 10px;white-space:nowrap;
+  box-shadow:2px 2px 0 var(--black);
+}
+.dtB-chip.g{background:var(--green-light)}
+/* wide screens — hero-inner narrows to 1000px while the H1 grows; the
+   theater overhangs the container edge to clear the EN headline ink.
+   (Lives after the base rule so the cascade keeps it winning.) */
+@media (min-width:1600px){
+  /* overhang pushes the panel right so the EN headline ink clears its left
+     edge (~47px budget at 1600px; re-measure if headline copy grows) */
+  #demo-theater{right:-260px}
+}
+/* reduced motion — no auto-cycle, every scene rests on its composed
+   final frame (the base styles above); tabs still switch scenes */
+@media (prefers-reduced-motion:reduce){
+  #demo-theater .dt-bar,
+  #demo-theater .scene *{animation:none !important}
+}
+</style>
+</head>
+<body data-lang="zh">
+<script>try{if(localStorage.getItem('linknlatch-lang')==='en'){document.body.setAttribute('data-lang','en');document.documentElement.lang='en';}}catch(e){}</script>
+<noscript><style>.rev,.grp .gi,.pill-w,.h-line .li{opacity:1 !important;transform:none !important}</style></noscript>
+
+<!-- ================= NAV ================= -->
+<nav aria-label="Main">
+  <a class="logo" href="#hero">
+    <span class="logo-mark" aria-hidden="true">L</span>
+    <span class="zh">淋浪 LINKNLATCH</span>
+    <span class="en">LINKNLATCH</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a class="nl" href="#hero"><span class="zh">定位</span><span class="en">Positioning</span></a>
+    <a class="nl" href="#proof"><span class="zh">数据 &amp; 牌照</span><span class="en">Validation</span></a>
+    <a class="nl" href="#aiugc"><span class="zh">业务核心</span><span class="en">Core</span></a>
+    <a class="nl" href="#agent"><span class="zh">Agent 架构</span><span class="en">Agent Stack</span></a>
+    <a class="nl" href="#aigc"><span class="zh">AIGC</span><span class="en">AIGC</span></a>
+    <a class="nl" href="#services"><span class="zh">服务方案</span><span class="en">Services</span></a>
+    <a class="nl" href="#team"><span class="zh">团队</span><span class="en">Team</span></a>
+    <a class="nav-cta" href="#contact"><span class="zh">联系合作</span><span class="en">Contact Us</span></a>
+    <div class="lang-toggle" role="group" aria-label="Language switch · 语言切换">
+      <button type="button" class="active" data-lang="zh" aria-pressed="true">中文</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+  <button type="button" class="menu-btn" aria-expanded="false" aria-controls="navLinks">☰ <span class="zh">菜单</span><span class="en">MENU</span></button>
+  <div class="progress" aria-hidden="true"></div>
+</nav>
+
+<main>
+<!-- ================= 1. HERO · 定位 ================= -->
+<div class="sheet sheet--hero">
+<section class="hero" id="hero" aria-label="LinknLatch positioning">
+  <div class="hero-inner">
+    <div class="hero-eyebrows">
+      <span class="eyebrow"><span class="zh">服务介绍 · 大店合作</span><span class="en">Services · Key-Account Partnership</span></span>
+      <span class="eyebrow green">2026</span>
+    </div>
+
+    <div class="hero-note" data-para="-150" style="--pr:5deg">
+      <span class="zh">AIGC + Agent 双引擎！</span>
+      <span class="en">AIGC + Agent, dual engine!</span>
+      <svg class="arrow" width="54" height="44" viewBox="0 0 54 44" fill="none" aria-hidden="true">
+        <path d="M46 4 C38 22, 26 30, 8 34" stroke="#111111" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M16 28 L7 35 L18 38" stroke="#111111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- demo theater — auto-cycling illustrated demo of the two engines (≥1100px only).
+         Scenes are stylized print illustrations, not screen recordings; the client
+         swaps real footage into the SWAP-SLOT wrappers later. -->
+    <div id="demo-theater" data-para="-110">
+      <div class="dt-head" role="tablist" aria-label="演示场景切换 · Demo scene tabs">
+        <button type="button" class="dt-tab on" id="dtTabA" role="tab" aria-selected="true" aria-controls="dtSceneA">
+          <span class="zh">① AIGC 合成</span><span class="en">① AIGC COMPOSE</span>
+        </button>
+        <button type="button" class="dt-tab" id="dtTabB" role="tab" aria-selected="false" aria-controls="dtSceneB" tabindex="-1">
+          <span class="zh">② Agent 邀约</span><span class="en">② AGENT OUTREACH</span>
+        </button>
+        <div class="dt-progress" aria-hidden="true"><span class="dt-bar"></span></div>
+      </div>
+      <div class="dt-body">
+        <section class="scene on" id="dtSceneA" role="tabpanel" aria-labelledby="dtTabA" tabindex="0">
+          <div class="scene-media"><!-- SWAP-SLOT: replace inner content with real <video>/<img> asset later, keep this wrapper -->
+            <div class="dtA-stage">
+              <div class="dtA-card dtA-cardL">
+                <span class="dtA-ph" aria-hidden="true">
+                  <svg viewBox="0 0 100 78">
+                    <circle cx="50" cy="30" r="16" fill="none" stroke="#111111" stroke-width="2.5"/>
+                    <path d="M22 74 C26 56 36 50 50 50 C64 50 74 56 78 74" fill="none" stroke="#111111" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M36 22 q6 -10 20 -4" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="dtA-cap"><span class="zh">达人照片</span><span class="en">CREATOR PHOTO</span></span>
+              </div>
+              <div class="dtA-card dtA-cardR">
+                <span class="dtA-ph" aria-hidden="true">
+                  <svg viewBox="0 0 100 78">
+                    <path d="M28 30 L50 20 L72 30 L72 58 L50 68 L28 58 Z" fill="#FFFFFF" stroke="#111111" stroke-width="2.5" stroke-linejoin="round"/>
+                    <path d="M28 30 L50 40 L72 30 M50 40 L50 68" fill="none" stroke="#111111" stroke-width="2.5" stroke-linejoin="round"/>
+                    <path d="M39 25 L61 35" fill="none" stroke="#0FA355" stroke-width="3" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="dtA-cap"><span class="zh">商品图</span><span class="en">PRODUCT SHOT</span></span>
+              </div>
+              <div class="dtA-machine">
+                <span class="dtA-slot" aria-hidden="true"></span>
+                <span class="dtA-mlabel"><span class="zh">AIUGC 引擎</span><span class="en">AIUGC ENGINE</span></span>
+                <span class="dtA-pips">
+                  <span class="dtA-pip"><i class="pp1" aria-hidden="true"></i><em><span class="zh">形象授权 ✓</span><span class="en">LICENSE ✓</span></em></span>
+                  <span class="dtA-pip"><i class="pp2" aria-hidden="true"></i><em><span class="zh">脚本</span><span class="en">SCRIPT</span></em></span>
+                  <span class="dtA-pip"><i class="pp3" aria-hidden="true"></i><em><span class="zh">合成</span><span class="en">RENDER</span></em></span>
+                </span>
+              </div>
+              <div class="dtA-phone">
+                <div class="dtA-screen">
+                  <span class="dtA-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.5 L18 12 L9 17.5 Z" fill="#111111"/></svg></span>
+                  <span class="dtA-tag"><span class="zh">物归原主发布</span><span class="en">PUBLISHED BY THE CREATOR</span></span>
+                  <span class="dtA-heart h1" aria-hidden="true"><svg viewBox="0 0 24 22"><path d="M12 20 C5.6 14.9 2 11 2 7.3 C2 4.4 4.3 2 7.2 2 C9.1 2 10.9 3 12 4.8 C13.1 3 14.9 2 16.8 2 C19.7 2 22 4.4 22 7.3 C22 11 18.4 14.9 12 20 Z" fill="#1DBA6A" stroke="#111111" stroke-width="2"/></svg></span>
+                  <span class="dtA-heart h2" aria-hidden="true"><svg viewBox="0 0 24 22"><path d="M12 20 C5.6 14.9 2 11 2 7.3 C2 4.4 4.3 2 7.2 2 C9.1 2 10.9 3 12 4.8 C13.1 3 14.9 2 16.8 2 C19.7 2 22 4.4 22 7.3 C22 11 18.4 14.9 12 20 Z" fill="#1DBA6A" stroke="#111111" stroke-width="2"/></svg></span>
+                  <span class="dtA-heart h3" aria-hidden="true"><svg viewBox="0 0 24 22"><path d="M12 20 C5.6 14.9 2 11 2 7.3 C2 4.4 4.3 2 7.2 2 C9.1 2 10.9 3 12 4.8 C13.1 3 14.9 2 16.8 2 C19.7 2 22 4.4 22 7.3 C22 11 18.4 14.9 12 20 Z" fill="#1DBA6A" stroke="#111111" stroke-width="2"/></svg></span>
+                  <span class="dtA-bar" aria-hidden="true"><i></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="scene" id="dtSceneB" role="tabpanel" aria-labelledby="dtTabB" tabindex="0">
+          <div class="scene-media"><!-- SWAP-SLOT: replace inner content with real <video>/<img> asset later, keep this wrapper -->
+            <div class="dtB-win">
+              <div class="dtB-chrome" aria-hidden="true"><span class="dtB-dot"></span><span class="dtB-dot"></span><span class="dtB-dot"></span></div>
+              <div class="dtB-cols">
+                <div class="dtB-pane dtB-inbox">
+                  <div class="dtB-ptitle"><span class="zh">收件箱 · 全部</span><span class="en">Inbox · All</span></div>
+                  <div class="dtB-row"><span class="dtB-ava" aria-hidden="true"></span><span class="dtB-lines" aria-hidden="true"><span class="dtB-l"></span><span class="dtB-l s"></span></span><span class="dtB-ck ck1" aria-hidden="true">✓</span></div>
+                  <div class="dtB-row"><span class="dtB-ava" aria-hidden="true"></span><span class="dtB-lines" aria-hidden="true"><span class="dtB-l"></span><span class="dtB-l s"></span></span><span class="dtB-ck ck2" aria-hidden="true">✓</span></div>
+                  <div class="dtB-row"><span class="dtB-ava" aria-hidden="true"></span><span class="dtB-lines" aria-hidden="true"><span class="dtB-l"></span><span class="dtB-l s"></span></span><span class="dtB-ck ck3" aria-hidden="true">✓</span></div>
+                  <div class="dtB-row"><span class="dtB-ava" aria-hidden="true"></span><span class="dtB-lines" aria-hidden="true"><span class="dtB-l"></span><span class="dtB-l s"></span></span><span class="dtB-ck ck4" aria-hidden="true">✓</span></div>
+                  <div class="dtB-row"><span class="dtB-ava" aria-hidden="true"></span><span class="dtB-lines" aria-hidden="true"><span class="dtB-l"></span><span class="dtB-l s"></span></span><span class="dtB-ck ck5" aria-hidden="true">✓</span></div>
+                </div>
+                <div class="dtB-pane dtB-chat">
+                  <div class="dtB-bub b1"><span class="dtB-type"><span class="zh">您好，品牌方想与您合作，诚邀体验我们的 AIGC 合作模式。</span><span class="en">Hi! A brand would love to collaborate with you — try our AIGC collab model.</span></span></div>
+                  <div class="dtB-bub b2">— Linsey</div>
+                  <span class="dtB-send"><span class="zh">发送 ➤</span><span class="en">SEND ➤</span></span>
+                </div>
+                <div class="dtB-pane dtB-plug">
+                  <div class="dtB-ptitle"><span class="zh">浏览器插件</span><span class="en">BROWSER PLUGIN</span></div>
+                  <div class="dtB-btn p1"><i aria-hidden="true"></i><span><span class="zh">主动发信</span><span class="en">AUTO OUTREACH</span></span></div>
+                  <div class="dtB-btn p2"><i aria-hidden="true"></i><span><span class="zh">达人跟进</span><span class="en">CREATOR FOLLOW-UP</span></span></div>
+                  <div class="dtB-btn p3"><i aria-hidden="true"></i><span><span class="zh">执行 TAP AI 推荐回复</span><span class="en">RUN TAP AI REPLY</span></span></div>
+                </div>
+              </div>
+              <div class="dtB-foot">
+                <span class="dtB-chip"><span class="zh">日触达 <span class="dt-num-zh">10</span>万+ 达人</span><span class="en"><span class="dt-num-en">100</span>K+ creators reached daily</span></span>
+                <span class="dtB-chip g"><span class="zh">95% 自动化决策</span><span class="en">95% autonomous</span></span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="dt-sticker"><span class="zh">DEMO 示意</span><span class="en">DEMO</span></div>
+    </div>
+
+    <h1 class="hero-h1" data-para="-60">
+      <span class="h-line"><span class="li small-line"><span class="zh">在中国企业出海领域</span><span class="en">THE MOST</span></span></span>
+      <span class="h-line"><span class="li"><span class="zh">最 <span class="punch">AI-NATIVE</span></span><span class="en"><span class="punch">AI-NATIVE</span> MCN</span></span></span>
+      <span class="h-line"><span class="li"><span class="zh">的一家 MCN</span><span class="en"><span class="small-line">FOR CHINESE BRANDS GOING GLOBAL</span></span></span></span>
+    </h1>
+
+    <p class="hero-tagline">
+      <span class="zh"><strong>AIGC + Agent 双引擎</strong>合一为 <strong>AIUGC 服务</strong>——为你的店铺批量建联达人、批量生产内容、批量上市场，一套系统自动驱动。</span>
+      <span class="en"><strong>AIGC + Agent</strong> fused into one <strong>AIUGC service</strong>—bulk creator outreach, bulk content production, bulk market deployment for your store, driven by one autonomous system.</span>
+    </p>
+
+    <div class="hero-lic">
+      <span class="lic-label">
+        <span class="zh">TikTok Official · 6 张牌照 · 中美双合规</span>
+        <span class="en">TikTok Official · 6 Licenses · US-China Dual Compliance</span>
+      </span>
+      <span class="pill-w" style="--pd:.75s"><span class="lic-pill" style="--r:-2deg">ISV</span></span>
+      <span class="pill-w" style="--pd:.83s"><span class="lic-pill tsp" style="--r:1.5deg">TSP</span></span>
+      <span class="pill-w" style="--pd:.91s"><span class="lic-pill cap" style="--r:-1.5deg">CAP</span></span>
+      <span class="pill-w" style="--pd:.99s"><span class="lic-pill tto" style="--r:2deg">TTO</span></span>
+      <span class="pill-w" style="--pd:1.07s"><span class="lic-pill tap" style="--r:-2.5deg">TAP</span></span>
+      <span class="pill-w" style="--pd:1.15s"><span class="lic-pill ads" style="--r:2.5deg">US ADS</span></span>
+    </div>
+
+    <p class="hero-byline">
+      <span class="zh">李西 LisyLi · CEO &nbsp;|&nbsp; 杭州 / 洛杉矶 &nbsp;|&nbsp; 淋浪 LinknLatch 信息技术</span>
+      <span class="en">Lisy Li · CEO &nbsp;|&nbsp; Hangzhou / Los Angeles &nbsp;|&nbsp; LinknLatch Inc.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" role="marquee" aria-label="Value props ticker">
+  <div class="marquee-inner">
+    <div class="mq-group">
+      <span><span class="zh">★ AIGC + AGENT 双引擎 · AIUGC 服务</span><span class="en">★ AIGC + AGENT DUAL ENGINE · AIUGC SERVICE</span></span>
+      <span><span class="zh">★ $25M+ 月 GMV 峰值</span><span class="en">★ $25M+ MONTHLY GMV PEAK</span></span>
+      <span><span class="zh">★ 100,000+ 美区达人池 · 5,000+ AI 形象授权</span><span class="en">★ 100,000+ US CREATOR POOL · 5,000+ AI LIKENESS LICENSES</span></span>
+      <span><span class="zh">★ TikTok 6 张牌照全家桶</span><span class="en">★ TIKTOK 6-LICENSE FULL SUITE</span></span>
+    </div>
+    <div class="mq-group" aria-hidden="true">
+      <span><span class="zh">★ AIGC + AGENT 双引擎 · AIUGC 服务</span><span class="en">★ AIGC + AGENT DUAL ENGINE · AIUGC SERVICE</span></span>
+      <span><span class="zh">★ $25M+ 月 GMV 峰值</span><span class="en">★ $25M+ MONTHLY GMV PEAK</span></span>
+      <span><span class="zh">★ 100,000+ 美区达人池 · 5,000+ AI 形象授权</span><span class="en">★ 100,000+ US CREATOR POOL · 5,000+ AI LIKENESS LICENSES</span></span>
+      <span><span class="zh">★ TikTok 6 张牌照全家桶</span><span class="en">★ TIKTOK 6-LICENSE FULL SUITE</span></span>
+    </div>
+  </div>
+</div>
+</div>
+<!-- ================= 2. PROOF · 验证 ================= -->
+<section id="proof" class="bg-cream2 sheet" data-fx="plain">
+  <!-- zh/en parity exception: .ghost words (here and in later sheets) are aria-hidden Bebas
+       typographic texture at 4.5% ink — intentionally English-only in both language modes.
+       Do not translate; CJK glyphs at 24vw would break the texture. -->
+  <div class="ghost" aria-hidden="true" data-para="-40">PROOF</div>
+  <div class="wrap">
+    <div class="rev r-left">
+      <span class="eyebrow purple"><span class="zh">验证 · DATA · 牌照 · 客户</span><span class="en">VALIDATION · DATA · LICENSES · CLIENTS</span></span>
+      <h2 class="sec-h">
+        <span class="zh">具备 TikTok 电商广告营销<br><span class="hl">综合操盘资质</span></span>
+        <span class="en">Full-Stack <span class="hl">TikTok Commerce</span><br>Ad &amp; Marketing Operating License</span>
+      </h2>
+      <p class="sec-sub">
+        <span class="zh">凭什么把店交给我们？——因为规模化跑过验证。<strong>$25M+ 月 GMV 峰值 · TikTok 保健类目最大全案代理商 · TikTok Shop 合作商家最多的团长机构</strong>。</span>
+        <span class="en">Why trust us with your store?—Because we're battle-tested at scale. <strong>$25M+ monthly GMV peak · largest health-category full-service agency · #1 merchant-coverage talent guild on TikTok Shop</strong>.</span>
+      </p>
+    </div>
+
+    <!-- key metrics · counting monuments -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <h3 class="blk-h"><span class="zh">关键运营数据 · KEY METRICS</span><span class="en">KEY OPERATING METRICS</span></h3>
+      </div>
+      <div class="metrics">
+        <div class="metric gi g-up" style="--d:.05s">
+          <div class="m-tag"><span class="zh">月 GMV 峰值</span><span class="en">Monthly GMV Peak</span></div>
+          <div class="m-num">$<span class="count" data-target="25">25</span>M+</div>
+          <div class="m-label"><span class="zh">单月成交峰值实测</span><span class="en">Verified peak month</span></div>
+        </div>
+        <div class="metric gi g-stamp" style="--d:.15s">
+          <div class="m-tag"><span class="zh">AI 相关订单月流水</span><span class="en">AI-Driven Order Volume</span></div>
+          <div class="m-num">$1M</div>
+          <div class="m-label"><span class="zh">AI UGC 订单月均流水</span><span class="en">Monthly AI UGC volume</span></div>
+        </div>
+        <div class="metric gi g-stamp" style="--d:.25s">
+          <div class="m-tag"><span class="zh">月度营销 + 广告收入</span><span class="en">Monthly Revenue</span></div>
+          <div class="m-num">$2-3M</div>
+          <div class="m-label"><span class="zh">营销 $1-2M + 广告 $1M+</span><span class="en">Marketing $1-2M + Ads $1M+</span></div>
+        </div>
+        <div class="metric gi g-stamp" style="--d:.35s">
+          <div class="m-tag">US TOP 3 TSP</div>
+          <div class="m-num">TOP 3</div>
+          <div class="m-label"><span class="zh">TikTok Shop Partner · 美国前三</span><span class="en">TikTok Shop Partner · US Top 3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- talent network · the black drop -->
+    <div class="grp">
+      <div class="talent gi g-drop">
+        <div class="t-eyebrow">
+          <span class="zh">达人资源 · 北美最大 TIKTOK 顶级 MCN / 直播公会</span>
+          <span class="en">TALENT NETWORK · #1 TIKTOK LIVE GUILD IN NORTH AMERICA</span>
+        </div>
+        <div class="talent-stats">
+          <div class="t-stat">
+            <div class="num"><span class="zh">10w+</span><span class="en">100K+</span></div>
+            <div class="lbl"><span class="zh">合作美区达人池</span><span class="en">US creator network</span></div>
+          </div>
+          <div class="t-stat">
+            <div class="num"><span class="zh">1w+</span><span class="en">10K+</span></div>
+            <div class="lbl"><span class="zh">签约达人 · TTO 北美第一</span><span class="en">Signed creators · TTO #1 NA</span></div>
+          </div>
+          <div class="t-stat">
+            <div class="num"><span class="count" data-target="5000" data-comma>5,000</span>+</div>
+            <div class="lbl"><span class="zh">真人数字人形象授权</span><span class="en">Talent likeness licenses</span></div>
+          </div>
+        </div>
+        <p class="t-note">
+          <span class="zh"><strong>TikTok 上流水最高 + 签约达人最多</strong>的机构 —— 最优质渠道网络 × 强大 AI 制作能力，两者的最佳结合。</span>
+          <span class="en"><strong>Highest revenue + most signed creators</strong> on TikTok—the best combination of premium channel network and powerful AI production.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- six licenses · collectible stamps -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <h3 class="blk-h"><span class="zh">六张牌照全家桶 · TikTok 体系内全套合规</span><span class="en">6-LICENSE FULL SUITE · COMPLETE TIKTOK COMPLIANCE</span></h3>
+      </div>
+      <p class="blk-sub gi g-up" style="--d:.08s">
+        <span class="zh">能集齐 6 张牌照"全家桶"的玩家在北美极少——一家新公司从 0 申请齐全，理论上需要 18-24 个月。这是 LinknLatch 的<strong>结构性合规壁垒</strong>。</span>
+        <span class="en">Few players in North America hold all 6 TikTok licenses—building this stack from scratch takes 18-24 months. This is LinknLatch's <strong>structural compliance moat</strong>.</span>
+      </p>
+      <div class="lic-grid">
+        <div class="gi g-stamp" style="--d:.05s">
+          <div class="lic-card yellow" style="--r:-1.6deg">
+            <span class="lic-num">LICENSE 01</span>
+            <div class="lic-acro">TSP</div>
+            <p class="lic-desc">
+              <span class="zh">TikTok Shop Partner · 官方电商合作伙伴</span>
+              <span class="en">TikTok Shop Partner · Official ecommerce partner</span>
+            </p>
+          </div>
+        </div>
+        <div class="gi g-stamp" style="--d:.15s">
+          <div class="lic-card purple" style="--r:1.4deg">
+            <span class="lic-num">LICENSE 02</span>
+            <div class="lic-acro">ISV</div>
+            <p class="lic-desc">
+              <span class="zh">Independent Software Vendor · 第三方软件服务商</span>
+              <span class="en">Independent Software Vendor</span>
+            </p>
+          </div>
+        </div>
+        <div class="gi g-stamp" style="--d:.25s">
+          <div class="lic-card peach" style="--r:-1.2deg">
+            <span class="lic-num">LICENSE 03</span>
+            <div class="lic-acro">TAP</div>
+            <p class="lic-desc">
+              <span class="zh">TikTok Affiliate Partner · 官方联盟营销</span>
+              <span class="en">TikTok Affiliate Partner</span>
+            </p>
+          </div>
+        </div>
+        <div class="gi g-stamp" style="--d:.35s">
+          <div class="lic-card greenlight" style="--r:1.7deg">
+            <span class="lic-num">LICENSE 04</span>
+            <div class="lic-acro">CAP</div>
+            <p class="lic-desc">
+              <span class="zh">Creator Affiliate Program · 达人联盟项目</span>
+              <span class="en">Creator Affiliate Program</span>
+            </p>
+          </div>
+        </div>
+        <div class="gi g-stamp" style="--d:.45s">
+          <div class="lic-card" style="--r:-1.8deg">
+            <span class="lic-num">LICENSE 05</span>
+            <div class="lic-acro">TTO</div>
+            <p class="lic-desc">
+              <span class="zh">TikTok Talent Operator · 达人运营商 · 北美 No.1</span>
+              <span class="en">TikTok Talent Operator · #1 NA</span>
+            </p>
+          </div>
+        </div>
+        <div class="gi g-stamp" style="--d:.58s">
+          <div class="lic-card ink" style="--r:1.5deg">
+            <span class="lic-num"><span class="zh">LICENSE 06 · 全球 CEO 亲签</span><span class="en">LICENSE 06 · Signed by Global CEO</span></span>
+            <span class="lic-sign"><span class="zh">周受资亲签 ✓</span><span class="en">Shou Zi Chew ✓</span></span>
+            <div class="lic-acro">US ADS</div>
+            <p class="lic-desc">
+              <span class="zh">美国本土 TikTok Ads 投放牌照 · 全球 CEO 周受资亲签授权</span>
+              <span class="en">US Native TikTok Ads license · personally signed by TikTok Global CEO Shou Zi Chew</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 200+ brand wall -->
+    <div>
+      <div class="blk-head rev r-up">
+        <h3 class="blk-h"><span class="zh">200+ 长期合作品牌</span><span class="en">200+ LONG-TERM BRAND PARTNERS</span></h3>
+      </div>
+      <p class="blk-sub rev r-up" style="--d:.08s">
+        <span class="zh">从冷启动到爆发增长 · 产品驱动 · 社交原生销售 · <strong>TikTok Shop 合作商家最多的团长机构</strong></span>
+        <span class="en">From cold-start to breakout · product-driven · social-native commerce · <strong>#1 merchant-coverage talent guild on TikTok Shop</strong></span>
+      </p>
+      <div class="bwall rev r-up" style="--d:.1s">
+        <div class="bw-grid grp">
+          <div class="bw-cell feat yellow gi g-pop">Kind Patches</div>
+          <div class="bw-cell feat greenlight gi g-pop">GNC</div>
+          <div class="bw-cell feat purple gi g-pop">POP MART</div>
+          <div class="bw-cell gi g-pop">Bloom</div>
+          <div class="bw-cell gi g-pop">beplain</div>
+          <div class="bw-cell gi g-pop">Neuro</div>
+          <div class="bw-cell gi g-pop">EHPlabs</div>
+          <div class="bw-cell gi g-pop">SALUD</div>
+          <div class="bw-cell gi g-pop">CataKor</div>
+          <div class="bw-cell gi g-pop">ZODONE</div>
+          <div class="bw-cell gi g-pop">Mila Mi Amor</div>
+          <div class="bw-cell gi g-pop">microingredients</div>
+          <div class="bw-cell gi g-pop">upSpring</div>
+          <div class="bw-cell gi g-pop">OPositiv</div>
+          <div class="bw-cell gi g-pop">HUM</div>
+          <div class="bw-cell gi g-pop">Clean Nutra</div>
+          <div class="bw-cell feat peach gi g-pop">The Ordinary</div>
+          <div class="bw-cell gi g-pop">medicube</div>
+          <div class="bw-cell gi g-pop">BetterBrand</div>
+          <div class="bw-cell gi g-pop">Living Proof</div>
+          <div class="bw-cell gi g-pop">WOSADO</div>
+          <div class="bw-cell gi g-pop">LAfabs</div>
+          <div class="bw-cell gi g-pop">BioEmblem</div>
+          <div class="bw-cell gi g-pop">Bodywise</div>
+          <div class="bw-cell feat purple gi g-pop">tarte</div>
+          <div class="bw-cell gi g-pop">COLOURPOP</div>
+          <div class="bw-cell gi g-pop">SACHEU</div>
+          <div class="bw-cell gi g-pop">LAURA GELLER</div>
+          <div class="bw-cell gi g-pop">persona</div>
+          <div class="bw-cell gi g-pop">WONDERSKIN</div>
+          <div class="bw-cell gi g-pop">IMETHOD</div>
+          <div class="bw-cell gi g-pop">arrae</div>
+          <div class="bw-cell gi g-pop">PACSUN</div>
+          <div class="bw-cell gi g-pop">edikted</div>
+          <div class="bw-cell gi g-pop">FEELINGIRL</div>
+          <div class="bw-cell gi g-pop">HSIA</div>
+          <div class="bw-cell gi g-pop">OQQ</div>
+          <div class="bw-cell gi g-pop">Comfrt</div>
+          <div class="bw-cell feat yellow gi g-pop">Halara</div>
+          <div class="bw-cell gi g-pop">Cali Curves</div>
+          <div class="bw-cell feat peach gi g-pop">MINISO</div>
+          <div class="bw-cell feat greenlight gi g-pop">eufy by Anker</div>
+          <div class="bw-cell gi g-pop">SIRIO</div>
+          <div class="bw-cell gi g-pop">ZIKOO</div>
+          <div class="bw-cell gi g-pop">EUHOMY</div>
+          <div class="bw-cell gi g-pop">MySmile</div>
+          <div class="bw-cell gi g-pop">DREO</div>
+          <div class="bw-cell gi g-pop">CIDER</div>
+          <div class="bw-cell feat peach gi g-pop">Coca-Cola</div>
+          <div class="bw-cell gi g-pop">BUCKED UP</div>
+          <div class="bw-cell gi g-pop">Funko</div>
+          <div class="bw-cell feat yellow gi g-pop">DREAME</div>
+          <div class="bw-cell gi g-pop">PLAUD.AI</div>
+          <div class="bw-cell gi g-pop">Deeyeo</div>
+          <div class="bw-cell gi g-pop">Santo Remedio</div>
+          <div class="bw-cell gi g-pop">Harvard Apparatus</div>
+          <div class="bw-cell gi g-pop">Careleaf</div>
+          <div class="bw-cell feat purple gi g-pop">Alibaba.com</div>
+          <div class="bw-cell gi g-pop">dyesoo 多燕瘦</div>
+          <div class="bw-cell gi g-pop">TopJob</div>
+          <div class="bw-cell gi g-pop">元通汽车 Yuantong</div>
+          <div class="bw-cell gi g-pop">hi.gianna</div>
+          <div class="bw-cell gi g-pop">SparkFit</div>
+          <div class="bw-cell gi g-pop">SUNFEEL</div>
+          <div class="bw-cell gi g-pop">schonley</div>
+          <div class="bw-cell gi g-pop">Canban</div>
+          <div class="bw-cell gi g-pop">Sterly</div>
+          <div class="bw-cell gi g-pop">JOY in the WATER</div>
+          <div class="bw-cell gi g-pop">TUNBOT</div>
+          <div class="bw-cell gi g-pop">HONEYCARE</div>
+          <div class="bw-cell gi g-pop">AliExpress</div>
+          <div class="bw-cell gi g-pop">NatureSpan</div>
+          <div class="bw-cell gi g-pop">ASMAX</div>
+          <div class="bw-cell gi g-pop">PopuMusic</div>
+          <div class="bw-cell gi g-pop">Lil Republic</div>
+          <div class="bw-cell gi g-pop">PLAYIKO</div>
+          <div class="bw-cell gi g-pop">MAYSEEN</div>
+          <div class="bw-cell gi g-pop">正官庄 JKJ</div>
+          <div class="bw-cell gi g-pop">Murad</div>
+          <div class="bw-cell gi g-pop">SLOOSH</div>
+          <div class="bw-cell gi g-pop">SEM/R 森马</div>
+          <div class="bw-cell gi g-pop">SHAFITS</div>
+          <div class="bw-cell gi g-pop">Fiber Life</div>
+          <div class="bw-cell gi g-pop">CEELIKE</div>
+          <div class="bw-cell gi g-pop">MOTO FREEDOM</div>
+          <div class="bw-cell gi g-pop">RELLET 颐莲</div>
+          <div class="bw-cell gi g-pop">农夫山泉 Nongfu</div>
+          <div class="bw-cell gi g-pop">Ananke</div>
+          <div class="bw-cell gi g-pop">MY GNC REWARDS</div>
+          <div class="bw-cell gi g-pop">诺特兰德 Nuoluo</div>
+          <div class="bw-cell gi g-pop">SUPIELD</div>
+          <div class="bw-cell gi g-pop">ECOVOX</div>
+          <div class="bw-cell gi g-pop">HaiVision</div>
+          <div class="bw-cell gi g-pop">AURONIS</div>
+          <div class="bw-cell gi g-pop">POLLOCK</div>
+          <div class="bw-cell gi g-pop">Tahkie</div>
+          <div class="bw-cell gi g-pop">Sanpley</div>
+          <div class="bw-cell gi g-pop">Aceast</div>
+          <div class="bw-cell gi g-pop">DOWN HOME</div>
+          <div class="bw-cell gi g-pop">COLOR NYMPH</div>
+          <div class="bw-cell gi g-pop">ZEN Tonic</div>
+          <div class="bw-cell gi g-pop">Sasifi</div>
+          <div class="bw-cell gi g-pop">ONE FLY</div>
+          <div class="bw-cell gi g-pop">S&amp;G Choice</div>
+          <div class="bw-cell gi g-pop">Joyfubabe</div>
+          <div class="bw-cell more gi g-pop">+ 100 more</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- typographic breath — one quiet beat between the wall and the numbers -->
+    <div class="breath rev r-up">
+      <p class="b-line">
+        <span class="zh">我们与 TikTok Shop 领域<span class="u">各个类目的头部客户</span>持续合作 · 5,000+ AI 形象授权 · 免寄样真人发 · 出单销冠</span>
+        <span class="en">Active collaboration with <span class="u">top-tier clients across every TikTok Shop category</span> · 5,000+ AI talent licenses · sample-free creator distribution</span>
+      </p>
+    </div>
+
+    <!-- AI e-commerce category results · one cropped monument + satellite stats -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <h3 class="blk-h"><span class="zh">AI 电商带货 · 各类目头部客户合作成绩</span><span class="en">AI E-COMMERCE · TOP-TIER CLIENT RESULTS ACROSS CATEGORIES</span></h3>
+      </div>
+      <div class="catmon">
+        <div class="catmon-big gi g-left" style="--d:.05s">
+          <div class="cm-tag"><span class="zh">时尚服饰</span><span class="en">Fashion</span></div>
+          <div class="cm-brand">KATCH ME</div>
+          <div class="cm-num">$2.15M</div>
+          <div class="cm-desc"><span class="zh">季度 GMV</span><span class="en">Quarterly GMV</span></div>
+        </div>
+        <div class="catmon-sats">
+          <div class="sat hot gi g-right" style="--d:.12s">
+            <div class="s-tag"><span class="zh">健康保健</span><span class="en">Health</span></div>
+            <div class="s-brand">GNC</div>
+            <div class="s-num">$770K</div>
+            <div class="s-desc"><span class="zh">月 GMV</span><span class="en">Monthly GMV</span></div>
+          </div>
+          <div class="sat gi g-right" style="--d:.19s">
+            <div class="s-tag"><span class="zh">美妆护肤</span><span class="en">Beauty</span></div>
+            <div class="s-brand">SPRINGORIGIN</div>
+            <div class="s-num">10,000</div>
+            <div class="s-desc"><span class="zh">单视频销量记录</span><span class="en">Single-video sales</span></div>
+          </div>
+          <div class="sat gi g-right" style="--d:.26s">
+            <div class="s-tag"><span class="zh">家居厨房</span><span class="en">Home &amp; Kitchen</span></div>
+            <div class="s-brand">DREAME</div>
+            <div class="s-num">$70K</div>
+            <div class="s-desc"><span class="zh">单视频 GMV 记录</span><span class="en">Single-video GMV</span></div>
+          </div>
+          <div class="sat gi g-right" style="--d:.33s">
+            <div class="s-tag"><span class="zh">宠物用品</span><span class="en">Pet</span></div>
+            <div class="s-brand">GEOOROOD</div>
+            <div class="s-num">$22K</div>
+            <div class="s-desc"><span class="zh">单达人记录</span><span class="en">Single-creator</span></div>
+          </div>
+          <div class="sat gi g-right" style="--d:.4s">
+            <div class="s-tag"><span class="zh">食品饮料</span><span class="en">F&amp;B</span></div>
+            <div class="s-brand">AMOS</div>
+            <div class="s-num">$45K</div>
+            <div class="s-desc"><span class="zh">月 AI-UGC GMV</span><span class="en">Monthly AI-UGC</span></div>
+          </div>
+          <div class="sat gi g-right" style="--d:.47s">
+            <div class="s-tag"><span class="zh">数码配件</span><span class="en">Digital</span></div>
+            <div class="s-brand">MINISO</div>
+            <div class="s-num">$48K</div>
+            <div class="s-desc"><span class="zh">月单视频记录</span><span class="en">Monthly single-video</span></div>
+          </div>
+          <div class="sat gi g-right" style="--d:.54s">
+            <div class="s-tag"><span class="zh">家居生活</span><span class="en">Home Living</span></div>
+            <div class="s-brand">SONGMICS</div>
+            <div class="s-num">$30K</div>
+            <div class="s-desc"><span class="zh">单视频记录</span><span class="en">Single-video</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cat-sticker gi g-pop" style="--d:.62s">
+        <span>
+          <span class="zh">免寄样 · 真人发 · 出单销冠！</span>
+          <span class="en">Sample-free · creator-published · top sellers!</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- native ad agency · receipt strip -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <h3 class="blk-h"><span class="zh">本土广告代理 · 双牌照 · 跑出多类目 GMV TOP</span><span class="en">NATIVE AD AGENCY · DUAL LICENSE · TOP GMV ACROSS CATEGORIES</span></h3>
+      </div>
+      <div class="adrow">
+        <div class="ad rot gi g-drop" style="--d:.05s;--r:-1.2deg">
+          <span class="a-paid" aria-hidden="true">✓</span>
+          <div class="a-head">GNC <span class="a-cat"><span class="zh">健康保健</span><span class="en">Health</span></span></div>
+          <div class="a-body">
+            <div class="a-num">$2M+</div>
+            <p class="a-desc"><span class="zh">月 GMV · 31.5M 播放 · 类目最畅销</span><span class="en">Monthly GMV · 31.5M views · top seller</span></p>
+          </div>
+        </div>
+        <div class="ad rot gi g-drop" style="--d:.15s;--r:1deg">
+          <span class="a-paid" aria-hidden="true">✓</span>
+          <div class="a-head">DREAME <span class="a-cat"><span class="zh">家居清洁</span><span class="en">Home Cleaning</span></span></div>
+          <div class="a-body">
+            <div class="a-num">$6M+</div>
+            <p class="a-desc"><span class="zh">月 GMV · 80M 播放 · 12 月吸尘器 TOP10</span><span class="en">Monthly GMV · 80M views · Dec vacuum TOP10</span></p>
+          </div>
+        </div>
+        <div class="ad rot gi g-drop" style="--d:.25s;--r:-.8deg">
+          <span class="a-paid" aria-hidden="true">✓</span>
+          <div class="a-head">AMOS <span class="a-cat"><span class="zh">糖果食品</span><span class="en">Confectionery</span></span></div>
+          <div class="a-body">
+            <div class="a-num">$409K+</div>
+            <p class="a-desc"><span class="zh">糖果类目 TOP1 · TastySounds</span><span class="en">Candy TOP1 · TastySounds</span></p>
+          </div>
+        </div>
+        <div class="ad rot gi g-drop" style="--d:.35s;--r:1.3deg">
+          <span class="a-paid" aria-hidden="true">✓</span>
+          <div class="a-head">GEOOROOD <span class="a-cat"><span class="zh">宠物用品</span><span class="en">Pet</span></span></div>
+          <div class="a-body">
+            <div class="a-num">$79K+</div>
+            <p class="a-desc"><span class="zh">CPM 低至 $1 · 宠物类目 TOP8</span><span class="en">CPM as low as $1 · Pet TOP8</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- StockX · connected test rig -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <span class="chip">CASE STUDY · STOCKX</span>
+        <h3 class="blk-h"><span class="zh">软件出海测评 · 先测评，找到爆款组合</span><span class="en">SOFTWARE GOING GLOBAL · TEST FIRST, FIND THE WINNING COMBO</span></h3>
+      </div>
+      <p class="blk-sub gi g-up" style="--d:.08s">
+        <span class="zh">不要在脑内想 · 直接构建测评实验 · 让广告数据告诉你哪个组合有市场——<strong>双牌照广告代理 + AIGC 内容工厂</strong>的协同应用。</span>
+        <span class="en">Don't theorize—build test rigs directly. Let ad data tell you which combo wins. A synergistic application of <strong>dual-license ad agency + AIGC content factory</strong>.</span>
+      </p>
+      <div class="rig">
+        <div class="rig-step gi g-left" style="--d:.05s">
+          <span class="r-num purple">1</span>
+          <div class="r-card">
+            <h4><span class="zh">数字人口播区域 · 测人群画像</span><span class="en">DIGITAL HUMAN TALKBOX · TEST DEMOGRAPHICS</span></h4>
+            <p><span class="zh">从 5000+ 形象池调取不同年龄 / 性别 / 族裔，匹配不同目标人群。</span><span class="en">Pull different ages / genders / ethnicities from the 5,000+ pool, match to target segments.</span></p>
+          </div>
+        </div>
+        <div class="rig-step gi g-left" style="--d:.18s">
+          <span class="r-num peach">2</span>
+          <div class="r-card">
+            <h4><span class="zh">背景 · 卖点混剪 · 测关键帧 / FEATURE</span><span class="en">BACKGROUND · SELLING-POINT CUTS · TEST FRAMES / FEATURES</span></h4>
+            <p><span class="zh">不同软件界面 = 不同卖点，一天测 20+ 个，看什么内容最抓人。</span><span class="en">Different software UI = different selling points; 20+ tests/day to find what hooks.</span></p>
+          </div>
+        </div>
+        <div class="rig-step gi g-left" style="--d:.31s">
+          <span class="r-num yellow">3</span>
+          <div class="r-card">
+            <h4><span class="zh">台词 · 字幕栏 · 测话术 / 脚本</span><span class="en">SCRIPT · CAPTIONS · TEST COPY / HOOKS</span></h4>
+            <p><span class="zh">价格 / 焦虑 / 社交认同，找最能驱动转化的讲法。</span><span class="en">Price / anxiety / social proof—find the highest-converting narrative.</span></p>
+          </div>
+        </div>
+        <div class="rig-step gi g-left" style="--d:.44s">
+          <span class="r-num">4</span>
+          <div class="r-card">
+            <h4><span class="zh">视频数据栏 · 看哪些表现好</span><span class="en">VIDEO METRICS · IDENTIFY WINNERS</span></h4>
+            <p><span class="zh">TikTok 短视频数据界面，控制变量看出谁好谁差。</span><span class="en">TikTok analytics dashboard, controlled-variable analysis identifies winners.</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="note-box sticker gi g-up" style="--d:.5s;margin-top:22px">
+        <div class="note-eyebrow"><span class="zh">数据回传 → 找出最棒的素材组合</span><span class="en">DATA BACKFLOW → IDENTIFY WINNING COMBOS</span></div>
+        <p>
+          <span class="zh">通过广告数据回传，找出最棒的素材组合——<strong>一周测评 &gt; 三个月空想</strong>。</span>
+          <span class="en">Via ad-data backflow, surface the winning creative combos—<strong>one week of testing &gt; three months of theorizing</strong>.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= 3. AIUGC 业务核心 ================= -->
+<section id="aiugc" class="sheet sheet-center" data-fx="settle">
+  <div class="ghost" aria-hidden="true" data-para="50">AIUGC</div>
+  <div class="wrap">
+    <div class="rev r-up">
+      <span class="eyebrow yellow"><span class="zh">业务核心 · 你的店能得到什么</span><span class="en">CORE OFFERING · WHAT YOUR STORE GETS</span></span>
+      <h2 class="sec-h">
+        <span class="zh">AIGC + Agent =<br><span class="hl">AIUGC 服务</span></span>
+        <span class="en">AIGC + Agent =<br><span class="hl">AIUGC Service</span></span>
+      </h2>
+      <p class="sec-sub">
+        <span class="zh">两台引擎同时为你的店铺工作——<strong>Agent 解决"谁来卖你的货"</strong>，<strong>AIGC 解决"用什么内容卖"</strong>。两者合一，把"批量找达人 + 批量做内容 + 批量上市场"变成一个系统自动驱动的闭环。</span>
+        <span class="en">Two engines working for your store at once—<strong>Agent solves "who sells your products"</strong>, <strong>AIGC solves "what content sells them"</strong>. Together they form a closed loop: bulk creator outreach + bulk content production + bulk market deployment, all driven by an autonomous system.</span>
+      </p>
+    </div>
+
+    <div class="grp">
+      <div class="engines">
+        <span class="plus-badge" aria-hidden="true">+</span>
+        <div class="gi g-left" style="--d:.05s">
+          <div class="engine agent">
+            <div class="e-tag"><span class="zh">引擎 ① · AGENT</span><span class="en">ENGINE ① · AGENT</span></div>
+            <h3><span class="zh">智能建联 · 为你的产品批量对接达人</span><span class="en">INTELLIGENT OUTREACH · CREATORS FOR YOUR PRODUCTS</span></h3>
+            <p>
+              <span class="zh">把传统达人 BD 团队每天人工对接 5-10 个达人的人力黑洞，重构为一套 <strong>Multi-Agent Self-Evolving 框架</strong>——日触达 10 万+ 美区达人，95% 自动化决策。</span>
+              <span class="en">Replaces the manual BD-team black hole (5-10 creators per person per day) with a <strong>Multi-Agent Self-Evolving framework</strong>—reaching 100K+ US creators daily with 95% autonomous decisions.</span>
+            </p>
+            <ul>
+              <li><span class="zh">推荐 Agent · 给商家推达人 / 给达人推商家</span><span class="en">Recommendation Agent · bilateral matchmaking</span></li>
+              <li><span class="zh">合作推进 Agent · 意图识别 + 谈判推进</span><span class="en">Engagement Agent · intent recognition + negotiation</span></li>
+              <li><span class="zh">履约 + 汇报 + 评分 Agent · 全链路</span><span class="en">Fulfillment + Reporting + Scoring Agents · end-to-end</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="gi g-right" style="--d:.05s">
+          <div class="engine aigc">
+            <div class="e-tag"><span class="zh">引擎 ② · AIGC</span><span class="en">ENGINE ② · AIGC</span></div>
+            <h3><span class="zh">拟真带货视频 · 为你的商品量产授权 AI UGC</span><span class="en">REALISTIC COMMERCE VIDEOS · LICENSED AI UGC FOR YOUR LISTINGS</span></h3>
+            <p>
+              <span class="zh">基于 <strong>5,000+ 真人达人形象授权池</strong>（业内最大），用 <strong>SOTA AI 视频生成模型</strong>批量制作带货视频。技术主攻方向不是 "0→1 生成"，而是 <strong>"1→100 爆款复刻"</strong>。</span>
+              <span class="en">Powered by <strong>5,000+ talent likeness licenses</strong> (largest in industry), we use <strong>SOTA AI video models</strong> to produce commerce videos at scale. Technical focus: not "0→1 generation"—but <strong>"1→100 hit replication"</strong>.</span>
+            </p>
+            <ul>
+              <li><span class="zh">日产 <strong>1,000+ 条</strong> · 单条 AI UGC 验证 <strong>$10K GMV</strong></span><span class="en"><strong>1,000+ videos/day</strong> · single AI UGC verified at <strong>$10K GMV</strong></span></li>
+              <li><span class="zh">AI 相关订单<strong>月均流水 $1M</strong></span><span class="en">AI-driven orders: <strong>$1M monthly volume</strong></span></li>
+              <li><span class="zh">短剧情节 + 真人感数字人 + 算法亲和</span><span class="en">Short-drama narratives + lifelike digital humans + algorithm-aligned</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="note-box gi g-up" style="--d:.3s">
+        <div class="note-eyebrow"><span class="zh">为什么必须是"双引擎"</span><span class="en">WHY BOTH ENGINES ARE REQUIRED</span></div>
+        <p>
+          <span class="zh">市面上做<strong>纯 AIGC</strong>的公司有渠道空缺（视频做出来发不出去）；做<strong>纯 Agent</strong>的公司有内容空缺（找到达人无内容可推）。LinknLatch 是<strong>市场上唯一一家</strong>在工程上把这两条线合并为一套服务的 MCN——这是我们的核心差异化。</span>
+          <span class="en">Pure-<strong>AIGC</strong> players lack distribution (no channel to publish). Pure-<strong>Agent</strong> players lack content (creators identified but no videos to push). LinknLatch is <strong>the only MCN</strong> engineering both lines into a single service—this is our core differentiation.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4. AGENT 架构 ================= -->
+<section id="agent" class="bg-green-light sheet" data-fx="slide-r">
+  <div class="ghost" aria-hidden="true" data-para="-60" style="--pr:-4deg">STACK</div>
+  <div class="wrap">
+    <div class="rev r-drop">
+      <span class="eyebrow stampt"><span class="zh">AGENT 架构 · MULTI-AGENT SELF-EVOLVING</span><span class="en">AGENT STACK · MULTI-AGENT SELF-EVOLVING</span></span>
+      <h2 class="sec-h">
+        <span class="zh">不是"一个 AI 聊天机器人"——<br>是 <span class="hl">5 层 Self-Evolving 架构</span></span>
+        <span class="en">Not "An AI Chatbot"—<br>A <span class="hl">5-Layer Self-Evolving Stack</span></span>
+      </h2>
+      <p class="sec-sub">
+        <span class="zh">这就是将为你的投放战役工作的自动化系统：执行业务 Agent + 打分 Agent 双轨设计——每一次互动既产出业务结果，又产出训练信号，让整个系统不断进化。</span>
+        <span class="en">This is the automation that will be working for your campaigns: Execution Agents + Scoring Agents in a dual-track design. Every interaction produces both business outcome and training signal—enabling continuous self-evolution.</span>
+      </p>
+    </div>
+
+    <!-- Linsey · the outer layer with a personality -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <span class="chip green"><span class="zh">外层呈现 · OUTER LAYER</span><span class="en">OUTER LAYER</span></span>
+        <h3 class="blk-h"><span class="zh">Linsey · 代表淋浪沟通的 AI 经纪人</span><span class="en">LINSEY · THE AI TALENT AGENT THAT SPEAKS FOR US</span></h3>
+      </div>
+      <div class="linsey">
+        <div class="linsey-copy gi g-left" style="--d:.08s">
+          <p>
+            <span class="zh">达人看到的就是 Linsey——每条消息署名 "— Linsey"，每次回复自动输出汇报卡片。但表面这个"AI 经纪人"<strong>背后是一套复杂的五层架构</strong>，向下展开就是我们真正的护城河。</span>
+            <span class="en">To creators, all they see is Linsey—every message signed "— Linsey," every reply auto-generates a report card. But what looks like an "AI agent" on the surface is <strong>backed by a complex 5-layer architecture</strong>—our actual moat, revealed below.</span>
+          </p>
+        </div>
+        <div class="gi g-right" style="--d:.16s">
+          <div class="linsey-card">
+            <p class="msg">
+              <span class="zh">"报价、砍价、催稿、汇报卡片……都由我来。"</span>
+              <span class="en">"Quotes, counters, follow-ups, report cards… I handle it all."</span>
+            </p>
+            <p class="sig">— Linsey</p>
+            <p class="cap">
+              <span class="zh">每条消息的署名 · 每次回复自动输出汇报卡片</span>
+              <span class="en">Signed on every message · auto report card on every reply</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline">
+        <div class="pipe gi g-pop" style="--d:.05s">
+          <div class="pipe-card">
+            <span class="pipe-num">00 · ROUTE</span>
+            <div class="pipe-title"><span class="zh">分流</span><span class="en">ROUTE</span></div>
+            <p class="pipe-desc"><span class="zh">按 GMV 分头/中/尾</span><span class="en">Segment by GMV tier</span></p>
+          </div>
+        </div>
+        <div class="pipe gi g-pop" style="--d:.17s">
+          <div class="pipe-card peach">
+            <span class="pipe-num">01 · NEGOTIATE</span>
+            <div class="pipe-title"><span class="zh">议价</span><span class="en">NEGOTIATE</span></div>
+            <p class="pipe-desc"><span class="zh">报价 · 砍价 · 争账期</span><span class="en">Quotes · counter · terms</span></p>
+          </div>
+        </div>
+        <div class="pipe gi g-pop" style="--d:.29s">
+          <div class="pipe-card purple">
+            <span class="pipe-num">02 · CONSOLIDATE</span>
+            <div class="pipe-title"><span class="zh">汇总</span><span class="en">CONSOLIDATE</span></div>
+            <p class="pipe-desc"><span class="zh">多维表供品牌选号</span><span class="en">Sortable for brand selection</span></p>
+          </div>
+        </div>
+        <div class="pipe gi g-pop" style="--d:.41s">
+          <div class="pipe-card yellow">
+            <span class="pipe-num">03 · FULFILL</span>
+            <div class="pipe-title"><span class="zh">履约</span><span class="en">FULFILL</span></div>
+            <p class="pipe-desc"><span class="zh">催稿 / 未选转 AI UGC</span><span class="en">Push / convert to AI UGC</span></p>
+          </div>
+        </div>
+        <div class="pipe gi g-pop" style="--d:.53s">
+          <div class="pipe-card greenlight">
+            <span class="pipe-num">04 · RETAIN</span>
+            <div class="pipe-title"><span class="zh">私域</span><span class="en">RETAIN</span></div>
+            <p class="pipe-desc"><span class="zh">转 WhatsApp 群</span><span class="en">Move to WhatsApp</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="stack-divider gi g-up" style="--d:.6s">
+        <span class="zh">↓ 下面是 LINSEY 背后的内层架构 ↓</span>
+        <span class="en">↓ INNER ARCHITECTURE BENEATH LINSEY ↓</span>
+      </div>
+    </div>
+
+    <!-- the 5-layer paper stack -->
+    <div class="grp">
+      <div class="gi g-up" style="margin-bottom:18px">
+        <span class="chip ink"><span class="zh">内层架构 · INNER STACK</span><span class="en">INNER STACK</span></span>
+      </div>
+      <div class="stack">
+        <div class="layer l5 rot gi g-drop" style="--d:.05s">
+          <span class="l-badge">L5</span>
+          <div class="l-h"><span class="zh">优化层 · OPTIMIZATION LAYER</span><span class="en">OPTIMIZATION LAYER</span></div>
+          <p>
+            <span class="zh">元层：基于 good case / bad case 反馈，让整个系统不停自进化——这是真正的 "Self-Evolving" 含义。</span>
+            <span class="en">Meta-layer: Continuously evolves based on good-case / bad-case feedback—this is the true meaning of "Self-Evolving."</span>
+          </p>
+        </div>
+        <div class="layer l4 rot gi g-drop" style="--d:.2s">
+          <span class="l-badge">L4</span>
+          <div class="l-h"><span class="zh">策略层 · STRATEGY LAYER · 运营知识库</span><span class="en">STRATEGY LAYER · OPERATIONAL PLAYBOOK</span></div>
+          <p>
+            <span class="zh">当下客户 / 商家想要以什么样的策略运营达人——门槛、阈值、分层管理，全部在这一层定义。可热替换、可按客户定制。</span>
+            <span class="en">Operational strategies—thresholds, tiers, segmentation rules. Hot-swappable, client-customizable.</span>
+          </p>
+          <ul>
+            <li><span class="zh"><strong>头部达人</strong>：给费用 → 议价空间 + 多平台权益沟通</span><span class="en"><strong>Top-tier:</strong> Paid + negotiation room + multi-platform rights</span></li>
+            <li><span class="zh"><strong>中部达人</strong>：纯佣金 + 免费样品 → 沟通脚本</span><span class="en"><strong>Mid-tier:</strong> Commission + free sample + script collaboration</span></li>
+            <li><span class="zh"><strong>长尾达人</strong>：不寄样 → AI UGC 形象授权，物归原主发布</span><span class="en"><strong>Long-tail:</strong> No samples → AI UGC + likeness license + creator-published</span></li>
+          </ul>
+        </div>
+        <div class="layer l3 rot gi g-drop" style="--d:.35s">
+          <span class="l-badge">L3</span>
+          <div class="l-h"><span class="zh">目的层 · PURPOSE LAYER · 多 AGENT 各司其职</span><span class="en">PURPOSE LAYER · SPECIALIZED AGENTS</span></div>
+          <ul>
+            <li><span class="zh"><strong>推荐 Agent</strong> · 给商家推达人 / 给达人推商家</span><span class="en"><strong>Recommendation Agent</strong> · Match merchants with creators (bilateral)</span></li>
+            <li><span class="zh"><strong>合作推进 Agent</strong> · 意图分析 / 意图识别 / 推进合作</span><span class="en"><strong>Engagement Agent</strong> · Intent analysis / recognition / deal progression</span></li>
+            <li><span class="zh"><strong>履约 Agent</strong> · 催达人完成视频与挂车</span><span class="en"><strong>Fulfillment Agent</strong> · Follow up on video delivery &amp; product tagging</span></li>
+            <li><span class="zh"><strong>汇报 Agent</strong> · 自动汇总到飞书多维表格 / 客户看板</span><span class="en"><strong>Reporting Agent</strong> · Auto-aggregates to Feishu / client dashboards</span></li>
+            <li><span class="zh"><strong>打分评级 Agent</strong> · 意向度评估 + good/bad case 归集，反哺 L5</span><span class="en"><strong>Scoring Agent</strong> · Intent scoring + good/bad case aggregation → feeds L5</span></li>
+          </ul>
+        </div>
+        <div class="layer l2 rot gi g-drop" style="--d:.5s">
+          <span class="l-badge">L2</span>
+          <div class="l-h"><span class="zh">通道层 · CHANNEL LAYER · 公域 + 私域</span><span class="en">CHANNEL LAYER · PUBLIC + PRIVATE</span></div>
+          <ul>
+            <li><span class="zh"><strong>公域：</strong>TikTok 持牌机构站内信通道（仅持牌机构可用）</span><span class="en"><strong>Public:</strong> TikTok official DM channel (licensed-institutions only)</span></li>
+            <li><span class="zh"><strong>私域：</strong>WhatsApp TP 通道（上架申请中）</span><span class="en"><strong>Private:</strong> WhatsApp TP channel (application in progress)</span></li>
+          </ul>
+        </div>
+        <div class="layer l1 rot gi g-drop" style="--d:.65s">
+          <span class="l-badge">L1</span>
+          <div class="l-h"><span class="zh">数据层 · DATA LAYER · 一二三方数据</span><span class="en">DATA LAYER · 1ST / 2ND / 3RD PARTY DATA</span></div>
+          <ul>
+            <li><span class="zh"><strong>一方数据</strong> · 我们与头部商家的一手运营策略对接（独家）</span><span class="en"><strong>1st-party:</strong> Direct operational data from top-merchant collaborations (exclusive)</span></li>
+            <li><span class="zh"><strong>二方数据</strong> · 与平台独家拥有的、仅持牌机构可见的达人背景数据</span><span class="en"><strong>2nd-party:</strong> Platform-exclusive creator background data—licensed-institution-only</span></li>
+            <li><span class="zh"><strong>三方数据</strong> · Cloud Data（TikTok 最大数据平台）等深度合作 · TTO + TNP 后台全维度</span><span class="en"><strong>3rd-party:</strong> Deep partnerships with Cloud Data (largest TikTok analytics platform) · TTO + TNP full coverage</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= 5. AIGC 方法论 ================= -->
+<section id="aigc" class="bg-cream2 sheet" data-fx="flip">
+  <div class="ghost" aria-hidden="true" data-para="45">1 TO 100</div>
+  <div class="wrap">
+    <div class="rev r-right">
+      <span class="eyebrow green"><span class="zh">AIGC 特点 · 我们怎么做内容</span><span class="en">AIGC FEATURES · HOW WE MAKE CONTENT</span></span>
+      <h2 class="sec-h">
+        <span class="zh">不卷 0→1 生成 ·<br><span class="band">做 <span class="hl">1→100 爆款复刻</span></span></span>
+        <span class="en">Not Racing on 0→1 ·<br><span class="band">Racing on <span class="hl">1→100 Hit Replication</span></span></span>
+      </h2>
+      <p class="sec-sub">
+        <span class="zh">市面上 90% 的 AIGC 产品在卷"<strong>怎么生成第一条视频</strong>"——我们在卷"<strong>怎么把已经验证爆的视频复制 100 遍而不被限流</strong>"。这是个完全不同的技术命题。</span>
+        <span class="en">90% of AIGC products race on "<strong>how to generate the first video</strong>"—we race on "<strong>how to replicate a verified hit 100 times without getting throttled</strong>." A fundamentally different problem.</span>
+      </p>
+    </div>
+
+    <!-- Part 1 · 物归原主 three-step flow -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <span class="chip green">PART 1</span>
+        <h3 class="blk-h"><span class="zh">我们的 UGC 方式 · "物归原主" 三步流程</span><span class="en">OUR UGC METHODOLOGY · "RETURN-TO-ORIGIN" FLOW</span></h3>
+      </div>
+      <p class="blk-sub gi g-up" style="--d:.08s">
+        <span class="zh">把 AI 生成的视频<strong>发回真人本人发布</strong>——形象与本人统一，渠道更原生，<strong>规避了 90% AI 内容的不真实感问题</strong>。</span>
+        <span class="en">Videos generated by AI <strong>are published by the original creator</strong>—likeness matches person, channel is native, <strong>solving 90% of AI content's authenticity problem</strong>.</span>
+      </p>
+      <div class="flow3">
+        <div class="fstep gi g-pop" style="--d:.05s">
+          <div class="fstep-card">
+            <div class="ph">
+              <div class="fstep-num">01</div>
+              <p><span class="zh">向所有美国真人达人申请真人形象授权，进入 <strong>5,000+ 形象池</strong>。</span><span class="en">Acquire likeness licenses from US creators—<strong>5,000+ in the pool</strong>.</span></p>
+            </div>
+            <h4><span class="zh">真人形象授权</span><span class="en">Likeness license</span></h4>
+          </div>
+        </div>
+        <div class="fstep gi g-pop" style="--d:.22s">
+          <div class="fstep-card">
+            <div class="ph">
+              <div class="fstep-num">02</div>
+              <p><span class="zh">用授权形象制作 AIGC 带货视频，<strong>制作由我们收口</strong>——内容质量可控。</span><span class="en">Build AIGC commerce videos with licensed likeness—<strong>production owned in-house</strong>.</span></p>
+            </div>
+            <h4><span class="zh">AIGC 视频制作</span><span class="en">AIGC production</span></h4>
+          </div>
+        </div>
+        <div class="fstep gi g-pop" style="--d:.39s">
+          <div class="fstep-card pay">
+            <div class="ph">
+              <div class="fstep-num">03</div>
+              <p><span class="zh">视频<strong>发回对应达人本人发布</strong>——形象与本人统一，渠道更原生。</span><span class="en">Videos <strong>published by the original creator</strong>—seamless and native.</span></p>
+            </div>
+            <h4><span class="zh">物归原主发布</span><span class="en">Origin publishing</span></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 2 · edges -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <span class="chip green">PART 2</span>
+        <h3 class="blk-h"><span class="zh">核心优势与生态位 · "渠道整合商"</span><span class="en">OUR EDGE &amp; ECOSYSTEM POSITION · "CHANNEL INTEGRATOR"</span></h3>
+      </div>
+      <div class="chain gi g-up" style="--d:.05s">
+        <span class="c-node"><span class="zh">模型</span><span class="en">MODEL</span></span>
+        <span class="c-arrow" aria-hidden="true">→</span>
+        <span class="c-node"><span class="zh">工具</span><span class="en">TOOL</span></span>
+        <span class="c-arrow" aria-hidden="true">→</span>
+        <span class="c-node"><span class="zh">渠道</span><span class="en">CHANNEL</span></span>
+        <span class="c-arrow" aria-hidden="true">→</span>
+        <span class="c-node"><span class="zh">商家</span><span class="en">MERCHANT</span></span>
+        <span class="c-stamp"><span class="zh">LINKNLATCH · 整合最末端</span><span class="en">LINKNLATCH · TAIL-END</span></span>
+      </div>
+      <div class="edges">
+        <div class="edge rot gi g-up" style="--d:.12s;--r:-.8deg">
+          <div class="e-band"><span class="zh">优势 ①</span><span class="en">EDGE ①</span></div>
+          <div class="e-body">
+            <h4><span class="zh">大产能 × 厚商家资源</span><span class="en">MASS OUTPUT × DEEP MERCHANT POOL</span></h4>
+            <p><span class="zh">日产 1000+ 视频 × 200+ 长期合作商家 × $25M+ 月 GMV ——制作和分发两端同时跑通。</span><span class="en">1,000+ videos/day × 200+ long-term merchants × $25M+ monthly GMV—both production and distribution running at scale.</span></p>
+          </div>
+        </div>
+        <div class="edge sticky rot gi g-up" style="--d:.24s;--r:1deg">
+          <div class="e-band"><span class="zh">优势 ②</span><span class="en">EDGE ②</span></div>
+          <div class="e-body">
+            <h4><span class="zh">"套皮"开发者网络 + 行业认知</span><span class="en">"SKIN-LAYER" DEVELOPER NETWORK</span></h4>
+            <p><span class="zh">和大量 "套皮" 产品开发者保持通联——任何模型升级 / 新工具发布，<strong>我们是第一批知道并跑通的人</strong>。</span><span class="en">Active link with the "skin-layer" developer community—any model upgrade or new tool release, <strong>we're the first to know and ship</strong>.</span></p>
+          </div>
+        </div>
+        <div class="edge win rot gi g-up" style="--d:.36s;--r:-.6deg">
+          <div class="e-band"><span class="zh">优势 ③</span><span class="en">EDGE ③</span></div>
+          <div class="e-body">
+            <h4><span class="zh">渠道整合商 · 最敏锐的趋势洞察</span><span class="en">CHANNEL INTEGRATOR · SHARPEST TREND INSIGHT</span></h4>
+            <p><span class="zh">业务属性决定了我们站在 <strong>"模型 → 工具 → 渠道 → 商家"</strong> 整合最末端——对行业最新动态有<strong>极其敏锐的洞察</strong>，每一次趋势 turn 都先于市场 6-12 周捕捉到。</span><span class="en">Our business sits at the <strong>"model → tool → channel → merchant"</strong> integration tail-end—giving us <strong>razor-sharp insight</strong> on trends 6-12 weeks ahead of market.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 3 · tilted price tags -->
+    <div class="grp">
+      <div class="blk-head gi g-up">
+        <span class="chip green">PART 3</span>
+        <h3 class="blk-h"><span class="zh">三档单价 · 透明可议</span><span class="en">THREE-TIER PRICING · TRANSPARENT</span></h3>
+      </div>
+      <p class="blk-sub gi g-up" style="--d:.08s">
+        <span class="zh">锚点：与 GMV &lt; $5,000 达人合作（视频计价）共用同一定价锚点。</span>
+        <span class="en">Anchor: shared pricing with creators having GMV &lt; $5,000 (per-video pricing).</span>
+      </p>
+      <div class="pricing">
+        <div class="gi g-up" style="--d:.05s">
+          <div class="price" style="--r:-1.6deg">
+            <div class="price-tier">BASIC · <span class="zh">入门档</span><span class="en">Entry</span></div>
+            <div class="price-num">$5</div>
+            <div class="price-meta"><span class="zh">/ 条 · 300 条起</span><span class="en">/ video · 300 min order</span></div>
+            <ul>
+              <li><span class="zh">客户提供视频 · 代发</span><span class="en">Client supplies video · we distribute</span></li>
+              <li><span class="zh">不支持选号</span><span class="en">No account selection</span></li>
+              <li><span class="zh">适用：已有素材 · 仅需分发渠道</span><span class="en">For: existing creative · channel only</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="gi g-up" style="--d:.18s">
+          <div class="price rec" style="--r:1.2deg">
+            <span class="price-badge">★ RECOMMEND <span class="zh">主推</span><span class="en">PICK</span></span>
+            <div class="price-tier">STANDARD · <span class="zh">标准档</span><span class="en">Standard</span></div>
+            <div class="price-num">$20</div>
+            <div class="price-meta"><span class="zh">/ 条 · 200 条起</span><span class="en">/ video · 200 min order</span></div>
+            <ul>
+              <li><span class="zh">中等脚本 + 精修 · 质量×量产平衡</span><span class="en">Medium script + polish · balanced</span></li>
+              <li><span class="zh">与 GMV &lt; $5K 锚点对齐</span><span class="en">Aligned with GMV &lt; $5K anchor</span></li>
+              <li><span class="zh">对应 CPM $10 月结口径</span><span class="en">Maps to CPM $10 monthly</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="gi g-up" style="--d:.31s">
+          <div class="price" style="--r:1.8deg">
+            <div class="price-tier">PREMIUM · <span class="zh">精品档</span><span class="en">Premium</span></div>
+            <div class="price-num">$35</div>
+            <div class="price-meta"><span class="zh">/ 条 · 100 条起</span><span class="en">/ video · 100 min order</span></div>
+            <ul>
+              <li><span class="zh">深度脚本 + 精修包装</span><span class="en">Deep script + premium production</span></li>
+              <li><span class="zh">高度定制 · 支持打样</span><span class="en">Highly customized · sampling</span></li>
+              <li><span class="zh">适用：大店 / 品牌 · 旗舰单品</span><span class="en">For: large stores / brand flagships</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="note-box sticker gi g-up" style="--d:.4s">
+        <div class="note-eyebrow"><span class="zh">技术主线 · 1→100 爆款复刻</span><span class="en">TECHNICAL THESIS · 1→100 HIT REPLICATION</span></div>
+        <p>
+          <span class="zh">通过广告数据回传识别正在起势的素材组合 → 保持爆款节奏，替换为我们自有的脸库和达人形象 → 系统化绕开 TikTok 限流——<strong>同一爆款，100 个不同变体</strong>。这是我们和市面上所有"0→1 生成"型 AIGC 公司的根本差异。</span>
+          <span class="en">Identify winners via ad-data backflow → preserve viral rhythm, swap in proprietary face library → systematically navigate TikTok throttle—<strong>same winning formula, 100 distinct variants</strong>. This is the fundamental difference between us and every "0→1 generation" AIGC company.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= 6. 服务方案 ================= -->
+<section id="services" class="sheet sheet-center" data-fx="press">
+  <div class="ghost" aria-hidden="true" data-para="-35">SERVICE</div>
+  <div class="wrap">
+    <div class="rev r-left">
+      <span class="eyebrow yellow"><span class="zh">服务方案 · 怎么和我们合作</span><span class="en">SERVICES · HOW WE WORK TOGETHER</span></span>
+      <h2 class="sec-h">
+        <span class="zh">三条服务线 ·<br><span class="hl">按你的店选组合</span></span>
+        <span class="en">Three Service Lines ·<br><span class="hl">Pick the Mix for Your Store</span></span>
+      </h2>
+      <p class="sec-sub">
+        <span class="zh">从达人投放到内容量产，再到 Agent 全托管——三条服务线可单独起步，也可组合成一个由系统自动驱动的闭环。</span>
+        <span class="en">From creator campaigns to mass content production to full Agent management—start with one line, or combine all three into one system-driven closed loop.</span>
+      </p>
+    </div>
+
+    <div class="grp">
+      <div class="rlayer peach gi g-left" style="--d:.05s">
+        <div class="rl-left">
+          <div class="rl-index" aria-hidden="true">1</div>
+          <div>
+            <div class="rl-tag"><span class="zh">服务线 ① · 达人营销</span><span class="en">SERVICE ① · Creator Marketing</span></div>
+            <div class="rl-title"><span class="zh">标准化达人投放<br>Base Fee 底金制</span><span class="en">STANDARDIZED CREATOR<br>CAMPAIGNS · BASE FEE</span></div>
+            <span class="data-pill"><span class="zh">10w+ 美区达人池</span><span class="en">100K+ US CREATOR POOL</span></span>
+          </div>
+        </div>
+        <ul>
+          <li><span class="zh"><strong>达人营销底金（Base Fee）</strong> · 标准化达人投放服务</span><span class="en"><strong>Creator Marketing Base Fee</strong> · Standardized creator campaign service</span></li>
+          <li><span class="zh"><strong>Agent 智能建联</strong> · 日触达 10 万+ 达人 · 95% 自动化</span><span class="en"><strong>Agent-powered outreach</strong> · 100K+ creators reached daily · 95% automated</span></li>
+          <li><span class="zh"><strong>1w+ 签约达人 · TTO 北美第一</strong> · 多维表供品牌选号</span><span class="en"><strong>10K+ signed creators · TTO #1 NA</strong> · sortable tables for brand selection</span></li>
+        </ul>
+      </div>
+
+      <div class="rlayer purple gi g-left" style="--d:.18s">
+        <div class="rl-left">
+          <div class="rl-index" aria-hidden="true">2</div>
+          <div>
+            <div class="rl-tag"><span class="zh">服务线 ② · AI 视频内容</span><span class="en">SERVICE ② · AI Video Content</span></div>
+            <div class="rl-title"><span class="zh">AI 视频内容<br>三档量产</span><span class="en">AI VIDEO CONTENT<br>THREE TIERS</span></div>
+            <span class="data-pill"><span class="zh">$5 · $20 · $35 三档 · 透明可议</span><span class="en">$5 · $20 · $35 TIERS · TRANSPARENT</span></span>
+          </div>
+        </div>
+        <ul>
+          <li><span class="zh"><strong>三档单价</strong> · $5 / 300 条起 · $20 / 200 条起（主推）· $35 / 100 条起</span><span class="en"><strong>Three tiers</strong> · $5 / 300 min · $20 / 200 min (recommended) · $35 / 100 min</span></li>
+          <li><span class="zh"><strong>5,000+ 真人形象授权池</strong> · 日产 1,000+ 条</span><span class="en"><strong>5,000+ likeness-license pool</strong> · 1,000+ videos/day</span></li>
+          <li><span class="zh"><strong>"物归原主"发布</strong> · 单条 AI UGC 验证 $10K GMV</span><span class="en"><strong>Return-to-origin publishing</strong> · single AI UGC verified at $10K GMV</span></li>
+        </ul>
+      </div>
+
+      <div class="rlayer greenlight gi g-left" style="--d:.31s">
+        <div class="rl-left">
+          <div class="rl-index" aria-hidden="true">3</div>
+          <div>
+            <div class="rl-tag"><span class="zh">服务线 ③ · Agent 全托管</span><span class="en">SERVICE ③ · Full-Service Agent</span></div>
+            <div class="rl-title"><span class="zh">Agent 全托管<br>全案服务</span><span class="en">FULL-SERVICE<br>AGENT MANAGEMENT</span></div>
+            <span class="data-pill"><span class="zh">达人 BD · 内容 · 投放全自动</span><span class="en">BD · CONTENT · ADS · AUTOMATED</span></span>
+          </div>
+        </div>
+        <ul>
+          <li><span class="zh"><strong>客户委托 Agent 管理店铺</strong> · 全案托管服务</span><span class="en"><strong>Delegate your storefront to our Agents</strong> · full-service management</span></li>
+          <li><span class="zh"><strong>达人 BD / 内容生产 / 投放优化</strong> · 全链路自动化</span><span class="en"><strong>Creator BD / content production / ad optimization</strong> · automated end-to-end</span></li>
+          <li><span class="zh"><strong>汇报 Agent 自动汇总</strong> · 飞书多维表格 / 客户看板</span><span class="en"><strong>Reporting Agent auto-aggregates</strong> · Feishu tables / client dashboards</span></li>
+        </ul>
+      </div>
+
+      <!-- 合作流程 · three-step strip (methodology-derived) -->
+      <div class="blk-head gi g-up" style="--d:.4s;margin-top:36px">
+        <span class="chip green"><span class="zh">合作流程</span><span class="en">HOW IT RUNS</span></span>
+        <h3 class="blk-h"><span class="zh">三步跑起来 · 一周测评起步</span><span class="en">THREE STEPS · TESTING STARTS WEEK ONE</span></h3>
+      </div>
+      <div class="flow3">
+        <div class="fstep gi g-pop" style="--d:.45s">
+          <div class="fstep-card">
+            <div class="ph">
+              <div class="fstep-num">01</div>
+              <p><span class="zh">直接构建测评实验，让广告数据告诉你哪个组合有市场——<strong>一周测评 &gt; 三个月空想</strong>。</span><span class="en">Build test rigs directly and let ad data tell you which combo wins—<strong>one week of testing &gt; three months of theorizing</strong>.</span></p>
+            </div>
+            <h4><span class="zh">一周测评 · 找爆款组合</span><span class="en">Week-one testing · winning combo</span></h4>
+          </div>
+        </div>
+        <div class="fstep gi g-pop" style="--d:.6s">
+          <div class="fstep-card">
+            <div class="ph">
+              <div class="fstep-num">02</div>
+              <p><span class="zh">按 $5 / $20 / $35 三档批量制作，视频<strong>发回达人本人发布</strong>——渠道更原生。</span><span class="en">Mass-produce at the $5 / $20 / $35 tiers; videos <strong>published by the original creators</strong>—native distribution.</span></p>
+            </div>
+            <h4><span class="zh">三档量产 · 物归原主分发</span><span class="en">Tiered production · origin publishing</span></h4>
+          </div>
+        </div>
+        <div class="fstep gi g-pop" style="--d:.75s">
+          <div class="fstep-card pay">
+            <div class="ph">
+              <div class="fstep-num">03</div>
+              <p><span class="zh">广告数据回传识别起势素材——<strong>同一爆款，100 个不同变体</strong>持续放大。</span><span class="en">Ad-data backflow spots rising creatives—<strong>same winning formula, 100 distinct variants</strong> to keep scaling.</span></p>
+            </div>
+            <h4><span class="zh">数据回传 · 1→100 放大</span><span class="en">Data backflow · 1→100 scale-up</span></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7. 团队 ================= -->
+<section id="team" class="bg-cream2 sheet" data-fx="settle-top">
+  <div class="ghost" aria-hidden="true" data-para="55">TEAM</div>
+  <div class="wrap">
+    <div class="rev r-right">
+      <span class="eyebrow"><span class="zh">团队 · TEAM</span><span class="en">TEAM</span></span>
+      <h2 class="sec-h">
+        <span class="zh">中美双背景 ·<br><span class="hl">AI × 渠道 × 金融</span> 三栖基因</span>
+        <span class="en">Cross-Pacific DNA—<br><span class="hl">AI × Distribution × Finance</span></span>
+      </h2>
+      <p class="sec-sub hand-intro">
+        <span class="zh">15 人核心团队 · 两位 Co-Founder 锚定战略与财务——以一个传统 MCN 50 人的产能运转，为你的店铺服务。</span>
+        <span class="en">15-person core team · Two Co-Founders anchoring strategy and finance—delivering output equivalent to a 50-person traditional MCN, working for your store.</span>
+      </p>
+    </div>
+
+    <!-- LISY LI -->
+    <div class="rev r-left">
+     <div data-para="-30">
+      <div class="tcard yellow">
+       <div class="tc-inner">
+       <div class="tc-front">
+        <span class="t-tag">CO-FOUNDER &amp; CEO</span>
+        <div class="two-col">
+          <div>
+            <div class="t-name">LISY LI</div>
+            <div class="t-role">
+              <span class="zh">联合创始人 · 市场落地与渠道扩张引擎</span>
+              <span class="en">Co-Founder · Go-to-Market &amp; Channel Expansion</span>
+            </div>
+            <div class="t-bio">
+              <p>
+                <span class="zh"><strong>履历：</strong>曾在 <strong>Bilibili</strong> 主导京东、伊利、联想等国民品牌全域营销项目，是 <strong>B 站花火营销平台的创始员工</strong>。</span>
+                <span class="en"><strong>Experience:</strong> Led nationwide marketing campaigns for JD.com, Yili, Lenovo at <strong>Bilibili</strong>; founding employee of <strong>Bilibili Sparkle Marketing Platform</strong>.</span>
+              </p>
+              <p>
+                <span class="zh"><strong>2023 年联合创立 LinknLatch（琳琅智选）</strong>，累计合作 <strong>10 万+ 美区达人渠道</strong>。</span>
+                <span class="en"><strong>Co-founded LinknLatch (2023)</strong>—now connected to <strong>100,000+ US-based creators</strong>.</span>
+              </p>
+            </div>
+          </div>
+          <div class="t-side">
+            <div class="s-h"><span class="zh">核心能力</span><span class="en">Core Strengths</span></div>
+            <ul>
+              <li><span class="zh"><strong>平台基因：</strong>B 站花火创始员工</span><span class="en"><strong>Platform DNA:</strong> Founding member of Bilibili Sparkle</span></li>
+              <li><span class="zh"><strong>大客户实战：</strong>京东 / 伊利 / 联想等品牌操盘</span><span class="en"><strong>Enterprise Track Record:</strong> JD.com / Yili / Lenovo operator</span></li>
+            </ul>
+          </div>
+        </div>
+       </div>
+       <div class="tc-back" aria-hidden="true">
+         <p class="tc-sig">LISY LI</p>
+         <span class="t-tag">CO-FOUNDER &amp; CEO</span>
+         <svg viewBox="0 0 120 120" aria-hidden="true">
+           <g>
+             <circle cx="60" cy="60" r="56" fill="none" stroke="#111111" stroke-width="2.5"/>
+             <circle cx="60" cy="60" r="41" fill="none" stroke="#111111" stroke-width="2"/>
+             <path id="tcsp1" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0" fill="none"/>
+             <text font-family="'Bebas Neue',sans-serif" font-size="12.5" letter-spacing="2.6" fill="#111111">
+               <textPath href="#tcsp1">EST. 2023 · HANGZHOU / LOS ANGELES · LINKNLATCH ·</textPath>
+             </text>
+           </g>
+           <text x="60" y="69" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="26" fill="#0FA355">MCN</text>
+         </svg>
+       </div>
+       </div>
+       <button type="button" class="tc-flip" aria-pressed="false"><span class="zh">翻转卡片</span><span class="en">Flip card</span></button>
+      </div>
+     </div>
+    </div>
+
+    <!-- CHI ZHANG -->
+    <div class="rev r-right">
+     <div data-para="-60">
+      <div class="tcard purple">
+       <div class="tc-inner">
+       <div class="tc-front">
+        <span class="t-tag">CO-FOUNDER &amp; CFO</span>
+        <div class="two-col">
+          <div>
+            <div class="t-name">CHI ZHANG</div>
+            <div class="t-role">
+              <span class="zh">联合创始人 · 跨境运营 × 商业架构 × 平台关系</span>
+              <span class="en">Co-Founder · Cross-Border Operations × Commercial Architecture × Platform Relations</span>
+            </div>
+            <div class="t-bio">
+              <p>
+                <span class="zh"><strong>履历：</strong>曾于<strong>华人文化集团</strong>辅助集团 VP 进行跨法域资源整合与战略协同，长期积累与 TikTok 中基层团队的平台关系。</span>
+                <span class="en"><strong>Experience:</strong> Cross-jurisdictional integration &amp; strategic alignment at <strong>China Media Capital</strong>—built long-term platform relationships within TikTok.</span>
+              </p>
+              <p>
+                <span class="zh"><strong>2023 年与 Lisy 联合创立 LinknLatch</strong>，从 0 到 1 搭建 5,000+ 精细化运营的 TikTok 达人网络，<strong>累计管理 $20M+ 出海广告主预算</strong>。</span>
+                <span class="en"><strong>Co-founded LinknLatch with Lisy in 2023</strong>—built 5,000+ refined TikTok creator network; <strong>managed $20M+ in cross-border ad budgets</strong>.</span>
+              </p>
+            </div>
+          </div>
+          <div class="t-side">
+            <div class="s-h"><span class="zh">核心能力</span><span class="en">Core Strengths</span></div>
+            <ul>
+              <li><span class="zh"><strong>6 张牌照搭建：</strong>TSP / ISV / TAP / CAP / TTO + 美国本土 Ads 全套合规架构</span><span class="en"><strong>6-License Architecture:</strong> Full TikTok compliance suite</span></li>
+              <li><span class="zh"><strong>平台关系：</strong>TikTok 中基层团队 / 商业化体系长期对接</span><span class="en"><strong>Platform Relations:</strong> Long-term TikTok ops &amp; commercialization team integration</span></li>
+              <li><span class="zh"><strong>大额预算操盘：</strong>$20M+ 出海广告预算的实战调度</span><span class="en"><strong>Large-Budget Operator:</strong> $20M+ cross-border ad budget orchestration</span></li>
+            </ul>
+          </div>
+        </div>
+       </div>
+       <div class="tc-back" aria-hidden="true">
+         <p class="tc-sig">CHI ZHANG</p>
+         <span class="t-tag">CO-FOUNDER &amp; CFO</span>
+         <svg viewBox="0 0 120 120" aria-hidden="true">
+           <g>
+             <circle cx="60" cy="60" r="56" fill="none" stroke="#111111" stroke-width="2.5"/>
+             <circle cx="60" cy="60" r="41" fill="none" stroke="#111111" stroke-width="2"/>
+             <path id="tcsp2" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0" fill="none"/>
+             <text font-family="'Bebas Neue',sans-serif" font-size="12.5" letter-spacing="2.6" fill="#111111">
+               <textPath href="#tcsp2">EST. 2023 · HANGZHOU / LOS ANGELES · LINKNLATCH ·</textPath>
+             </text>
+           </g>
+           <text x="60" y="69" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="26" fill="#0FA355">MCN</text>
+         </svg>
+       </div>
+       </div>
+       <button type="button" class="tc-flip" aria-pressed="false"><span class="zh">翻转卡片</span><span class="en">Flip card</span></button>
+      </div>
+     </div>
+    </div>
+
+  </div>
+  <!-- ink splat dots — driven by the contact sheet's ink cover progress; they pop
+       onto this (covered) cream sheet around the rising blot. fx-only decoration. -->
+  <div class="ink-splats" aria-hidden="true">
+    <!-- px offsets, not % — the team sheet is several viewports tall, so the
+         dots must sit inside its LAST viewportful (pinned bottom-aligned) -->
+    <span class="ink-splat" style="left:47%;bottom:150px;width:18px;height:18px"></span>
+    <span class="ink-splat" style="left:56%;bottom:260px;width:12px;height:12px"></span>
+    <span class="ink-splat" style="left:39%;bottom:330px;width:24px;height:24px"></span>
+    <span class="ink-splat" style="left:64%;bottom:420px;width:8px;height:8px"></span>
+    <span class="ink-splat" style="left:51%;bottom:520px;width:10px;height:10px"></span>
+    <span class="ink-splat" style="left:34%;bottom:470px;width:14px;height:14px"></span>
+  </div>
+</section>
+<!-- ================= 8. 联系合作 · CONTACT ================= -->
+<section id="contact" class="bg-black sheet" data-fx="ink">
+  <div class="ghost" aria-hidden="true" data-para="-50">LET'S TALK</div>
+  <div class="wrap">
+    <div class="rev r-up">
+      <span class="eyebrow green"><span class="zh">联系合作 · CONTACT</span><span class="en">CONTACT US · LET'S TALK</span></span>
+      <h2 class="sec-h">
+        <span class="zh">开始合作 ·<br><span class="hl">让双引擎为你的店工作</span></span>
+        <span class="en">Start Working With Us ·<br><span class="hl">Put Both Engines Behind Your Store</span></span>
+      </h2>
+      <p class="sec-sub">
+        <span class="zh">TikTok Shop 大店 / 品牌方——批量建联达人、批量生产内容、批量上市场，从一封邮件开始。</span>
+        <span class="en">For large TikTok Shop stores and brands—bulk creator outreach, bulk content production, bulk market deployment. It starts with one email.</span>
+      </p>
+    </div>
+
+    <!-- cooperation steps · coupon chips -->
+    <div class="grp">
+      <div class="gi g-up">
+        <h3 class="contact-h3"><span class="zh">发出邮件之后 · WHAT HAPPENS NEXT</span><span class="en">AFTER YOUR EMAIL · WHAT HAPPENS NEXT</span></h3>
+        <p class="contact-sub">
+          <span class="zh">对齐品类与目标，从一周测评开始，再用回传数据决定放大——每一步都由系统自动驱动。</span>
+          <span class="en">We align on category and goals, start with a week-one test, then let backflow data drive the scale decision—every step system-driven.</span>
+        </p>
+      </div>
+      <div class="benefits">
+        <div class="benefit rot gi g-up" style="--d:.08s;--r:-1deg">
+          <span class="b-seal" aria-hidden="true">L</span>
+          <div class="b-tag"><span class="zh">第 ① 步</span><span class="en">STEP ①</span></div>
+          <h4><span class="zh">启动对齐 · 确定测评方案</span><span class="en">KICKOFF · ALIGN THE TEST PLAN</span></h4>
+          <p>
+            <span class="zh">一封邮件启动：对齐你的<strong>品类、目标市场与投放目标</strong>，确定测评实验方案。</span>
+            <span class="en">One email starts it: we align on your <strong>category, target market and campaign goals</strong>, and settle the test-rig plan.</span>
+          </p>
+        </div>
+        <div class="benefit rot gi g-up" style="--d:.2s;--r:.8deg">
+          <span class="b-seal" aria-hidden="true">L</span>
+          <div class="b-tag"><span class="zh">第 ② 步</span><span class="en">STEP ②</span></div>
+          <h4><span class="zh">一周测评 · 看板同步</span><span class="en">WEEK-ONE TEST · LIVE DASHBOARD</span></h4>
+          <p>
+            <span class="zh">测评实验跑起来，结果由<strong>汇报 Agent 自动汇总</strong>到飞书多维表格 / 客户看板。</span>
+            <span class="en">The test rig runs; the <strong>Reporting Agent auto-aggregates</strong> results into Feishu tables / your client dashboard.</span>
+          </p>
+        </div>
+        <div class="benefit rot gi g-up" style="--d:.32s;--r:-.7deg">
+          <span class="b-seal" aria-hidden="true">L</span>
+          <div class="b-tag"><span class="zh">第 ③ 步</span><span class="en">STEP ③</span></div>
+          <h4><span class="zh">数据决策 · 量产放大</span><span class="en">SCALE DECISION · DATA DECIDES</span></h4>
+          <p>
+            <span class="zh">用<strong>广告回传数据</strong>决定下一步：量产起势组合，持续放大。</span>
+            <span class="en"><strong>Ad-data backflow</strong> drives the next move: mass-produce the rising combos and keep scaling.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- contact CTA -->
+    <div class="grp">
+      <div class="gi g-up contact-cta">
+        <a class="btn-cta" href="mailto:jiqianyi@linknlatchwx.work?subject=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%B0%88%20%C2%B7%20TikTok%20Shop">
+          <span class="zh">发邮件 · 开始合作 ✉</span>
+          <span class="en">EMAIL US · START NOW ✉</span>
+        </a>
+        <p class="contact-mail-label"><span class="zh">商务合作邮箱</span><span class="en">Business inquiries</span></p>
+        <p class="contact-mail"><a href="mailto:jiqianyi@linknlatchwx.work?subject=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%B0%88%20%C2%B7%20TikTok%20Shop">jiqianyi@linknlatchwx.work</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 9. CLOSING ================= -->
+<section class="closing sheet" data-fx="stamp" aria-label="Closing">
+  <div class="ghost" aria-hidden="true" data-para="40">GO GLOBAL</div>
+  <div class="closing-core">
+  <div class="closing-stamp rev r-stamp" style="--d:.4s" aria-hidden="true">
+    <span class="cs-in"><span class="zh">最 AI-NATIVE 的 MCN</span><span class="en">THE MOST AI-NATIVE MCN</span></span>
+  </div>
+  <div class="rev r-up">
+    <h2 class="closing-h">
+      <span class="zh"><span class="hl">AIGC + AGENT</span><br>双引擎驱动出海</span>
+      <span class="en"><span class="hl">AIGC + AGENT</span><br>Dual-Engine Going Global</span>
+    </h2>
+    <p class="closing-sub">
+      <span class="zh">淋浪 LinknLatch —— AI-Native 的新时代 MCN<br>一万达人 · 五千形象 · 期待一起出海</span>
+      <span class="en">LinknLatch—The AI-Native Next-Gen MCN<br>10K creators · 5K talent licenses · ready to scale together</span>
+    </p>
+    <br>
+    <a class="btn-cta" href="mailto:jiqianyi@linknlatchwx.work?subject=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%B0%88%20%C2%B7%20TikTok%20Shop">
+      <span class="zh">联系合作 · jiqianyi@linknlatchwx.work</span>
+      <span class="en">CONTACT US · jiqianyi@linknlatchwx.work</span>
+    </a>
+    <p class="closing-byline">
+      <span class="zh">李西 LisyLi · CEO · 杭州淋浪信息技术有限公司</span>
+      <span class="en">Lisy Li · CEO · LinknLatch Inc.</span>
+    </p>
+  </div>
+  </div>
+  <footer role="contentinfo">
+    <span>© 2026 <span class="f-green">LinknLatch</span> · jiqianyi@linknlatchwx.work</span>
+  </footer>
+</section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+  var mqNoMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduced = mqNoMotion.matches; /* load-time snapshot — IO setup gate only; live checks use mqNoMotion.matches */
+
+  /* ---------- language toggle · persisted ---------- */
+  var langBtns = document.querySelectorAll('.lang-toggle button');
+  var savedLang = 'zh';
+  try { savedLang = localStorage.getItem('linknlatch-lang') || 'zh'; } catch (e) {}
+  if (savedLang !== 'zh' && savedLang !== 'en') savedLang = 'zh';
+
+  function setLang(lang) {
+    document.body.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    for (var i = 0; i < langBtns.length; i++) {
+      var on = langBtns[i].getAttribute('data-lang') === lang;
+      langBtns[i].classList.toggle('active', on);
+      langBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    document.title = lang === 'zh'
+      ? 'LinknLatch · AIUGC 增长引擎 · TikTok Shop 大店合作'
+      : 'LinknLatch · AIUGC Growth Engine · TikTok Shop Key Accounts';
+    try { localStorage.setItem('linknlatch-lang', lang); } catch (e) {}
+    /* sheet heights change with the language — re-measure the stack */
+    if (window.__sheetsRemeasure) window.__sheetsRemeasure();
+  }
+  for (var i = 0; i < langBtns.length; i++) {
+    langBtns[i].addEventListener('click', function () {
+      setLang(this.getAttribute('data-lang'));
+    });
+  }
+  setLang(savedLang);
+
+  /* ---------- mobile disclosure menu ---------- */
+  var menuBtn = document.querySelector('.menu-btn');
+  var navEl = document.querySelector('nav');
+  if (menuBtn && navEl) {
+    menuBtn.addEventListener('click', function () {
+      var open = navEl.classList.toggle('menu-open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    var navAnchors = document.querySelectorAll('.nav-links a');
+    for (var a = 0; a < navAnchors.length; a++) {
+      navAnchors[a].addEventListener('click', function () {
+        navEl.classList.remove('menu-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    }
+  }
+
+  /* ---------- count-up · rAF, ease-out cubic ---------- */
+  function runCounter(el) {
+    if (el.dataset.done) return;
+    el.dataset.done = '1';
+    var target = parseFloat(el.getAttribute('data-target')) || 0;
+    var comma = el.hasAttribute('data-comma');
+    function fmt(v) {
+      var n = Math.round(v);
+      return comma ? n.toLocaleString('en-US') : String(n);
+    }
+    if (mqNoMotion.matches) { el.textContent = fmt(target); return; }
+    /* markup carries the real final number (correct without JS);
+       reset to 0 only once the animation actually starts */
+    el.textContent = fmt(0);
+    var dur = 1300, start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * e);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = fmt(target);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ---------- one IntersectionObserver for all reveals ---------- */
+  var revealables = document.querySelectorAll('.rev, .grp');
+  function activate(el) {
+    el.classList.add('vis');
+    var counters = el.querySelectorAll('.count');
+    for (var c = 0; c < counters.length; c++) runCounter(counters[c]);
+  }
+  if ('IntersectionObserver' in window && !reduced) {
+    var io = new IntersectionObserver(function (entries) {
+      for (var j = 0; j < entries.length; j++) {
+        if (entries[j].isIntersecting) {
+          activate(entries[j].target);
+          io.unobserve(entries[j].target);
+        }
+      }
+    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+    for (var k = 0; k < revealables.length; k++) io.observe(revealables[k]);
+  } else {
+    for (var m = 0; m < revealables.length; m++) activate(revealables[m]);
+  }
+
+  /* ---------- scroll progress thread + current nav link ---------- */
+  var progress = document.querySelector('.progress');
+  var navLinks = document.querySelectorAll('.nav-links a.nl, .nav-links a.nav-cta');
+  var sections = [];
+  var sectionTops = []; /* cached flow offsets — refreshed by measureSectionTops() */
+  for (var s = 0; s < navLinks.length; s++) {
+    var id = navLinks[s].getAttribute('href').slice(1);
+    var sec = document.getElementById(id);
+    if (sec) sections.push({ el: sec, link: navLinks[s] });
+  }
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - window.innerHeight;
+      var y = window.scrollY || doc.scrollTop;
+      var r = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+      /* flow math, not rects — pinned sticky sheets report misleading rects.
+         current = last section whose flow top has reached the nav's bottom edge */
+      var current = null;
+      for (var n = 0; n < sections.length; n++) {
+        if (sectionTops[n] <= y + navH + 1) current = sections[n];
+      }
+      if (progress) progress.style.transform = 'scaleX(' + r + ')';
+      for (var q = 0; q < sections.length; q++) {
+        sections[q].link.classList.toggle('cur', sections[q] === current);
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+
+  /* ==========================================================
+     PAPER SHEET STACK ENGINE
+     sticky full-viewport sheets · per-boundary entry fx (data-fx)
+     universal under-press · generic data-para parallax
+     All positions derive from scrollY + cached flow offsets, so
+     the transforms we apply never feed back into the math.
+     ========================================================== */
+  var sheetMain = document.querySelector('main');
+  var sheets = [];
+  if (sheetMain) {
+    for (var sc = 0; sc < sheetMain.children.length; sc++) {
+      if (sheetMain.children[sc].classList &&
+          sheetMain.children[sc].classList.contains('sheet')) {
+        sheets.push(sheetMain.children[sc]);
+      }
+    }
+  }
+  /* integrity check, not a kill switch — the engine is generic, but the CSS
+     z-index ladder (nth-child 1-9) and per-boundary fx choreography assume 9 */
+  if (sheets.length !== 9) {
+    console.warn('sheet count changed (' + sheets.length +
+      ', expected 9) — check the html.fx nth-child z-index ladder and data-fx coverage');
+  }
+  var sheetFxName = [], sheetParas = [], sheetFlowTops = [], sheetHeights = [];
+  for (var sp = 0; sp < sheets.length; sp++) {
+    sheetFxName.push(sheets[sp].getAttribute('data-fx') || '');
+    var paraEls = sheets[sp].querySelectorAll('[data-para]');
+    var plist = [];
+    for (var pe = 0; pe < paraEls.length; pe++) {
+      plist.push({
+        el: paraEls[pe],
+        n: parseFloat(paraEls[pe].getAttribute('data-para')) || 0,
+        rot: parseFloat(paraEls[pe].getAttribute('data-rot')) || 0
+      });
+    }
+    sheetParas.push(plist);
+  }
+
+  /* ---- CSS-3D transition pack caches ---- */
+  var inkIdx = -1, stampIdx = -1;
+  for (var fxi = 0; fxi < sheetFxName.length; fxi++) {
+    if (sheetFxName[fxi] === 'ink') inkIdx = fxi;
+    if (sheetFxName[fxi] === 'stamp') stampIdx = fxi;
+  }
+  var inkSplats = [];
+  var splatNodes = document.querySelectorAll('.ink-splat');
+  for (var sn = 0; sn < splatNodes.length; sn++) inkSplats.push(splatNodes[sn]);
+  var stampIn = document.querySelector('.closing-stamp .cs-in');
+  var stackEl = document.querySelector('#agent .stack');
+  var stackLayers = [];
+  if (stackEl) {
+    var lyrs = stackEl.querySelectorAll('.layer');
+    for (var ly = 0; ly < lyrs.length; ly++) stackLayers.push(lyrs[ly]);
+  }
+  var agentIdx = -1;
+  for (var ag = 0; ag < sheets.length; ag++) {
+    if (stackEl && sheets[ag].contains(stackEl)) agentIdx = ag;
+  }
+  var snapped = [], snapPrimed = false;
+  var covers = []; /* reused every frame — indices fully overwritten */
+  var mainFlowTop = 0;
+
+  var mqWide = window.matchMedia('(min-width: 880px)');
+  /* mqNoMotion is hoisted to the top of the IIFE (shared with runCounter) */
+  var fxOn = false;
+  var sheetVh = window.innerHeight;
+  var sheetVw = document.documentElement.clientWidth || window.innerWidth;
+  var sheetTicking = false;
+
+  function clamp01(v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
+
+  /* the sticky nav owns the top of the viewport — sheets pin below it */
+  var navH = 0;
+  function measureNav() {
+    navH = navEl ? navEl.offsetHeight : 0;
+    document.documentElement.style.setProperty('--nav-h', navH + 'px');
+  }
+
+  function measureSheets() {
+    if (!sheets.length) return;
+    measureNav(); /* --nav-h feeds sheet min-height — set it before reading heights */
+    sheetVh = window.innerHeight;
+    sheetVw = document.documentElement.clientWidth || window.innerWidth;
+    var i;
+    /* neutralize our transforms first — scale/rotate inflate bounding rects,
+       and integer offsetHeight rounding compounds to px-level anchor drift.
+       Every caller queues sheetFrame() right after, which reassigns them. */
+    for (i = 0; i < sheets.length; i++) sheets[i].style.transform = 'none';
+    var acc = sheetMain.getBoundingClientRect().top +
+              (window.scrollY || document.documentElement.scrollTop || 0);
+    mainFlowTop = acc; /* anchors main's dynamic perspective-origin */
+    /* read pass — all rects first, so the write pass below never
+       invalidates layout between reads (1 forced layout, not 9) */
+    for (i = 0; i < sheets.length; i++) {
+      var rh = sheets[i].getBoundingClientRect().height;
+      var h = rh > 0 ? rh : sheets[i].offsetHeight;
+      sheetFlowTops[i] = acc;
+      sheetHeights[i] = h;
+      acc += h;
+    }
+    /* write pass — short sheets pin at the nav's bottom edge (never under
+       it); tall sheets scroll through, then pin bottom-aligned */
+    for (i = 0; i < sheets.length; i++) {
+      sheets[i].style.setProperty('--stick-top',
+        Math.min(navH, sheetVh - sheetHeights[i]) + 'px');
+    }
+    measureSectionTops();
+  }
+
+  /* nearest enclosing sheet (or the element itself when it IS the sheet) */
+  function sheetOf(el) {
+    while (el && el !== sheetMain &&
+           !(el.classList && el.classList.contains('sheet'))) {
+      el = el.parentElement;
+    }
+    return (el && el !== sheetMain) ? el : null;
+  }
+
+  /* nav current-link targets — flow offsets, never sticky-polluted rects.
+     fx mode reuses the sheet engine's cache; no-fx rects are honest. */
+  function measureSectionTops() {
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    for (var i = 0; i < sections.length; i++) {
+      var el = sections[i].el;
+      var flowTop = -1;
+      if (fxOn) {
+        var idx = sheets.indexOf(sheetOf(el));
+        if (idx >= 0) flowTop = sheetFlowTops[idx];
+      }
+      sectionTops[i] = flowTop >= 0 ? flowTop : el.getBoundingClientRect().top + y;
+    }
+  }
+
+  function sheetFrame() {
+    sheetTicking = false;
+    if (!fxOn || !sheets.length) return;
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    var n = sheets.length;
+    /* sheets pin at the nav's bottom edge, so full cover travel is vh - navH —
+       dividing by vh would freeze entry transforms at p < 1 forever */
+    var travel = Math.max(1, sheetVh - navH);
+    var i;
+    for (i = 0; i < n; i++) {
+      covers[i] = clamp01((sheetVh - (sheetFlowTops[i] - y)) / travel);
+    }
+    /* page-flip perspective — keep the vanishing point at the viewport center
+       (main is page-tall; its static 50% 50% origin would project off-axis) */
+    sheetMain.style.perspectiveOrigin =
+      '50% ' + Math.max(0, y + sheetVh / 2 - mainFlowTop).toFixed(0) + 'px';
+    /* registration snap — prime silently on the first frame so a mid-page
+       load (deep link / reload) never fires a volley of snaps */
+    var firstPass = !snapPrimed;
+    snapPrimed = true;
+    for (i = 0; i < n; i++) {
+      var tf = '';
+      var p = covers[i];
+      /* entry effect while 0 < p < 1 · cleared to identity at p >= 1 */
+      if (i > 0 && p < 1) {
+        /* boundary map (9 sheets, 8 boundaries — no two alike):
+           plain · settle · slide-r · flip · press · settle-top · ink · stamp.
+           When adding a verb, keep every boundary distinct. */
+        var fx = sheetFxName[i];
+        if (fx === 'settle')          tf = 'rotate(' + ((1 - p) * 1.2).toFixed(3) + 'deg)';
+        else if (fx === 'settle-top') tf = 'rotate(' + ((1 - p) * -0.6).toFixed(3) + 'deg)';
+        else if (fx === 'slide-r')    tf = 'translateX(' + ((1 - p) * -48).toFixed(2) + 'px)';
+        else if (fx === 'press')      tf = 'scale(' + (0.97 + 0.03 * p).toFixed(4) + ')';
+        else if (fx === 'flip') {
+          /* 3D magazine page flip — CSS pins the fold line at the bottom of
+             the first viewportful; recede slightly while rotating */
+          var fe = 1 - Math.pow(1 - p, 2);
+          tf = 'translateZ(' + ((1 - fe) * -120).toFixed(2) + 'px)' +
+               ' rotateX(' + ((1 - fe) * -55).toFixed(2) + 'deg)';
+        }
+        else if (fx === 'ink') {
+          /* ink-blot reveal — the drop lands INSIDE the first viewportful
+             (px anchored to travel, not to the 2+ viewport tall sheet), then
+             ease-out floods until it clears the sheet's visible top corners */
+          var ib = 1 - Math.pow(1 - p, 3);
+          if (p < 0.999) { /* ≥0.999 the blot already covers — cleanup below */
+            var inkMax = Math.sqrt(sheetVw * sheetVw / 4 +
+                                   0.3364 * travel * travel) + 24;
+            sheets[i].style.clipPath =
+              'circle(' + (0.10 * travel + (inkMax - 0.10 * travel) * ib).toFixed(0) +
+              'px at 50% ' + Math.round(0.58 * travel) + 'px)';
+          }
+          tf = 'scale(' + (1.02 - 0.02 * p).toFixed(4) + ')';
+        }
+        /* 'stamp' slides plainly — the press is driven on .cs-in below */
+      }
+      /* universal under-press while the next sheet covers this one.
+         Sheets pinned at the nav's bottom edge press from a top origin with no
+         translateY — a center-origin sink would open a cream strip between the
+         nav's border and the sheet's paper edge for the whole cover. */
+      var navPinned = Math.min(navH, sheetVh - sheetHeights[i]) === navH;
+      if (i < n - 1 && covers[i + 1] > 0) {
+        var q = covers[i + 1];
+        var heavy = sheetFxName[i + 1] === 'ink'; /* the contact sheet's ink flood presses with extra weight */
+        tf += (tf ? ' ' : '') +
+              'scale(' + (1 - (heavy ? 0.03 : 0.015) * q).toFixed(4) + ')' +
+              (navPinned ? '' :
+               ' translateY(' + (q * (heavy ? 16 : 10)).toFixed(2) + 'px)');
+        if (navPinned) sheets[i].style.transformOrigin = '50% 0';
+        else if (sheets[i].style.transformOrigin) sheets[i].style.transformOrigin = '';
+      } else if (sheets[i].style.transformOrigin) {
+        /* release the origin override so entry fx keep their CSS origins */
+        sheets[i].style.transformOrigin = '';
+      }
+      sheets[i].style.transform = tf;
+
+      /* ink at rest — drop the clip-path entirely (no paint cost at rest).
+         0.999 tolerance: anchor jumps land a sub-pixel short of p = 1 */
+      if (sheetFxName[i] === 'ink' && p >= 0.999 && sheets[i].style.clipPath) {
+        sheets[i].style.clipPath = '';
+      }
+      /* ink splat dots — staggered pops while the blot floods (p 0.15→0.5) */
+      if (i === inkIdx && inkSplats.length) {
+        for (var sj = 0; sj < inkSplats.length; sj++) {
+          inkSplats[sj].style.transform =
+            'scale(' + clamp01((p - (0.15 + sj * 0.06)) / 0.14).toFixed(3) + ')';
+        }
+      }
+      /* stamp-press — the closing stamp is pressed onto the page over p 0.35→1 */
+      if (i === stampIdx && stampIn) {
+        if (p >= 0.999) { /* anchor jumps land a hair short of 1 */
+          if (stampIn.style.transform) stampIn.style.transform = '';
+        } else {
+          var sp2 = clamp01((p - 0.35) / 0.65);
+          /* lands exactly on the CSS resting pose rotate(9deg) scale(1) */
+          stampIn.style.transform =
+            'rotate(' + (-9 + 18 * sp2).toFixed(2) + 'deg)' +
+            ' scale(' + (2.6 - 1.6 * sp2).toFixed(3) + ')';
+        }
+      }
+      /* registration snap — one-shot the instant p first seats (0.999
+         tolerance: anchor jumps land a sub-pixel short of exactly 1);
+         re-arms when p drops below 0.6 */
+      if (i > 0) {
+        if (p >= 0.999) {
+          if (!snapped[i]) {
+            snapped[i] = true;
+            if (!firstPass) {
+              sheets[i].classList.add('snap');
+              if (sheetFxName[i] === 'stamp') sheets[i].classList.add('thud');
+            }
+          }
+        } else if (p < 0.6 && snapped[i]) {
+          snapped[i] = false;
+          sheets[i].classList.remove('snap');
+          sheets[i].classList.remove('thud');
+        }
+      }
+      /* stack 3D explode — layer Z separation rides the through-progress */
+      if (i === agentIdx && stackLayers.length) {
+        var stkTop = Math.max(sheetFlowTops[i] - y,
+                              Math.min(navH, sheetVh - sheetHeights[i]));
+        var stkT = clamp01((sheetVh - stkTop) / (sheetVh + sheetHeights[i] - navH));
+        for (var lz = 0; lz < stackLayers.length; lz++) {
+          stackLayers[lz].style.setProperty('--tz', (lz * 22 * stkT).toFixed(1) + 'px');
+        }
+      }
+
+      /* generic parallax — ghosts, team cards, hero exit layers */
+      var list = sheetParas[i];
+      if (list.length) {
+        var c;
+        if (i === 0) {
+          /* hero exit parallax rides the second sheet's cover progress */
+          c = n > 1 ? covers[1] : 0;
+        } else {
+          var stickTop = Math.min(navH, sheetVh - sheetHeights[i]);
+          var top = Math.max(sheetFlowTops[i] - y, stickTop);
+          /* nav-aware through-travel: c hits exactly 0 at a navH pin
+             (entry at top = vh still gives -1) */
+          c = clamp01((sheetVh - top) / (sheetVh + sheetHeights[i] - navH)) * 2 - 1;
+        }
+        for (var j = 0; j < list.length; j++) {
+          list[j].el.style.setProperty('--py', (c * list[j].n).toFixed(2) + 'px');
+          if (list[j].rot) {
+            list[j].el.style.setProperty('--pr', (c * list[j].rot).toFixed(2) + 'deg');
+          }
+        }
+      }
+    }
+  }
+
+  function requestSheetFrame() {
+    if (fxOn && !sheetTicking) {
+      sheetTicking = true;
+      requestAnimationFrame(sheetFrame);
+    }
+  }
+
+  function clearSheetStyles() {
+    for (var i = 0; i < sheets.length; i++) {
+      sheets[i].style.transform = '';
+      sheets[i].style.transformOrigin = '';
+      sheets[i].style.clipPath = '';
+      sheets[i].classList.remove('snap');
+      sheets[i].classList.remove('thud');
+      sheets[i].style.removeProperty('--stick-top');
+      var list = sheetParas[i];
+      for (var j = 0; j < list.length; j++) {
+        list[j].el.style.removeProperty('--py');
+        /* only clear --pr we own — static tilts live in markup inline style */
+        if (list[j].rot) list[j].el.style.removeProperty('--pr');
+      }
+    }
+    if (sheetMain) sheetMain.style.perspectiveOrigin = '';
+    if (stampIn) stampIn.style.transform = '';
+    for (var k2 = 0; k2 < inkSplats.length; k2++) inkSplats[k2].style.transform = '';
+    for (var k3 = 0; k3 < stackLayers.length; k3++) {
+      stackLayers[k3].style.removeProperty('--tz');
+      stackLayers[k3].style.removeProperty('--sx');
+      stackLayers[k3].style.removeProperty('--sy');
+    }
+    resetPointerFx();
+  }
+
+  function applyFxMode() {
+    fxOn = sheets.length > 1 && mqWide.matches && !mqNoMotion.matches;
+    document.documentElement.classList.toggle('fx', fxOn);
+    document.documentElement.classList.toggle('no-fx', !fxOn);
+    if (fxOn) { snapPrimed = false; measureSheets(); requestSheetFrame(); }
+    else { clearSheetStyles(); measureNav(); measureSectionTops(); }
+    onScroll();
+  }
+
+  function onMqFlip() { applyFxMode(); }
+  if (mqWide.addEventListener) {
+    mqWide.addEventListener('change', onMqFlip);
+    mqNoMotion.addEventListener('change', onMqFlip);
+  } else if (mqWide.addListener) {
+    mqWide.addListener(onMqFlip);
+    mqNoMotion.addListener(onMqFlip);
+  }
+
+  var sheetResizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(sheetResizeTimer);
+    sheetResizeTimer = setTimeout(function () {
+      /* mode may have flipped while debouncing — check fxOn again */
+      if (fxOn) { measureSheets(); requestSheetFrame(); }
+      else { measureNav(); measureSectionTops(); }
+      onScroll();
+    }, 150);
+  }, { passive: true });
+
+  window.addEventListener('scroll', requestSheetFrame, { passive: true });
+
+  window.__sheetsRemeasure = function () {
+    /* nav height changes too (language toggle re-wraps the labels) */
+    if (fxOn) { measureSheets(); requestSheetFrame(); }
+    else { measureNav(); measureSectionTops(); }
+    onScroll();
+  };
+
+  /* deep-links & reloads: the browser resolves the URL hash during parse
+     against NO-fx geometry; applyFxMode() then changes hero paddings and sheet
+     min-heights, shifting every flow top. Re-drive the jump from cached flow
+     offsets — instantly (behavior:'auto'), never an animated crawl. */
+  function reanchorHash() {
+    if (!fxOn || location.hash.length < 2) return;
+    var t = document.getElementById(location.hash.slice(1));
+    var idx = t ? sheets.indexOf(sheetOf(t)) : -1;
+    if (idx >= 0) {
+      window.scrollTo({
+        top: Math.max(0, sheetFlowTops[idx] - navH),
+        behavior: 'auto'
+      });
+    }
+  }
+
+  /* fonts + full load shift heights — re-measure when settled */
+  if (document.fonts && document.fonts.ready &&
+      typeof document.fonts.ready.then === 'function') {
+    document.fonts.ready.then(function () {
+      window.__sheetsRemeasure(); reanchorHash();
+    });
+  }
+  window.addEventListener('load', function () { window.__sheetsRemeasure(); reanchorHash(); });
+  /* self-heal: any late reflow (font swap, etc.) changes main's height */
+  if ('ResizeObserver' in window && sheetMain) {
+    new ResizeObserver(function () { window.__sheetsRemeasure(); })
+      .observe(sheetMain);
+  }
+
+  /* fx-mode anchor navigation — a pinned sticky sheet reports its stuck rect,
+     so native anchor jumps refuse to scroll back up to covered sections.
+     Drive the jump from cached flow offsets: y = flowTop - navH lands the
+     sheet pinned exactly below the nav. no-fx keeps native behavior
+     (scroll-margin-top: var(--nav-h) handles the offset there). */
+  document.addEventListener('click', function (ev) {
+    if (!fxOn) return;
+    var a = ev.target;
+    while (a && a.tagName !== 'A') a = a.parentElement;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href.charAt(0) !== '#' || href.length < 2) return;
+    var target = document.getElementById(href.slice(1));
+    if (!target) return;
+    var idx = sheets.indexOf(sheetOf(target));
+    if (idx < 0) return; /* not inside a sheet — let the browser handle it */
+    ev.preventDefault();
+    window.scrollTo({
+      top: Math.max(0, sheetFlowTops[idx] - navH),
+      behavior: 'smooth'
+    });
+    try { history.pushState(null, '', href); } catch (e) {}
+  });
+
+  /* ==========================================================
+     POINTER TILT + STACK PARALLAX — fx mode + fine pointer only.
+     ONE rAF-throttled pointermove listener with event delegation.
+     Tilt composes through --tx/--ty consumed inside the targets'
+     EXISTING transform lists, so hover translate+shadow physics
+     survive untouched; their .2s transitions smooth the motion.
+     ========================================================== */
+  var mqFine = window.matchMedia('(pointer: fine)');
+  var tiltEl = null, stackPtr = false;
+  var ptrX = 0, ptrY = 0, ptrTarget = null, ptrTicking = false;
+
+  function clearStackPointer() {
+    stackPtr = false;
+    for (var i = 0; i < stackLayers.length; i++) {
+      stackLayers[i].style.removeProperty('--sx');
+      stackLayers[i].style.removeProperty('--sy');
+    }
+  }
+  function resetPointerFx() {
+    if (tiltEl) {
+      tiltEl.style.removeProperty('--tx');
+      tiltEl.style.removeProperty('--ty');
+      tiltEl = null;
+    }
+    if (stackPtr) clearStackPointer();
+  }
+
+  function ptrFrame() {
+    ptrTicking = false;
+    if (!fxOn || !mqFine.matches) { resetPointerFx(); return; }
+    /* receipts, price cards, step coupons — tilt toward the cursor, max ±4deg */
+    var t = (ptrTarget && ptrTarget.closest) ?
+      ptrTarget.closest('.ad,.price,.benefit') : null;
+    var sEl = (ptrTarget && ptrTarget.closest) ? ptrTarget.closest('.stack') : null;
+    /* batch ALL layout reads before any style write — an interleaved
+       write→read would force a synchronous reflow every pointer frame */
+    var r = t ? t.getBoundingClientRect() : null;
+    var sr = (sEl && stackLayers.length) ? sEl.getBoundingClientRect() : null;
+    if (tiltEl && tiltEl !== t) {
+      tiltEl.style.removeProperty('--tx');
+      tiltEl.style.removeProperty('--ty');
+    }
+    if (t) {
+      if (r.width > 0 && r.height > 0) {
+        var nx = clamp01((ptrX - r.left) / r.width) - 0.5;
+        var ny = clamp01((ptrY - r.top) / r.height) - 0.5;
+        t.style.setProperty('--ty', (nx * 8).toFixed(2) + 'deg');
+        t.style.setProperty('--tx', (ny * -8).toFixed(2) + 'deg');
+      }
+    }
+    tiltEl = t;
+    /* agent stack — layers drift up to 6px, scaled by depth */
+    if (sr) {
+      var px = clamp01((ptrX - sr.left) / sr.width) - 0.5;
+      var py = clamp01((ptrY - sr.top) / sr.height) - 0.5;
+      var dmax = Math.max(1, stackLayers.length - 1);
+      for (var j = 0; j < stackLayers.length; j++) {
+        var d = j / dmax; /* 0 bottom layer → 1 top layer */
+        stackLayers[j].style.setProperty('--sx', (px * 12 * d).toFixed(2) + 'px');
+        stackLayers[j].style.setProperty('--sy', (py * 12 * d).toFixed(2) + 'px');
+      }
+      stackPtr = true;
+    } else if (stackPtr) {
+      clearStackPointer();
+    }
+  }
+
+  document.addEventListener('pointermove', function (ev) {
+    if (!fxOn || !mqFine.matches) return;
+    ptrX = ev.clientX; ptrY = ev.clientY; ptrTarget = ev.target;
+    if (!ptrTicking) { ptrTicking = true; requestAnimationFrame(ptrFrame); }
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', resetPointerFx);
+
+  /* ---------- team card flip · dog-ear (click fx — works in no-fx too) ---------- */
+  var flipBtns = document.querySelectorAll('.tc-flip');
+  function onFlipClick() {
+    var card = this.parentElement;
+    while (card && !(card.classList && card.classList.contains('tcard'))) {
+      card = card.parentElement;
+    }
+    if (!card) return;
+    var on = card.classList.toggle('flipped');
+    this.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var front = card.querySelector('.tc-front');
+    var back = card.querySelector('.tc-back');
+    if (front) front.setAttribute('aria-hidden', on ? 'true' : 'false');
+    if (back) back.setAttribute('aria-hidden', on ? 'false' : 'true');
+  }
+  for (var fbn = 0; fbn < flipBtns.length; fbn++) {
+    flipBtns[fbn].addEventListener('click', onFlipClick);
+  }
+
+  /* one-shot fx classes clean themselves up after their keyframes run */
+  if (sheetMain) {
+    sheetMain.addEventListener('animationend', function (ev) {
+      if (ev.animationName === 'regSnap') {
+        var shA = sheetOf(ev.target);
+        if (shA) shA.classList.remove('snap');
+      } else if (ev.animationName === 'thudPress') {
+        var shB = sheetOf(ev.target);
+        if (shB) shB.classList.remove('thud');
+      }
+    });
+  }
+
+  /* ==========================================================
+     DEMO THEATER — auto-cycling two-scene demo panel (hero).
+     The .dt-bar CSS animation IS the 8s cycle timer: its
+     animationiteration event swaps scenes, and the .paused
+     class freezes the bar and the scene animations together.
+     Pauses on: media-area hover, hidden tab, hero sheet covered.
+     Reduced motion: the bar is animation:none, so no auto-cycle —
+     tabs still switch between composed final frames.
+     ========================================================== */
+  var dt = document.getElementById('demo-theater');
+  if (dt) {
+    var dtTabs = dt.querySelectorAll('.dt-tab');
+    var dtScenes = dt.querySelectorAll('.scene');
+    var dtBar = dt.querySelector('.dt-bar');
+    var dtBody = dt.querySelector('.dt-body');
+    var dtNumZh = dt.querySelector('.dt-num-zh');
+    var dtNumEn = dt.querySelector('.dt-num-en');
+    var dtCur = 0, dtHover = false, dtCountRaf = 0;
+
+    /* hero (sheet 0) counts as covered once sheet 1 pins below the nav */
+    var dtCovered = function () {
+      if (!fxOn || sheets.length < 2) return false;
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+      return (sheetFlowTops[1] - y) <= navH + 1;
+    };
+    var dtSyncPause = function () {
+      dt.classList.toggle('paused', dtHover || document.hidden || dtCovered());
+    };
+    var dtRestartBar = function () {
+      if (!dtBar) return;
+      dtBar.style.animation = 'none';
+      void dtBar.offsetWidth; /* reflow — re-arms the CSS animation from 0 */
+      dtBar.style.animation = '';
+    };
+    /* scoped ticker — the 10万+/100K+ chip counts up once per activation;
+       markup carries the real final numbers (correct without JS) */
+    var dtRunCount = function () {
+      if (!dtNumZh || !dtNumEn) return;
+      if (dtCountRaf) { cancelAnimationFrame(dtCountRaf); dtCountRaf = 0; }
+      if (mqNoMotion.matches) {
+        dtNumZh.textContent = '10'; dtNumEn.textContent = '100'; return;
+      }
+      var start = null, dur = 900, lastTs = null;
+      var step = function (ts) {
+        dtCountRaf = 0;
+        if (start === null) { start = ts; lastTs = ts; }
+        /* freeze the count while the theater is paused, so it stays in step
+           with the CSS animations that halt via animation-play-state */
+        if (dt.classList.contains('paused')) {
+          start += (ts - lastTs);
+          lastTs = ts;
+          dtCountRaf = requestAnimationFrame(step);
+          return;
+        }
+        lastTs = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        var e = 1 - Math.pow(1 - p, 3);
+        dtNumZh.textContent = String(Math.round(10 * e));
+        dtNumEn.textContent = String(Math.round(100 * e));
+        if (p < 1) dtCountRaf = requestAnimationFrame(step);
+      };
+      dtCountRaf = requestAnimationFrame(step);
+    };
+    var dtShow = function (idx) {
+      dtCur = idx;
+      for (var di = 0; di < dtScenes.length; di++) {
+        var on = di === idx;
+        dtScenes[di].classList.remove('on');
+        if (dtTabs[di]) {
+          dtTabs[di].classList.toggle('on', on);
+          dtTabs[di].setAttribute('aria-selected', on ? 'true' : 'false');
+          dtTabs[di].setAttribute('tabindex', on ? '0' : '-1');
+        }
+      }
+      /* every scene passed through display:none + a reflow — re-adding .on
+         replays the 8s loop from frame 0 even when the tab was re-clicked,
+         keeping the scene clock in step with the restarted bar */
+      void dt.offsetWidth;
+      dtScenes[idx].classList.add('on');
+      if (idx === 1) dtRunCount();
+      dtRestartBar();
+    };
+    var dtBindTab = function (idx) {
+      dtTabs[idx].addEventListener('click', function () { dtShow(idx); });
+      dtTabs[idx].addEventListener('keydown', function (ev) {
+        if (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') {
+          ev.preventDefault();
+          var nx = (idx + 1) % dtTabs.length; /* two tabs — either arrow toggles */
+          dtShow(nx);
+          dtTabs[nx].focus();
+        }
+      });
+    };
+    for (var dti = 0; dti < dtTabs.length; dti++) dtBindTab(dti);
+    if (dtBar) {
+      dtBar.addEventListener('animationiteration', function () {
+        dtShow((dtCur + 1) % dtScenes.length);
+      });
+    }
+    /* hover-pause lives on the media body — the tab strip stays live, so a
+       freshly clicked scene never sits frozen under the pointing cursor */
+    if (dtBody) {
+      dtBody.addEventListener('mouseenter', function () { dtHover = true; dtSyncPause(); });
+      dtBody.addEventListener('mouseleave', function () { dtHover = false; dtSyncPause(); });
+    }
+    document.addEventListener('visibilitychange', dtSyncPause);
+    window.addEventListener('scroll', dtSyncPause, { passive: true });
+    dtSyncPause();
+  }
+
+  applyFxMode();
+  reanchorHash();
+})();
+</script>
+</body>
+</html>
